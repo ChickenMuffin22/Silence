@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, SilentModeSchedulerActivity!</string>
+    <string name="app_name">SilentModeScheduler</string>
+    <string name="day_prompt">Day To Edit</string>
+    <string name="ring_prompt">Ring</string>
+	<string name="spacing20">                    </string>
+	<string name="defaultstart">2</string>
+	<string name="defaultend">3</string>
+	<string name="defaultmins">00</string>
+</resources>
