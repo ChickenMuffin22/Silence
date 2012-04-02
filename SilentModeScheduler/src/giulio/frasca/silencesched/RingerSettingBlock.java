@@ -205,7 +205,7 @@ public class RingerSettingBlock {
 		int testDays = days;
 		int subDays = 999999;
 		int modDays = 10000000;
-		int retDays = (testDays - (testDays % modDays)) - subDays;
+		int retDays = (testDays % modDays) - subDays;
 		if ( retDays == 0 ){
 			return false;
 		}
@@ -221,7 +221,7 @@ public class RingerSettingBlock {
 		int testDays = days;
 		int subDays = 99999;
 		int modDays = 1000000;
-		int retDays = (testDays - (testDays % modDays)) - subDays;
+		int retDays = (testDays % modDays) - subDays;
 		if ( retDays == 0 ){
 			return false;
 		}
@@ -237,7 +237,7 @@ public class RingerSettingBlock {
 		int testDays = days;
 		int subDays = 9999;
 		int modDays = 100000;
-		int retDays = (testDays - (testDays % modDays)) - subDays;
+		int retDays = (testDays % modDays) - subDays;
 		if ( retDays == 0 ){
 			return false;
 		}
@@ -253,7 +253,7 @@ public class RingerSettingBlock {
 		int testDays = days;
 		int subDays = 999;
 		int modDays = 10000;
-		int retDays = (testDays - (testDays % modDays)) - subDays;
+		int retDays = (testDays % modDays) - subDays;
 		if ( retDays == 0 ){
 			return false;
 		}
@@ -269,7 +269,7 @@ public class RingerSettingBlock {
 		int testDays = days;
 		int subDays = 99;
 		int modDays = 1000;
-		int retDays = (testDays - (testDays % modDays)) - subDays;
+		int retDays = (testDays % modDays) - subDays;
 		if ( retDays == 0 ){
 			return false;
 		}
@@ -285,7 +285,7 @@ public class RingerSettingBlock {
 		int testDays = days;
 		int subDays = 9;
 		int modDays = 100;
-		int retDays = (testDays - (testDays % modDays)) - subDays;
+		int retDays = (testDays % modDays) - subDays;
 		if ( retDays == 0 ){
 			return false;
 		}
@@ -301,7 +301,7 @@ public class RingerSettingBlock {
 		int testDays = days;
 		int subDays = 0;
 		int modDays = 10;
-		int retDays = (testDays - (testDays % modDays)) - subDays;
+		int retDays = (testDays % modDays) - subDays;
 		if ( retDays == 0 ){
 			return false;
 		}

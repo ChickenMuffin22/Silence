@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.content.SharedPreferences;
 import giulio.frasca.silencesched.exceptions.*;
 
@@ -21,10 +22,12 @@ public class SilentModeSchedulerActivity extends Activity {
 	private Schedule schedule;
 	// filename
 	private final String PREF_FILE = "ncsusilencepreffile2";
+	private int currentBlockId;
 	Button settingsButton,confirmButton,cancelButton,addButton,deleteButton;
-	Spinner daySpinner,startSpinner,endSpinner,ringSpinner;
+	Spinner startSpinner,endSpinner,ringSpinner;
 	Spinner alarmSpinner;
 	EditText startHour,endHour,startMinute,endMinute;
+	ToggleButton sunToggle,monToggle,tueToggle,wedToggle,thuToggle,friToggle,satToggle;
 	
     /** Called when the activity is first created. */
     @Override
@@ -40,32 +43,91 @@ public class SilentModeSchedulerActivity extends Activity {
         for (int i=0; i<alarmCount; i++){
         	alarms[i] = "Event " + i;
         }
-        RingerSettingBlock first =schedule.getBlock(0);
-        startHour.setText(""+getHourOfTime(first.getStartTime()));
-        endHour.setText(""+getHourOfTime(first.getEndTime()));
-        startMinute.setText(minFormat(getMinuteOfTime(first.getStartTime())));
-        endMinute.setText(minFormat(getMinuteOfTime(first.getEndTime())));
-        ringSpinner.setSelection(first.getRingVal());
+        currentBlockId = 0;
+        RingerSettingBlock first =schedule.getBlock(currentBlockId);
+        updateInterface(first);
         
-        if (isAM(first.getStartTime())){
-        	startSpinner.setSelection(0);
-        }
-        else{
-        	startSpinner.setSelection(1);
-        }
-        if (isAM(first.getEndTime())){
-        	endSpinner.setSelection(0);
-        }
-        else{
-        	endSpinner.setSelection(1);
-        }
         //ringerSchedule = new LinkedList<RingerSettingBlock>();
     	//initRingerSched();
         //checkCurrentSetting();
         
     }
     
-    private void clearPrefsForTesting(SharedPreferences settings) {
+    public void updateInterface(RingerSettingBlock block){
+        startHour.setText(""+getHourOfTime(block.getStartTime()));
+        endHour.setText(""+getHourOfTime(block.getEndTime()));
+        startMinute.setText(minFormat(getMinuteOfTime(block.getStartTime())));
+        endMinute.setText(minFormat(getMinuteOfTime(block.getEndTime())));
+        ringSpinner.setSelection(block.getRingVal());
+        setDaysChecking(block);
+        
+        if (isAM(block.getStartTime())){
+        	startSpinner.setSelection(0);
+        }
+        else{
+        	startSpinner.setSelection(1);
+        }
+        if (isAM(block.getEndTime())){
+        	endSpinner.setSelection(0);
+        }
+        else{
+        	endSpinner.setSelection(1);
+        }
+    }
+    
+    private void setDaysChecking(RingerSettingBlock block) {
+		logcatPrint("days: "+block.getDays());
+		logcatPrint("isEnabled: "+block.isEnabledMonday());
+    	if (block.isEnabledSunday()){
+			sunToggle.setChecked(true);
+		}
+		else{
+			sunToggle.setChecked(false);
+		}
+		
+		if (block.isEnabledMonday()){
+			logcatPrint("ENABLING");
+			monToggle.setChecked(true);
+		}
+		else{
+			monToggle.setChecked(false);
+		}
+		
+		if (block.isEnabledTuesday()){
+			tueToggle.setChecked(true);
+		}
+		else{
+			tueToggle.setChecked(false);
+		}
+		if (block.isEnabledWednesday()){
+			wedToggle.setChecked(true);
+		}
+		else{
+			wedToggle.setChecked(false);
+		}
+		if (block.isEnabledThursday()){
+			thuToggle.setChecked(true);
+		}
+		else{
+			thuToggle.setChecked(false);
+		}
+		if (block.isEnabledFriday()){
+			friToggle.setChecked(true);
+		}
+		else{
+			friToggle.setChecked(false);
+		}
+		if (block.isEnabledSaturday()){
+			satToggle.setChecked(true);
+		}
+		else{
+			satToggle.setChecked(false);
+		}
+		
+		
+	}
+
+	private void clearPrefsForTesting(SharedPreferences settings) {
     	Editor e = settings.edit().clear();
         for (int i=0; i<100; i++){
         	e.remove(i+".id");
@@ -121,6 +183,76 @@ public class SilentModeSchedulerActivity extends Activity {
     }
 
     public void initComponents(){
+    	sunToggle = (ToggleButton)findViewById(R.id.sunToggle);
+    	sunToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+    		//TODO
+    	});
+    	
+    	monToggle = (ToggleButton)findViewById(R.id.monToggle);
+    	monToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+    		//TODO
+    	});
+    	
+    	tueToggle = (ToggleButton)findViewById(R.id.tueToggle);
+    	tueToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+    		//TODO
+    	});
+    	
+    	wedToggle = (ToggleButton)findViewById(R.id.wedToggle);
+    	wedToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+    		//TODO
+    	});
+    	
+    	thuToggle = (ToggleButton)findViewById(R.id.thuToggle);
+    	thuToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+    		//TODO
+    	});
+    	
+    	friToggle = (ToggleButton)findViewById(R.id.friToggle);
+    	friToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+    		//TODO
+    	});
+    	
+    	satToggle = (ToggleButton)findViewById(R.id.satToggle);
+    	satToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+    		//TODO
+    	});
+    	
         settingsButton = (Button)findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new OnClickListener(){
 
@@ -161,12 +293,9 @@ public class SilentModeSchedulerActivity extends Activity {
         cancelButton.setOnClickListener(new OnClickListener(){
 
 			public void onClick(View v) {
-				RingerSettingBlock first =schedule.getBlock(0);
-		        startHour.setText(""+getHourOfTime(first.getStartTime()));
-		        endHour.setText(""+getHourOfTime(first.getEndTime()));
-		        startMinute.setText(minFormat(getMinuteOfTime(first.getStartTime())));
-		        endMinute.setText(minFormat(getMinuteOfTime(first.getEndTime())));
-		        ringSpinner.setSelection(first.getRingVal());
+				
+				RingerSettingBlock block =schedule.getBlock(currentBlockId);
+				updateInterface(block);
 				
 			}
         	//stuff
@@ -190,7 +319,6 @@ public class SilentModeSchedulerActivity extends Activity {
         startSpinner = (Spinner)findViewById(R.id.startSpinner);
         endSpinner = (Spinner)findViewById(R.id.endSpinner);
         ringSpinner = (Spinner)findViewById(R.id.ringSpinner);
-        daySpinner = (Spinner)findViewById(R.id.daySpinner);
         alarmSpinner = (Spinner)findViewById(R.id.alarmSpinner);
         
     }

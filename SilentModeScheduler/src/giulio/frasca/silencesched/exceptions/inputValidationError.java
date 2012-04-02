@@ -1,5 +1,11 @@
 package giulio.frasca.silencesched.exceptions;
 
+/**
+ * Exception thrown if Input doesn't validate correctly.
+ * 
+ * @author Giulio Frasca
+ *
+ */
 public class inputValidationError extends Exception{
 
 	private String message;
