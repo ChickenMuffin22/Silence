@@ -1,6 +1,7 @@
 package giulio.frasca.silencesched;
 
 import android.media.AudioManager;
+import android.util.Log;
 
 /**
  * Data Bean for storing info about a ringer block
@@ -318,6 +319,8 @@ public class RingerSettingBlock {
 		return (time % day);
 	}
 	
-
+    public void logcatPrint(String message){
+    	Log.v("customdebug",message + " | sent from " +this.getClass().getSimpleName());
+    }
 
 }

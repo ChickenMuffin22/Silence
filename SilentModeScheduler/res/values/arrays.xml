@@ -10,9 +10,9 @@
         <item>Saturday</item>
     </string-array>
     <string-array name="ringType">
-        <item>Ring</item>
-        <item>Vibrate</item>
         <item>Silent</item>
+        <item>Vibrate</item>
+        <item>Ring</item>
     </string-array>
     <string-array name="ampm">
         <item>AM</item>

@@ -1,6 +1,10 @@
 package giulio.frasca.silencesched;
 
 import java.util.LinkedList;
+
+import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.util.Log;
 import giulio.frasca.silencesched.exceptions.*;
 
 /**
@@ -19,17 +23,25 @@ public class Schedule {
 	/**
 	 * Standard constructer.  Instantiates the list structure and loads blocks into it.
 	 */
-	public Schedule(){
-		reader = new PrefReader();
+	public Schedule(SharedPreferences settings){
+		reader = new PrefReader(settings);
 		resetList();
 		try{
 			loadBlocks();
 		}
 		catch (NoAlarmsError e){
-			
+			addBlock(0,(24*59*60*1000),AudioManager.RINGER_MODE_NORMAL,1111111);
+			try{
+				loadBlocks();
+			}
+			catch (NoAlarmsError f){
+				logcatPrint("UNCAUGHT EXCEPTION");
+			}
 		}
 		
 	}
+
+	
 	
 	/**
 	 * Resets the list structure, probably to reload the stored blocks back into it.
@@ -44,13 +56,20 @@ public class Schedule {
 	public void loadBlocks() throws NoAlarmsError {
 		//load the first block into memory
 		RingerSettingBlock first = reader.getFirst();
-		if (!first.equals(null)){
+		try{ 
+			if (first.getId() == -1){
+				
+				reader.addBlock(0,24*59*60*1000, AudioManager.RINGER_MODE_NORMAL, 1111111);
+				first = reader.getFirst();
+			}
+			logcatPrint("" + first.getEndTime());
 			blocks.add(first);
 			while (reader.hasNext()){
 				blocks.add(reader.getNext());
 			}
 		}
-		else{
+		catch (NullPointerException e){
+			Log.e("error","No alarms found in pref file");
 			throw new NoAlarmsError("No alarms found in pref file");
 		}
 	}
@@ -64,11 +83,18 @@ public class Schedule {
 	 * @param days - the integer days specifier for this block
 	 */
 	public void addBlock(long startTime, long endTime, int ringer, int days){
+		logcatPrint("startTime: " + startTime);
 		startTime = timeSinceSunday(startTime);
 		endTime = timeSinceSunday(endTime);
 		int id = reader.addBlock(startTime, endTime, ringer, days);
+		
+		logcatPrint("conv startTime: " + startTime);
 		RingerSettingBlock newBlock = new RingerSettingBlock(startTime, endTime, id, ringer, days);
 		blocks.add(newBlock);
+	}
+	
+	public RingerSettingBlock getBlock(int id){
+		return blocks.get(id);
 	}
 	
 	/**
@@ -302,4 +328,8 @@ public class Schedule {
 		if (today < ( 7 * day ) ) { return checkBlock.isEnabledSunday(); }
 		return false;
 	}
+
+    public void logcatPrint(String message){
+    	Log.v("customdebug",message + " | sent from " +this.getClass().getSimpleName());
+    }
 }

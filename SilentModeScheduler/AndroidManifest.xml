@@ -5,6 +5,23 @@
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="10" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    
+    <service android:name=".MyService" android:label="BackgroundService">
+	    <intent-filter>
+	        <action android:name="giulio.frasca.silencesched.BackgroundService" />
+	    </intent-filter>
+	</service>
+
+	<receiver
+	    android:name=".receiver.BackgroundProcReciever"
+	    android:enabled="true"
+	    android:exported="true"
+	    android:label="BackgroundProcReciever">
+	    <intent-filter>
+	        <action android:name="android.intent.action.BOOT_COMPLETED" />
+	    </intent-filter>
+	</receiver>
 
     <application
         android:icon="@drawable/ic_launcher"

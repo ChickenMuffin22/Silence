@@ -1,8 +1,10 @@
 package giulio.frasca.silencesched;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
+
+import android.content.*;
 import android.content.SharedPreferences.Editor;
+import android.media.AudioManager;
+import android.util.Log;
 
 /**
  * Reads the preference file to create new settings blocks to load into device memory.
@@ -12,10 +14,8 @@ import android.content.SharedPreferences.Editor;
  * @author Giulio Frasca
  *
  */
-public class PrefReader extends Activity {
+public class PrefReader{
 
-	// filename
-	private final String PREF_FILE = "ncsusilencepreffile";
 	// the preference reader
 	private SharedPreferences settings;
 	//the iterator pointer
@@ -25,8 +25,8 @@ public class PrefReader extends Activity {
 	 * Standard constructor, initiates the preference file reader
 	 * and resets the iterator pointer to the first block
 	 */
-	public PrefReader(){
-		settings  = getSharedPreferences(PREF_FILE,0);
+	public PrefReader(SharedPreferences settings){
+		this.settings  = settings;
 		iterPos =0;
 	}
 	
@@ -54,8 +54,10 @@ public class PrefReader extends Activity {
 	 */
 	public RingerSettingBlock getFirst(){
 		//if no blocks exist, return null
-		if (getAlarmCount() == -1){
-			return null;
+		if (getAlarmCount() <= 0){
+			logcatPrint("No blocks exist");
+			addBlock(0,(24*60*60*1000)-1,AudioManager.RINGER_MODE_NORMAL,111111);
+			addBlock(0,(24*60*60*1000)-60000+1,AudioManager.RINGER_MODE_NORMAL,111111);
 		}
 		//otherwise, return the first block
 		return getBlock(0);
@@ -144,6 +146,11 @@ public class PrefReader extends Activity {
 		if (id>getAlarmCount() || id<0){
 			return null;
 		}
+		logcatPrint("ID: " + id);
+		logcatPrint("start: " + getStart(id));
+		logcatPrint("end: " + getEnd(id));
+		logcatPrint("ringer: "+ getRinger(id));
+		logcatPrint("days: " + getDays(id));
 		return new RingerSettingBlock(getStart(id),getEnd(id),getRinger(id),id,getDays(id));
 	}
 	
@@ -162,7 +169,13 @@ public class PrefReader extends Activity {
 	 * @return the number of alarms stored in the pref file, or -1 if undefined
 	 */
 	public int getAlarmCount(){
-		return settings.getInt("alarmCount", -1);
+		int count =settings.getInt("alarmCount", -1);
+		if (count == -1){
+			Editor e = settings.edit();
+			e.putInt("alarmCount", -1);
+			e.commit();
+		}
+		return count;
 		
 	}
 	
@@ -221,7 +234,7 @@ public class PrefReader extends Activity {
 	 */
 	public void editDays(int id, int days){
 		Editor edit = settings.edit();
-		edit.putInt(id + ".start", days);
+		edit.putInt(id + ".days", days);
 		edit.commit();
 	}
 	
@@ -233,7 +246,7 @@ public class PrefReader extends Activity {
 	 */
 	public void editEnabled(int id, boolean enabled){
 		Editor edit = settings.edit();
-		edit.putBoolean(id + ".start", enabled);
+		edit.putBoolean(id + ".enabled", enabled);
 		edit.commit();
 	}
 	
@@ -247,7 +260,7 @@ public class PrefReader extends Activity {
 		//THIS SHOULD NEVER BE USED TO ACTUALLY 'EDIT' AN ID....ITS JUST HERE
 		//TO FOLLOW CONVENTION AND ADD A NEW ID.
 		Editor edit = settings.edit();
-		edit.putLong(id + ".start", newId);
+		edit.putInt(id + ".id", newId);
 		edit.commit();
 	}
 	
@@ -259,7 +272,7 @@ public class PrefReader extends Activity {
 	 */
 	public void editRinger(int id, int ringer){
 		Editor edit = settings.edit();
-		edit.putLong(id + ".start", ringer);
+		edit.putInt(id + ".ringer", ringer);
 		edit.commit();
 	}
 	
@@ -321,4 +334,8 @@ public class PrefReader extends Activity {
 	public int getDays(int id){
 		return settings.getInt(id+".days", 0);
 	}
+	
+    public void logcatPrint(String message){
+    	Log.v("customdebug",message + " | sent from " +this.getClass().getSimpleName());
+    }
 }
