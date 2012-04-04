@@ -23,7 +23,48 @@ public class RingerSettingBlock {
 	private int days;
 	//is this block enabled?
 	private boolean enabled;
+	//reapeat until timestamp
+	private long repeatUntil;
+	
+	private final long MAX_TIMESTAMP = 253402300799000L;
 
+	public long getRepeatUntil() {
+		return repeatUntil;
+	}
+
+	public void setRepeatUntil(long repeatUntil) {
+		this.repeatUntil = repeatUntil;
+	}
+
+	/**
+	 * Constructor Method.  Will disable block if day specifier is wrong, but otherwise sets everything as planned.
+	 * @param minTime - the start time of the block
+	 * @param maxTime - the end time of the block
+	 * @param ringerValue - the ring value of the block.  use AudioManger.RINGER_MODE_(SILENT|VIBRATE|NORMAL)
+	 * @param id - the id number of the block
+	 * @param days - the date specifier of the block
+	 * @param repeatUntil - the timestamp that this block is effective for
+	 */
+	public RingerSettingBlock(long minTime, long maxTime, int ringerValue, int id, int days, long repeatUntil) {
+		this.enabled=true;
+		this.startTime=timeSinceMidnight(minTime);
+		this.endTime=timeSinceMidnight(maxTime);
+		this.ringVal=ringerValue;
+		this.id=id;
+		this.repeatUntil=repeatUntil;
+		if (days<0 || days>9999999){
+			//incorrectly formatted date specifier. make it a nonexistant alarm;
+			this.days=0;
+			startTime=0;
+			endTime=0;
+			this.enabled = false;
+		}
+		else{
+			//otherwise, its fine
+			this.days=days;
+		}
+	}
+	
 	/**
 	 * Constructor Method.  Will disable block if day specifier is wrong, but otherwise sets everything as planned.
 	 * @param minTime - the start time of the block
@@ -38,6 +79,8 @@ public class RingerSettingBlock {
 		this.endTime=timeSinceMidnight(maxTime);
 		this.ringVal=ringerValue;
 		this.id=id;
+		//maximum date handled by program
+		this.repeatUntil=MAX_TIMESTAMP;
 		if (days<0 || days>9999999){
 			//incorrectly formatted date specifier. make it a nonexistant alarm;
 			this.days=0;
@@ -206,7 +249,7 @@ public class RingerSettingBlock {
 		int subDays = 999999;
 		int modDays = 10000000;
 		int retDays = (testDays % modDays) - subDays;
-		if ( retDays == 0 ){
+		if ( retDays < 0 ){
 			return false;
 		}
 		return true;
@@ -222,7 +265,7 @@ public class RingerSettingBlock {
 		int subDays = 99999;
 		int modDays = 1000000;
 		int retDays = (testDays % modDays) - subDays;
-		if ( retDays == 0 ){
+		if ( retDays < 0 ){
 			return false;
 		}
 		return true;
@@ -238,7 +281,7 @@ public class RingerSettingBlock {
 		int subDays = 9999;
 		int modDays = 100000;
 		int retDays = (testDays % modDays) - subDays;
-		if ( retDays == 0 ){
+		if ( retDays < 0 ){
 			return false;
 		}
 		return true;
@@ -254,7 +297,7 @@ public class RingerSettingBlock {
 		int subDays = 999;
 		int modDays = 10000;
 		int retDays = (testDays % modDays) - subDays;
-		if ( retDays == 0 ){
+		if ( retDays < 0 ){
 			return false;
 		}
 		return true;
@@ -270,7 +313,7 @@ public class RingerSettingBlock {
 		int subDays = 99;
 		int modDays = 1000;
 		int retDays = (testDays % modDays) - subDays;
-		if ( retDays == 0 ){
+		if ( retDays < 0 ){
 			return false;
 		}
 		return true;
@@ -286,7 +329,7 @@ public class RingerSettingBlock {
 		int subDays = 9;
 		int modDays = 100;
 		int retDays = (testDays % modDays) - subDays;
-		if ( retDays == 0 ){
+		if ( retDays < 0 ){
 			return false;
 		}
 		return true;
@@ -302,7 +345,7 @@ public class RingerSettingBlock {
 		int subDays = 0;
 		int modDays = 10;
 		int retDays = (testDays % modDays) - subDays;
-		if ( retDays == 0 ){
+		if ( retDays < 0 ){
 			return false;
 		}
 		return true;

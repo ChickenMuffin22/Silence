@@ -21,6 +21,8 @@ public class PrefReader{
 	//the iterator pointer
 	private int iterPos;
 	
+	private final long MAX_TIMESTAMP=253402300799000L;
+	
 	/**
 	 * Standard constructor, initiates the preference file reader
 	 * and resets the iterator pointer to the first block
@@ -55,9 +57,8 @@ public class PrefReader{
 	public RingerSettingBlock getFirst(){
 		//if no blocks exist, return null
 		if (getAlarmCount() <= 0){
-			logcatPrint("No blocks exist");
-			addBlock(0,(24*60*60*1000)-1,AudioManager.RINGER_MODE_NORMAL,111111);
-			addBlock(0,(24*60*60*1000)-60000+1,AudioManager.RINGER_MODE_NORMAL,111111);
+			addBlock(0,(24*60*60*1000)-1,AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP);
+			addBlock(0,(24*60*60*1000)-60000+1,AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP);
 		}
 		//otherwise, return the first block
 		return getBlock(0);
@@ -124,7 +125,7 @@ public class PrefReader{
 	 * @param days - the days for the alarm
 	 * @return the ID number given to the block
 	 */
-	public int addBlock(long start, long end, int ringer, int days){
+	public int addBlock(long start, long end, int ringer, int days, long repeatUntil){
 		int id = getAlarmCount();
 		incrementAlarmCount();
 		editId(id,id);
@@ -133,6 +134,7 @@ public class PrefReader{
 		editRinger(id,ringer);
 		editEnabled(id,true);
 		editDays(id,days);
+		editRepeatUntil(id,repeatUntil);
 		return id;
 	}
 	
@@ -146,14 +148,24 @@ public class PrefReader{
 		if (id>getAlarmCount() || id<0){
 			return null;
 		}
-		logcatPrint("ID: " + id);
-		logcatPrint("start: " + getStart(id));
-		logcatPrint("end: " + getEnd(id));
-		logcatPrint("ringer: "+ getRinger(id));
-		logcatPrint("days: " + getDays(id));
-		return new RingerSettingBlock(getStart(id),getEnd(id),getRinger(id),id,getDays(id));
+		//logcatPrint("ID: " + id);
+		//logcatPrint("start: " + getStart(id));
+		//logcatPrint("end: " + getEnd(id));
+		//logcatPrint("ringer: "+ getRinger(id));
+		//logcatPrint("days: " + getDays(id));
+		return new RingerSettingBlock(getStart(id),getEnd(id),getRinger(id),id,getDays(id),getRepeatUntil(id));
 	}
 	
+	public long getRepeatUntil(int id) {
+		return settings.getLong(id+".repeatUntil", -1);
+	}
+	
+	public void editRepeatUntil(int id, long time){
+		Editor edit = settings.edit();
+		edit.putLong(id + ".repeatUntil", time);
+		edit.commit();
+	}
+
 	/**
 	 * Removes an alarm.  Note that this doesn't actually remove it, but just disables it.
 	 * 

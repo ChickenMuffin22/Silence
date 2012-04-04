@@ -1,5 +1,6 @@
 package giulio.frasca.silencesched;
 
+import java.util.Calendar;
 import java.util.regex.*;
 
 import android.app.Activity;
@@ -23,11 +24,16 @@ public class SilentModeSchedulerActivity extends Activity {
 	// filename
 	private final String PREF_FILE = "ncsusilencepreffile2";
 	private int currentBlockId;
+	
+	//GUI components
 	Button settingsButton,confirmButton,cancelButton,addButton,deleteButton;
 	Spinner startSpinner,endSpinner,ringSpinner;
 	Spinner alarmSpinner;
-	EditText startHour,endHour,startMinute,endMinute;
+	EditText startHour,endHour,startMinute,endMinute,dateText;
 	ToggleButton sunToggle,monToggle,tueToggle,wedToggle,thuToggle,friToggle,satToggle;
+	
+	//status vars
+	boolean sunOn,monOn,tueOn,wedOn,thuOn,friOn,satOn;
 	
     /** Called when the activity is first created. */
     @Override
@@ -59,6 +65,12 @@ public class SilentModeSchedulerActivity extends Activity {
         startMinute.setText(minFormat(getMinuteOfTime(block.getStartTime())));
         endMinute.setText(minFormat(getMinuteOfTime(block.getEndTime())));
         ringSpinner.setSelection(block.getRingVal());
+        //repeatDate
+        logcatPrint("ru4: "+block.getRepeatUntil());
+        int day = getDayFromTimestamp(block.getRepeatUntil());
+        int month = getMonthFromTimestamp(block.getRepeatUntil());
+        int year = getYearFromTimestamp(block.getRepeatUntil());
+        dateText.setText(month+"/"+day+"/"+year);
         setDaysChecking(block);
         
         if (isAM(block.getStartTime())){
@@ -76,8 +88,6 @@ public class SilentModeSchedulerActivity extends Activity {
     }
     
     private void setDaysChecking(RingerSettingBlock block) {
-		logcatPrint("days: "+block.getDays());
-		logcatPrint("isEnabled: "+block.isEnabledMonday());
     	if (block.isEnabledSunday()){
 			sunToggle.setChecked(true);
 		}
@@ -86,7 +96,6 @@ public class SilentModeSchedulerActivity extends Activity {
 		}
 		
 		if (block.isEnabledMonday()){
-			logcatPrint("ENABLING");
 			monToggle.setChecked(true);
 		}
 		else{
@@ -183,74 +192,72 @@ public class SilentModeSchedulerActivity extends Activity {
     }
 
     public void initComponents(){
+    	dateText = (EditText)findViewById(R.id.dateText);
+    	//testing
+    	dateText.setText("11/11/1111");
+    	
     	sunToggle = (ToggleButton)findViewById(R.id.sunToggle);
     	sunToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
-			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				// TODO Auto-generated method stub
+			public void onCheckedChanged(CompoundButton sunButton, boolean isChecked) {
+				sunOn=isChecked;
 				
 			}
-    		//TODO
     	});
     	
     	monToggle = (ToggleButton)findViewById(R.id.monToggle);
     	monToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
-			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				// TODO Auto-generated method stub
+			public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+				monOn=isChecked;
 				
 			}
-    		//TODO
+
     	});
     	
     	tueToggle = (ToggleButton)findViewById(R.id.tueToggle);
     	tueToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
-			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				// TODO Auto-generated method stub
+			public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+				tueOn=isChecked;
 				
 			}
-    		//TODO
     	});
     	
     	wedToggle = (ToggleButton)findViewById(R.id.wedToggle);
     	wedToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
-			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				// TODO Auto-generated method stub
+			public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+				wedOn=isChecked;
 				
 			}
-    		//TODO
     	});
     	
     	thuToggle = (ToggleButton)findViewById(R.id.thuToggle);
     	thuToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
-			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				// TODO Auto-generated method stub
+			public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+				thuOn=isChecked;
 				
 			}
-    		//TODO
     	});
     	
     	friToggle = (ToggleButton)findViewById(R.id.friToggle);
     	friToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
-			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				// TODO Auto-generated method stub
+			public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+				friOn=isChecked;
 				
 			}
-    		//TODO
     	});
     	
     	satToggle = (ToggleButton)findViewById(R.id.satToggle);
     	satToggle.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
-			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				// TODO Auto-generated method stub
+			public void onCheckedChanged(CompoundButton button, boolean isChecked) {
+				satOn=isChecked;
 				
 			}
-    		//TODO
     	});
     	
         settingsButton = (Button)findViewById(R.id.settingsButton);
@@ -268,25 +275,40 @@ public class SilentModeSchedulerActivity extends Activity {
         confirmButton.setOnClickListener(new OnClickListener(){
 
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				if (inputValidates()){
+					try{
+						long startTime = getStartFromForm();
+						long endTime= getEndFromForm();
+						int ringer = getRinger();
+						long repeatUntil = getRepeatFromForm();
+						schedule.editBlockDays(currentBlockId, schedule.formatDays(sunOn, monOn, tueOn, wedOn, thuOn,  friOn, satOn));
+						schedule.editBlockStart(currentBlockId, startTime);
+						schedule.editBlockEnd(currentBlockId, endTime);
+						schedule.editBlockRinger(currentBlockId, ringer);
+						schedule.editRepeatUntil(currentBlockId, repeatUntil);
+					}
+					catch (inputValidationError ive){
+						toastMessage("Incorrect input formatting");
+					}
+				}
 				
 			}
-        	//stuff
         });
         
         addButton = (Button)findViewById(R.id.addNewEventButton);
         addButton.setOnClickListener(new OnClickListener(){
 
 			public void onClick(View v) {
+				//TODO prompt for name
 				try {
-					schedule.addBlock(getStartFromForm(), getEndFromForm(), ringSpinner.getSelectedItemPosition(), 1111111);
+					
+					int id= schedule.addBlock(getStartFromForm(), getEndFromForm(), ringSpinner.getSelectedItemPosition(), 1111111, getRepeatFromForm());
+					currentBlockId = id;
 				} catch (inputValidationError e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					toastMessage("Couldn't Add Block: Input Not Correctly Formatted");
 				}
 				
 			}
-        	//stuff
         });
         
         cancelButton = (Button)findViewById(R.id.cancelButton);
@@ -298,17 +320,29 @@ public class SilentModeSchedulerActivity extends Activity {
 				updateInterface(block);
 				
 			}
-        	//stuff
         });
         
         deleteButton = (Button)findViewById(R.id.deleteEventButton);
         deleteButton.setOnClickListener(new OnClickListener(){
 
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				if (currentBlockId == 0){
+					toastMessage("Cannot Delete: Default Ringer Setting Undeleteable.\n     Please edit instead");
+					return;
+				}
+				//pick the next lowest block
+				int decr=1;
+				while (schedule.hasBlock(currentBlockId-decr)){
+					if (schedule.getBlock(currentBlockId-decr).isEnabled()){
+						schedule.disableBlock(currentBlockId);
+						currentBlockId=currentBlockId-decr;
+						updateInterface(schedule.getBlock(currentBlockId));
+						break;
+					}
+					decr++;
+				}
 				
 			}
-        	//stuff
         });
         
         startHour = (EditText)findViewById(R.id.startHour);
@@ -323,11 +357,33 @@ public class SilentModeSchedulerActivity extends Activity {
         
     }
     
-    public boolean inputValidates(){
+    public long getStartTime(){
+    	int hour = Integer.parseInt(startHour.getText().toString());
+    	int min =  Integer.parseInt(startMinute.getText().toString());
+    	boolean am = false;
+    	if (startSpinner.getSelectedItemPosition() == 0) { am=true; } 
+    	return formTimestamp(hour , min , am);
+    }
+    
+    public long getEndTime(){
+    	int hour = Integer.parseInt(endHour.getText().toString());
+    	int min =  Integer.parseInt(endMinute.getText().toString());
+    	boolean am = false;
+    	if (endSpinner.getSelectedItemPosition() == 0) { am=true; } 
+    	return formTimestamp(hour , min , am);
+    	
+    }
+    
+    public int getRinger(){
+    	return ringSpinner.getSelectedItemPosition();
+    }
+    
+    public boolean inputValidates() {
     	String sHour = startHour.getText().toString();
     	String sMin = startMinute.getText().toString();
     	String eHour = endHour.getText().toString();
     	String eMin = endMinute.getText().toString();
+    	String repeatUntil = dateText.getText().toString();
     	
     	Pattern minPattern = Pattern.compile("^\\d{2}$");
     	Matcher ms = minPattern.matcher(sMin);
@@ -336,27 +392,61 @@ public class SilentModeSchedulerActivity extends Activity {
     	Matcher hs = hourPattern.matcher(sHour);
     	Matcher he = hourPattern.matcher(eHour);
     	
-    
-    	if ( !ms.matches() || !me.matches() || !hs.matches() | !he.matches() ){
+    	Pattern datePattern = Pattern.compile("^\\d{1,2}\\/\\d{1,2}\\/\\d{4}$");
+    	Matcher d = datePattern.matcher(repeatUntil);
+
+    	if (!d.matches()){
+    		toastMessage("Date Not Formatted Correctly.\n            Use mm/dd/yyyy");
     		return false;
     	}
-    	int sHourInt = Integer.parseInt(sHour);
-    	int eHourInt = Integer.parseInt(eHour);
-    	int sMinInt = Integer.parseInt(sMin);
-    	int eMinInt = Integer.parseInt(eMin);
+    	String[] dateArray = repeatUntil.split("/");
+    	String month = dateArray[0];
+    	String day = dateArray[1];
+    	String year = dateArray[2];
+    	if (Integer.parseInt(month)>12 || Integer.parseInt(month)<1){
+    		toastMessage("Nonexistant Month Used:\n   Please use a number 1-12");
+    		return false;
+    	}
+    	int dayInt = Integer.parseInt(day);
+    	int monthInt = Integer.parseInt(month);
+    	if (dayInt<0){
+    		toastMessage("Nonexistant Day Used:\nPlease use a date that exists");
+    		return false;
+    	}
+    	//30 day months
+    	if ((monthInt == 4 || monthInt == 6 || monthInt == 9 || monthInt == 11) && dayInt>30){
+    		toastMessage("Nonexistant Day Used:\nPlease use a date that exists");
+    		return false;
+    	}
+    	//february (counts leap years)
+    	if (monthInt == 2 && ((Integer.parseInt(year)%4 == 0 && dayInt>29) || (Integer.parseInt(year)%4 != 0 && dayInt>28))){
+    		toastMessage("Nonexistant Day Used:\nPlease use a date that exists");
+    		return false;
+    	}
+    	//all other months
+    	if (dayInt>31){
+    		toastMessage("Nonexistant Day Used:\nPlease use a date that exists");
+    		return false;
+    	}
     	
-    	if ( sHourInt > 12 || sHourInt < 1){
+    	
+    	if (!ms.matches() || Integer.parseInt(sMin)<0 || Integer.parseInt(sMin)>59){
+    		toastMessage("Start Minutes Not Formatted Correctly.\n              Must be a number 0-59");
     		return false;
     	}
-    	if ( eHourInt > 12 || eHourInt < 1){
+    	if (!me.matches()|| Integer.parseInt(eMin)<0 || Integer.parseInt(eMin)>59){
+    		toastMessage("End Minutes Not Formatted Correctly.\n              Must be a number 0-59");
     		return false;
     	}
-    	if ( sMinInt > 59 || sMinInt < 0){
+    	if (!hs.matches() || Integer.parseInt(sHour)<1 || Integer.parseInt(sHour)>12){
+    		toastMessage("Start Hour Not Formatted Correctly.\n        Must be a number 1-12");
     		return false;
     	}
-    	if ( eMinInt > 59 || eMinInt < 0){
+    	if (!he.matches() || Integer.parseInt(eHour)<1 || Integer.parseInt(eHour)>12){
+    		toastMessage("End Hour Not Formatted Correctly.\n        Must be a number 1-12");
     		return false;
     	}
+
     	return true;
     	
     }
@@ -390,6 +480,18 @@ public class SilentModeSchedulerActivity extends Activity {
     	return formTimestamp(eHourInt, eMinInt, (endSpinner.getSelectedItemPosition()==0));
     }
     
+    private long getRepeatFromForm() throws inputValidationError{
+    	if (!inputValidates()){
+    		throw new inputValidationError("Input is not in the correct date format");
+    	}
+		String date = dateText.getText().toString();
+		String [] dateSplit = date.split("/");
+		int month = Integer.parseInt(dateSplit[0]);
+		int day   = Integer.parseInt(dateSplit[1]);
+		int year  = Integer.parseInt(dateSplit[2]);
+    	return componentTimeToTimestamp(year,month,day,0,0);
+	}
+    
     public long formTimestamp(int hour, int minute, boolean AM){
     	int retTime = 0;
     	if (hour == 12){ hour=0; }
@@ -397,12 +499,62 @@ public class SilentModeSchedulerActivity extends Activity {
 
     	retTime += hour * 60 * 60 * 1000;
     	retTime += minute * 60 *1000;
-    	retTime += 59999;
+    	retTime += 5999;
     	return retTime;
+    }
+    
+    public void toastMessage(String msg){
+    	Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
     
     public void logcatPrint(String message){
     	Log.v("customdebug",message + " | sent from " +this.getClass().getSimpleName());
+    }
+    
+    /**
+     * Converts a date into a unix timestamp.  Thanks to user Jerry-Brady on <a href="http://http://stackoverflow.com/questions/4674174/convert-integer-dates-times-to-unix-timestamp-in-java">StackOverflow</a> for this function
+     *
+     * @param year - the year to convert from
+     * @param month - the month to convert from
+     * @param day - the day to convert from
+     * @param hour - the hour to convert from
+     * @param minute - the minute to convert from
+     * @return unix timestamp for the date given.
+     */
+    public long componentTimeToTimestamp(int year, int month, int day, int hour, int minute) {
+
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, day);
+        c.set(Calendar.HOUR, hour);
+        c.set(Calendar.MINUTE, minute);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+
+        return c.getTimeInMillis();
+    }
+    
+    public int getYearFromTimestamp(long unixtime){
+    	logcatPrint("unixtime: "+unixtime);
+    	Calendar c = Calendar.getInstance();
+    	c.setTimeInMillis(unixtime);
+    	logcatPrint("year: "+c.get(Calendar.YEAR));
+    	return c.get(Calendar.YEAR);
+    }
+    
+    public int getMonthFromTimestamp(long unixtime){
+    	Calendar c = Calendar.getInstance();
+    	c.setTimeInMillis(unixtime);
+    	return (1 + c.get(Calendar.MONTH));
+    }
+    
+    public int getDayFromTimestamp(long unixtime){
+    	logcatPrint("ru5: "+unixtime);
+    	Calendar c = Calendar.getInstance();
+    	c.setTimeInMillis(unixtime);
+    	logcatPrint("ru6: "+c.get(Calendar.DATE));
+    	return c.get(Calendar.DATE);
     }
     
 //    private void initRingerSched() {

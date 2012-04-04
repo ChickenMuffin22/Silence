@@ -20,6 +20,8 @@ public class Schedule {
 	//An abstraction object to handle all pref file handling
 	private PrefReader reader;
 	
+	private final long MAX_TIMESTAMP=253402300799000L;
+	
 	/**
 	 * Standard constructer.  Instantiates the list structure and loads blocks into it.
 	 */
@@ -30,7 +32,7 @@ public class Schedule {
 			loadBlocks();
 		}
 		catch (NoAlarmsError e){
-			addBlock(0,(24*59*60*1000),AudioManager.RINGER_MODE_NORMAL,1111111);
+			addBlock(0,(24*59*60*1000),AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP);
 			try{
 				loadBlocks();
 			}
@@ -59,10 +61,9 @@ public class Schedule {
 		try{ 
 			if (first.getId() == -1){
 				
-				reader.addBlock(0,24*59*60*1000, AudioManager.RINGER_MODE_NORMAL, 1111111);
+				reader.addBlock(0,24*59*60*1000, AudioManager.RINGER_MODE_NORMAL, 1111111, MAX_TIMESTAMP);
 				first = reader.getFirst();
 			}
-			logcatPrint("" + first.getEndTime());
 			blocks.add(first);
 			while (reader.hasNext()){
 				blocks.add(reader.getNext());
@@ -82,15 +83,24 @@ public class Schedule {
 	 * @param ringer - the ring level (ring, vibrate, silent) that the block entails
 	 * @param days - the integer days specifier for this block
 	 */
-	public void addBlock(long startTime, long endTime, int ringer, int days){
-		logcatPrint("startTime: " + startTime);
+	public int addBlock(long startTime, long endTime, int ringer, int days, long repeatUntil){
 		startTime = timeSinceSunday(startTime);
 		endTime = timeSinceSunday(endTime);
-		int id = reader.addBlock(startTime, endTime, ringer, days);
+		int id = reader.addBlock(startTime, endTime, ringer, days,repeatUntil);
 		
-		logcatPrint("conv startTime: " + startTime);
-		RingerSettingBlock newBlock = new RingerSettingBlock(startTime, endTime, id, ringer, days);
+		RingerSettingBlock newBlock = new RingerSettingBlock(startTime, endTime, id, ringer, days, repeatUntil);
 		blocks.add(newBlock);
+		return id;
+	}
+	
+	public boolean hasBlock(int id){
+		for (int i=0;i<blocks.size();i++){
+			RingerSettingBlock test = blocks.get(i);
+			if (test.getId() == id){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public RingerSettingBlock getBlock(int id){
@@ -332,4 +342,13 @@ public class Schedule {
     public void logcatPrint(String message){
     	Log.v("customdebug",message + " | sent from " +this.getClass().getSimpleName());
     }
+
+
+
+	public void editRepeatUntil(int id, long repeatUntil) {
+		RingerSettingBlock editBlock = blocks.get(id);
+		editBlock.setRepeatUntil(repeatUntil);
+		reader.editEnd(id, repeatUntil);
+		
+	}
 }
