@@ -156,10 +156,22 @@ public class PrefReader{
 		return new RingerSettingBlock(getStart(id),getEnd(id),getRinger(id),id,getDays(id),getRepeatUntil(id));
 	}
 	
+	/**
+	 * Gets the repeatUntil timestamp for given block
+	 * 
+	 * @param id - the id of target block
+	 * @return the repeatUntil timestamp (ms since epoch)
+	 */
 	public long getRepeatUntil(int id) {
 		return settings.getLong(id+".repeatUntil", -1);
 	}
 	
+	/**
+	 * Sets the repeatUntil timestamp of a block
+	 * 
+	 * @param id - the id of target block
+	 * @param time - the unixy timestamp (ms since epoch) to set repeatUntil
+	 */
 	public void editRepeatUntil(int id, long time){
 		Editor edit = settings.edit();
 		edit.putLong(id + ".repeatUntil", time);
@@ -347,6 +359,11 @@ public class PrefReader{
 		return settings.getInt(id+".days", 0);
 	}
 	
+	/**
+	 * Prints a logcat message with a customdebug tag
+	 * 
+	 * @param message - the message to include with the logcat packet
+	 */
     public void logcatPrint(String message){
     	Log.v("customdebug",message + " | sent from " +this.getClass().getSimpleName());
     }

@@ -28,13 +28,7 @@ public class RingerSettingBlock {
 	
 	private final long MAX_TIMESTAMP = 253402300799000L;
 
-	public long getRepeatUntil() {
-		return repeatUntil;
-	}
 
-	public void setRepeatUntil(long repeatUntil) {
-		this.repeatUntil = repeatUntil;
-	}
 
 	/**
 	 * Constructor Method.  Will disable block if day specifier is wrong, but otherwise sets everything as planned.
@@ -362,6 +356,27 @@ public class RingerSettingBlock {
 		return (time % day);
 	}
 	
+	/**
+	 * Gets the repeatUntil timestamp value
+	 * @return the repeatUntil timestamp for this block
+	 */
+	public long getRepeatUntil() {
+		return repeatUntil;
+	}
+
+	/**
+	 * Sets the repeatUntil timestamp for this block
+	 * @param repeatUntil - a unixy timestamp (ms since epoch) to set repeatUntil for this block
+	 */
+	public void setRepeatUntil(long repeatUntil) {
+		this.repeatUntil = repeatUntil;
+	}
+	
+	/**
+	 * Prints a logcat message with a customdebug tag
+	 * 
+	 * @param message - the message to include with the logcat packet
+	 */
     public void logcatPrint(String message){
     	Log.v("customdebug",message + " | sent from " +this.getClass().getSimpleName());
     }

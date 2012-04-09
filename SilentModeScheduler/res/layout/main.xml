@@ -13,60 +13,60 @@
         android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
+
         <ToggleButton
             android:id="@+id/sunToggle"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
-            android:text="@string/sundayAbr"
+            android:text="@string/nullstring"
             android:textOff="Sun"
             android:textOn="Sun" />
-
+
         <ToggleButton
             android:id="@+id/monToggle"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
-            android:text="ToggleButton"
+            android:text="@string/nullstring"
             android:textOff="Mon"
             android:textOn="Mon" />
-
+
         <ToggleButton
             android:id="@+id/tueToggle"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
-            android:text="ToggleButton"
+            android:text="@string/nullstring"
             android:textOff="Tue"
             android:textOn="Tue" />
-
+
         <ToggleButton
             android:id="@+id/wedToggle"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
-            android:text="ToggleButton"
+            android:text="@string/nullstring"
             android:textOff="Wed"
             android:textOn="Wed" />
-
+
         <ToggleButton
             android:id="@+id/thuToggle"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
-            android:text="ToggleButton"
+            android:text="@string/nullstring"
             android:textOff="Thu"
             android:textOn="Thu" />
-
+
         <ToggleButton
             android:id="@+id/friToggle"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
-            android:text="ToggleButton"
+            android:text="@string/nullstring"
             android:textOff="Fri"
             android:textOn="Fri" />
-
+
         <ToggleButton
             android:id="@+id/satToggle"
             android:layout_width="45dp"
             android:layout_height="wrap_content"
-            android:text="ToggleButton"
+            android:text="@string/nullstring"
             android:textOff="Sat"
             android:textOn="Sat" />
 

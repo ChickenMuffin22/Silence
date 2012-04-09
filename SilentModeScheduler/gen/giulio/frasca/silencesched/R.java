@@ -73,6 +73,7 @@ public final class R {
         public static final int defaultmins=0x7f050007;
         public static final int defaultstart=0x7f050005;
         public static final int hello=0x7f050000;
+        public static final int nullstring=0x7f050009;
         public static final int ring_prompt=0x7f050003;
         public static final int spacing20=0x7f050004;
         public static final int sundayAbr=0x7f050008;

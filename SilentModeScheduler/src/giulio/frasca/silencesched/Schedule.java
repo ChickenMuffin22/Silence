@@ -339,16 +339,34 @@ public class Schedule {
 		return false;
 	}
 
+	/**
+	 * Prints a logcat message with a customdebug tag
+	 * 
+	 * @param message - the message to include with the logcat packet
+	 */
     public void logcatPrint(String message){
     	Log.v("customdebug",message + " | sent from " +this.getClass().getSimpleName());
     }
 
 
-
+    /**
+     * Edits the repeatUntil value of a given block
+     * @param id - the id of the target block
+     * @param repeatUntil - the unixy timestamp (ms since epoch) to set the repeatUntil value until.
+     */
 	public void editRepeatUntil(int id, long repeatUntil) {
 		RingerSettingBlock editBlock = blocks.get(id);
 		editBlock.setRepeatUntil(repeatUntil);
 		reader.editEnd(id, repeatUntil);
 		
+	}
+
+
+	/**
+	 * Gets the full list of blocks stored in memory
+	 * @return a LinkedList object that contains all of the blocks known to the application
+	 */
+	public LinkedList<RingerSettingBlock> getList() {
+		return blocks;
 	}
 }
