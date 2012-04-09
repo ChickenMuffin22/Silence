@@ -3,6 +3,7 @@ package giulio.frasca.silencesched;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.regex.*;
 
 import android.app.Activity;
@@ -15,12 +16,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.content.SharedPreferences;
 import giulio.frasca.silencesched.exceptions.*;
 
 public class SilentModeSchedulerActivity extends Activity {
 	
+	//SpinnerMap
+	HashMap<Integer,Integer> nameDictionary ;
+	HashMap<Integer,Integer> nameDictionaryReverse;
 	//private LinkedList<RingerSettingBlock> ringerSchedule;
 	private Schedule schedule;
 	// filename
@@ -36,12 +41,14 @@ public class SilentModeSchedulerActivity extends Activity {
 	
 	//status vars
 	boolean sunOn,monOn,tueOn,wedOn,thuOn,friOn,satOn;
+	boolean updating;
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        updating=false;
         SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
         clearPrefsForTesting(settings);
         schedule = new Schedule(settings);
@@ -159,11 +166,17 @@ public class SilentModeSchedulerActivity extends Activity {
     	adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     	LinkedList<RingerSettingBlock> list = schedule.getList();
     	Iterator<RingerSettingBlock> i = list.iterator();
+    	nameDictionary.clear();
+    	nameDictionaryReverse.clear();
     	boolean skippedFirst=false;
+    	int mapID=0;
     	while (i.hasNext()){
     		RingerSettingBlock thisBlock = i.next();
     		if (skippedFirst && thisBlock.isEnabled() && thisBlock.getId()>=0){
+    			nameDictionary.put(mapID, thisBlock.getId());
+    			nameDictionaryReverse.put(thisBlock.getId(),mapID);
     			adapter.add(formatName(thisBlock));
+    			mapID++;
     		}
     		skippedFirst=true;
     	}
@@ -172,6 +185,34 @@ public class SilentModeSchedulerActivity extends Activity {
     	adapter.notifyDataSetChanged();
     }
     
+    
+    public void updateInterfaceWithoutSpinner(RingerSettingBlock block) {
+    	startHour.setText(""+getHourOfTime(block.getStartTime()));
+        endHour.setText(""+getHourOfTime(block.getEndTime()));
+        startMinute.setText(minFormat(getMinuteOfTime(block.getStartTime())));
+        endMinute.setText(minFormat(getMinuteOfTime(block.getEndTime())));
+        ringSpinner.setSelection(block.getRingVal());
+        //repeatDate
+        int day = getDayFromTimestamp(block.getRepeatUntil());
+        int month = getMonthFromTimestamp(block.getRepeatUntil());
+        int year = getYearFromTimestamp(block.getRepeatUntil());
+        dateText.setText(month+"/"+day+"/"+year);
+        setDaysChecking(block);
+        
+        if (isAM(block.getStartTime())){
+        	startSpinner.setSelection(0);
+        }
+        else{
+        	startSpinner.setSelection(1);
+        }
+        if (isAM(block.getEndTime())){
+        	endSpinner.setSelection(0);
+        }
+        else{
+        	endSpinner.setSelection(1);
+        }
+		
+	}
     /**
      * Updates the entire interface to display the settings for the current block
      * 
@@ -347,6 +388,9 @@ public class SilentModeSchedulerActivity extends Activity {
      * Initializes all of the GUI components
      */
     public void initComponents(){
+    	nameDictionary= new HashMap<Integer,Integer>();
+    	nameDictionaryReverse= new HashMap<Integer,Integer>();
+    	
     	//the repeat until date text box
     	dateText = (EditText)findViewById(R.id.dateText);
     	//testing
@@ -576,6 +620,27 @@ public class SilentModeSchedulerActivity extends Activity {
         ringSpinner = (Spinner)findViewById(R.id.ringSpinner);
         //The name spinner for the current block
         alarmSpinner = (Spinner)findViewById(R.id.alarmSpinner);
+        
+        alarmSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+			public void onItemSelected(AdapterView<?> arg0, View view,
+					int position, long id) {
+					logcatPrint("position: "+position);
+					logcatPrint("id: "+id);
+					currentBlockId=nameDictionary.get(position);
+					updateInterfaceWithoutSpinner(schedule.getBlock(currentBlockId));
+					alarmSpinner.setSelection(position);
+				
+			}
+
+			
+
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+        	
+        });
         
     }
 
@@ -850,6 +915,10 @@ public class SilentModeSchedulerActivity extends Activity {
     	Calendar c = Calendar.getInstance();
     	c.setTimeInMillis(unixtime);
     	return c.get(Calendar.DATE);
+    }
+    
+    public void updateNameSpinner(int id){
+    	
     }
     
 //    private void initRingerSched() {
