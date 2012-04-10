@@ -105,8 +105,6 @@ public class Schedule {
 	}
 	
 	public RingerSettingBlock getBlock(int id){
-		logcatPrint("idIN: "+id);
-		logcatPrint("idOUT: "+blocks.get(id).getId());
 		return blocks.get(id);
 	}
 	

@@ -7,6 +7,7 @@ import java.util.regex.*;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class SilentModeSchedulerActivity extends Activity {
 	//status vars
 	boolean sunOn,monOn,tueOn,wedOn,thuOn,friOn,satOn;
 	boolean updating;
+	boolean serviceRunning;
 	
     /** Called when the activity is first created. */
     @Override
@@ -50,6 +52,7 @@ public class SilentModeSchedulerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         updating=false;
+        serviceRunning=false;
         SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
         clearPrefsForTesting(settings);
         schedule = new Schedule(settings);
@@ -376,7 +379,15 @@ public class SilentModeSchedulerActivity extends Activity {
 
 			public void onClick(View v) {
 				// TODO Currently does not do anything
-				printScheduleContents();
+				if (!serviceRunning){
+					serviceRunning=true;
+					startService(new Intent(BackroundService.class.getName()));
+					
+				}
+				else{
+					serviceRunning=false;
+					stopService(new Intent(BackroundService.class.getName()));
+				}
 				toastMessage("Sorry this currently doesn't do anything");
 				
 			}

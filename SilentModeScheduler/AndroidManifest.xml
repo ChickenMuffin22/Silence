@@ -35,6 +35,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+      android:name=".BackroundService"
+      android:process=":remote">
+      <intent-filter>
+        <action
+          android:name="giulio.frasca.silencesched.BackroundService" />
+      </intent-filter>
+    </service>
     </application>
 
 </manifest>
