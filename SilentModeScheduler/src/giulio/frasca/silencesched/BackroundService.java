@@ -11,9 +11,8 @@ import android.widget.Toast;
 
 public class BackroundService extends Service {
 
-	private final long UPDATE_TIME=15*1000;
+	private final long UPDATE_TIME=15*1000L;
 	
-	private long lastUpdated;
 	
 	private Timer timer;
 	
@@ -37,7 +36,7 @@ public class BackroundService extends Service {
 		 logcatPrint("Service creating");
 		 
 		 timer = new Timer("TweetCollectorTimer");
-		 timer.schedule(updateTask, 1000L, 6 * 1000L);
+		 timer.schedule(updateTask, 0L , UPDATE_TIME);
 	}
 	
 	@Override
