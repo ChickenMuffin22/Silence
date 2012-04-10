@@ -36,6 +36,7 @@ public final class R {
         public static final int linearLayout3=0x7f070026;
         public static final int linearLayout4=0x7f07001e;
         public static final int linearLayout5=0x7f070001;
+        public static final int menuBar=0x7f070028;
         public static final int monToggle=0x7f070003;
         public static final int ringSpinner=0x7f070019;
         public static final int ringerLabel=0x7f070018;

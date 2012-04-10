@@ -14,6 +14,8 @@ import android.os.Bundle;
 //import android.view.*;
 //import android.view.Gravity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -739,6 +741,13 @@ public class SilentModeSchedulerActivity extends Activity {
 	 */
     public void logcatPrint(String message){
     	Log.v("customdebug",message + " | sent from " +this.getClass().getSimpleName());
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings_menu, menu);
+        return true;
     }
     
 //    private void initRingerSched() {
