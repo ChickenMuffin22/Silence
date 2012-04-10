@@ -215,7 +215,6 @@ public class PrefReader{
 	 */
 	private void incrementAlarmCount(){
 		int alarms = settings.getInt("alarmCount",-1);
-		logcatPrint("alarms: "+alarms);
 		Editor edit = settings.edit();
 		edit.putInt("alarmCount", alarms+1);
 		edit.commit();

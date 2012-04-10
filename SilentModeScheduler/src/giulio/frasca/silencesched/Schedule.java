@@ -63,7 +63,9 @@ public class Schedule {
 				reader.addBlock(0,24*59*60*1000, AudioManager.RINGER_MODE_NORMAL, 1111111, MAX_TIMESTAMP);
 				first = reader.getFirst();
 			}
-			blocks.add(first);
+			//ignore the first block
+			
+			//blocks.add(first);
 			//reader.incrementPointer();
 			while (reader.hasNext()){
 				blocks.add(reader.getNext());
@@ -103,6 +105,8 @@ public class Schedule {
 	}
 	
 	public RingerSettingBlock getBlock(int id){
+		logcatPrint("idIN: "+id);
+		logcatPrint("idOUT: "+blocks.get(id).getId());
 		return blocks.get(id);
 	}
 	

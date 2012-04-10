@@ -1,6 +1,5 @@
 package giulio.frasca.silencesched;
 
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.HashMap;
@@ -62,7 +61,6 @@ public class SilentModeSchedulerActivity extends Activity {
         
         createTestData();
         updateInterface(first);
-        printScheduleContents();
         
         //ringerSchedule = new LinkedList<RingerSettingBlock>();
     	//initRingerSched();
@@ -77,11 +75,11 @@ public class SilentModeSchedulerActivity extends Activity {
     		RingerSettingBlock block = i.next();
     		int id=block.getId();
     		logcatPrint(id+": id  ="+id);
-    		//logcatPrint(id+": strt="+block.getStartTime());
-    		//logcatPrint(id+": end ="+block.getEndTime());
-    		//logcatPrint(id+": ring="+block.getRingVal());
-    		//logcatPrint(id+": days="+block.getDays());
-    		//logcatPrint(id+": ru  ="+block.getRepeatUntil());
+    		logcatPrint(id+": strt="+block.getStartTime());
+    		logcatPrint(id+": end ="+block.getEndTime());
+    		logcatPrint(id+": ring="+block.getRingVal());
+    		logcatPrint(id+": days="+block.getDays());
+    		logcatPrint(id+": ru  ="+block.getRepeatUntil());
     		logcatPrint("-----");
     	}
     }
@@ -89,8 +87,17 @@ public class SilentModeSchedulerActivity extends Activity {
     private void createTestData() {
     	 
     	 schedule.addBlock(0, 1*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000000, 253402300799000L);
-    	 schedule.addBlock(1*60*60*1000, 5*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000000, 253402300799000L);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000000, 253402300799000L);
+    	 schedule.addBlock(1*60*60*1000, 5*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1010000, 253402300799000L);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000110, 253402300799000L);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000110, 253402300799000L);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000110, 253402300799000L);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000110, 253402300799000L);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000110, 253402300799000L);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000110, 253402300799000L);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000110, 253402300799000L);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000110, 253402300799000L);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000110, 253402300799000L);
+    	 
 		
 	}
 
@@ -106,7 +113,7 @@ public class SilentModeSchedulerActivity extends Activity {
     	Iterator<RingerSettingBlock> i = list.iterator();
     	nameDictionary.clear();
     	nameDictionaryReverse.clear();
-    	boolean skippedFirst=false;
+    	boolean skippedFirst=true;
     	int mapID=0;
     	while (i.hasNext()){
     		RingerSettingBlock thisBlock = i.next();
@@ -131,9 +138,9 @@ public class SilentModeSchedulerActivity extends Activity {
         endMinute.setText(Formatter.minFormat(TimeFunctions.getMinuteOfTime(block.getEndTime())));
         ringSpinner.setSelection(block.getRingVal());
         //repeatDate
-        int day = getDayFromTimestamp(block.getRepeatUntil());
-        int month = getMonthFromTimestamp(block.getRepeatUntil());
-        int year = getYearFromTimestamp(block.getRepeatUntil());
+        int day = TimeFunctions.getDayFromTimestamp(block.getRepeatUntil());
+        int month = TimeFunctions.getMonthFromTimestamp(block.getRepeatUntil());
+        int year = TimeFunctions.getYearFromTimestamp(block.getRepeatUntil());
         dateText.setText(month+"/"+day+"/"+year);
         setDaysChecking(block);
         
@@ -156,6 +163,7 @@ public class SilentModeSchedulerActivity extends Activity {
      * 
      * @param block - the block to update the GUI to
      */
+
     public void updateInterface(RingerSettingBlock block){
         startHour.setText(""+TimeFunctions.getHourOfTime(block.getStartTime()));
         endHour.setText(""+TimeFunctions.getHourOfTime(block.getEndTime()));
@@ -163,9 +171,9 @@ public class SilentModeSchedulerActivity extends Activity {
         endMinute.setText(Formatter.minFormat(TimeFunctions.getMinuteOfTime(block.getEndTime())));
         ringSpinner.setSelection(block.getRingVal());
         //repeatDate
-        int day = getDayFromTimestamp(block.getRepeatUntil());
-        int month = getMonthFromTimestamp(block.getRepeatUntil());
-        int year = getYearFromTimestamp(block.getRepeatUntil());
+        int day = TimeFunctions.getDayFromTimestamp(block.getRepeatUntil());
+        int month = TimeFunctions.getMonthFromTimestamp(block.getRepeatUntil());
+        int year = TimeFunctions.getYearFromTimestamp(block.getRepeatUntil());
         dateText.setText(month+"/"+day+"/"+year);
         setDaysChecking(block);
         updateSpinner();
@@ -257,9 +265,6 @@ public class SilentModeSchedulerActivity extends Activity {
         logcatPrint("cleared");
 		
 	}
-
-
-    
 
     /**
      * Initializes all of the GUI components
@@ -392,7 +397,6 @@ public class SilentModeSchedulerActivity extends Activity {
 						long endTime= getEndFromForm();
 						int ringer = getRinger();
 						long repeatUntil = getRepeatFromForm();
-						logcatPrint("repTil: "+ repeatUntil);
 						schedule.editBlockDays(currentBlockId, schedule.formatDays(sunOn, monOn, tueOn, wedOn, thuOn,  friOn, satOn));
 						schedule.editBlockStart(currentBlockId, startTime);
 						schedule.editBlockEnd(currentBlockId, endTime);
@@ -458,12 +462,12 @@ public class SilentModeSchedulerActivity extends Activity {
 					toastMessage("Cannot Delete: Default Ringer Setting Undeleteable.\n     Please edit instead");
 					return;
 				}
-				toastMessage("deleting block with id" + currentBlockId);
-//				schedule.disableBlock(currentBlockId);
-//				int spinnerPos = nameDictionaryReverse.get(currentBlockId);
-//				int newSpinnerBlockId = nameDictionary.get(spinnerPos -1 );
-//				currentBlockId=newSpinnerBlockId;
-//				updateInterface(schedule.getBlock(currentBlockId));
+				
+				schedule.disableBlock(currentBlockId);
+				int spinnerPos = nameDictionaryReverse.get(currentBlockId);
+				int newSpinnerBlockId = nameDictionary.get(spinnerPos -1 );
+				currentBlockId=newSpinnerBlockId;
+				updateInterface(schedule.getBlock(currentBlockId));
 				boolean deleted=true;
 				
 				
@@ -513,10 +517,7 @@ public class SilentModeSchedulerActivity extends Activity {
 
 			public void onItemSelected(AdapterView<?> arg0, View view,
 					int position, long id) {
-					logcatPrint("position: "+position);
-					logcatPrint("id: "+id);
 					currentBlockId=nameDictionary.get(position);
-					logcatPrint("cbi: "+currentBlockId);
 					updateInterfaceWithoutSpinner(schedule.getBlock(currentBlockId));
 					alarmSpinner.setSelection(position);
 				
@@ -545,7 +546,7 @@ public class SilentModeSchedulerActivity extends Activity {
     	int min =  Integer.parseInt(startMinute.getText().toString());
     	boolean am = false;
     	if (startSpinner.getSelectedItemPosition() == 0) { am=true; } 
-    	return formTimestamp(hour , min , am);
+    	return Formatter.formTimestamp(hour , min , am);
     }
 
     /**
@@ -560,7 +561,7 @@ public class SilentModeSchedulerActivity extends Activity {
     	int min =  Integer.parseInt(endMinute.getText().toString());
     	boolean am = false;
     	if (endSpinner.getSelectedItemPosition() == 0) { am=true; } 
-    	return formTimestamp(hour , min , am);
+    	return Formatter.formTimestamp(hour , min , am);
     	
     }
     
@@ -670,7 +671,7 @@ public class SilentModeSchedulerActivity extends Activity {
     	int sMinInt = Integer.parseInt(sMin);
     	
     	
-    	return formTimestamp(sHourInt, sMinInt, (startSpinner.getSelectedItemPosition()==0));
+    	return Formatter.formTimestamp(sHourInt, sMinInt, (startSpinner.getSelectedItemPosition()==0));
     }
     
     /**
@@ -689,7 +690,7 @@ public class SilentModeSchedulerActivity extends Activity {
     	int eHourInt = Integer.parseInt(eHour);
     	int eMinInt = Integer.parseInt(eMin);
     
-    	return formTimestamp(eHourInt, eMinInt, (endSpinner.getSelectedItemPosition()==0));
+    	return Formatter.formTimestamp(eHourInt, eMinInt, (endSpinner.getSelectedItemPosition()==0));
     }
 
     /**
@@ -707,26 +708,9 @@ public class SilentModeSchedulerActivity extends Activity {
 		int month = Integer.parseInt(dateSplit[0])-1;
 		int day   = Integer.parseInt(dateSplit[1]);
 		int year  = Integer.parseInt(dateSplit[2]);
-    	return componentTimeToTimestamp(year,month,day,0,0);
+    	return TimeFunctions.componentTimeToTimestamp(year,month,day,0,0);
 	}
     
-    /**
-     * Converts a human-readable date into a unix-y timestamp, in mmmm
-     * @param hour the hours since 
-     * @param minute
-     * @param AM
-     * @return
-     */
-    public long formTimestamp(int hour, int minute, boolean AM){
-    	int retTime = 0;
-    	if (hour == 12){ hour=0; }
-    	if (!AM) { hour+=12; }
-
-    	retTime += hour * 60 * 60 * 1000;
-    	retTime += minute * 60 *1000;
-    	retTime += 5999;
-    	return retTime;
-    }
     
     /**
      * Prints a temporary 'tooltip' style reminder on the GUI
@@ -744,70 +728,6 @@ public class SilentModeSchedulerActivity extends Activity {
 	 */
     public void logcatPrint(String message){
     	Log.v("customdebug",message + " | sent from " +this.getClass().getSimpleName());
-    }
-    
-    /**
-     * Converts a date into a unix timestamp.  Thanks to user Jerry-Brady on <a href="http://http://stackoverflow.com/questions/4674174/convert-integer-dates-times-to-unix-timestamp-in-java">StackOverflow</a> for this function
-     *
-     * @param year - the year to convert from
-     * @param month - the month to convert from
-     * @param day - the day to convert from
-     * @param hour - the hour to convert from
-     * @param minute - the minute to convert from
-     * @return unix timestamp for the date given.
-     */
-    public long componentTimeToTimestamp(int year, int month, int day, int hour, int minute) {
-
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, day);
-        c.set(Calendar.HOUR, hour);
-        c.set(Calendar.MINUTE, minute);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
-
-        return c.getTimeInMillis();
-    }
-    
-    /**
-     * Gets the year of a unix-y timestamp (ms after epoch)
-     * 
-     * @param unixtime - the number of ms after the epoch
-     * @return the year in yyyy format
-     */
-    public int getYearFromTimestamp(long unixtime){
-    	Calendar c = Calendar.getInstance();
-    	c.setTimeInMillis(unixtime);
-    	return c.get(Calendar.YEAR);
-    }
-    
-    /**
-     * Gets the month of a unix-y timestamp (ms after epoch)
-     * 
-     * @param unixtime - the number of ms after the epoch
-     * @return the month in mm format
-     */
-    public int getMonthFromTimestamp(long unixtime){
-    	Calendar c = Calendar.getInstance();
-    	c.setTimeInMillis(unixtime);
-    	return (1 + c.get(Calendar.MONTH));
-    }
-    
-    /**
-     * Gets the day of a unix-y timestamp (ms after epoch)
-     * 
-     * @param unixtime - the number of ms after the epoch
-     * @return the day in dd format
-     */
-    public int getDayFromTimestamp(long unixtime){
-    	Calendar c = Calendar.getInstance();
-    	c.setTimeInMillis(unixtime);
-    	return c.get(Calendar.DATE);
-    }
-    
-    public void updateNameSpinner(int id){
-    	
     }
     
 //    private void initRingerSched() {

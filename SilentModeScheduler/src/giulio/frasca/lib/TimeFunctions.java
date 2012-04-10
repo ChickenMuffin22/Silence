@@ -1,5 +1,7 @@
 package giulio.frasca.lib;
 
+import java.util.Calendar;
+
 public class TimeFunctions {
 	/**
 	 * Gets the hour of the given unix timestamp.
@@ -50,6 +52,66 @@ public class TimeFunctions {
     		retMin++;
     	}
     	return retMin;
+    }
+    
+    /**
+     * Converts a date into a unix timestamp.  Thanks to user Jerry-Brady on <a href="http://http://stackoverflow.com/questions/4674174/convert-integer-dates-times-to-unix-timestamp-in-java">StackOverflow</a> for this function
+     *
+     * @param year - the year to convert from
+     * @param month - the month to convert from
+     * @param day - the day to convert from
+     * @param hour - the hour to convert from
+     * @param minute - the minute to convert from
+     * @return unix timestamp for the date given.
+     */
+    public static long componentTimeToTimestamp(int year, int month, int day, int hour, int minute) {
+
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, day);
+        c.set(Calendar.HOUR, hour);
+        c.set(Calendar.MINUTE, minute);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+
+        return c.getTimeInMillis();
+    }
+    
+    /**
+     * Gets the year of a unix-y timestamp (ms after epoch)
+     * 
+     * @param unixtime - the number of ms after the epoch
+     * @return the year in yyyy format
+     */
+    public static int getYearFromTimestamp(long unixtime){
+    	Calendar c = Calendar.getInstance();
+    	c.setTimeInMillis(unixtime);
+    	return c.get(Calendar.YEAR);
+    }
+    
+    /**
+     * Gets the month of a unix-y timestamp (ms after epoch)
+     * 
+     * @param unixtime - the number of ms after the epoch
+     * @return the month in mm format
+     */
+    public static int getMonthFromTimestamp(long unixtime){
+    	Calendar c = Calendar.getInstance();
+    	c.setTimeInMillis(unixtime);
+    	return (1 + c.get(Calendar.MONTH));
+    }
+    
+    /**
+     * Gets the day of a unix-y timestamp (ms after epoch)
+     * 
+     * @param unixtime - the number of ms after the epoch
+     * @return the day in dd format
+     */
+    public static int getDayFromTimestamp(long unixtime){
+    	Calendar c = Calendar.getInstance();
+    	c.setTimeInMillis(unixtime);
+    	return c.get(Calendar.DATE);
     }
 
 }

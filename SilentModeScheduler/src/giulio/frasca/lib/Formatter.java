@@ -106,4 +106,22 @@ public class Formatter {
     	if (input > 9) { return ""+input; }
     	else { return "0" + input ; }
     }
+	
+    /**
+     * Converts a human-readable date into a unix-y timestamp, in mmmm
+     * @param hour the hours since 
+     * @param minute
+     * @param AM
+     * @return
+     */
+    public static long formTimestamp(int hour, int minute, boolean AM){
+    	int retTime = 0;
+    	if (hour == 12){ hour=0; }
+    	if (!AM) { hour+=12; }
+
+    	retTime += hour * 60 * 60 * 1000;
+    	retTime += minute * 60 *1000;
+    	retTime += 5999;
+    	return retTime;
+    }
 }
