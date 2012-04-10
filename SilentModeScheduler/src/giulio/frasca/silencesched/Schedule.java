@@ -60,11 +60,11 @@ public class Schedule {
 		RingerSettingBlock first = reader.getFirst();
 		try{ 
 			if (first.getId() == -1){
-				
 				reader.addBlock(0,24*59*60*1000, AudioManager.RINGER_MODE_NORMAL, 1111111, MAX_TIMESTAMP);
 				first = reader.getFirst();
 			}
 			blocks.add(first);
+			//reader.incrementPointer();
 			while (reader.hasNext()){
 				blocks.add(reader.getNext());
 			}
@@ -84,12 +84,14 @@ public class Schedule {
 	 * @param days - the integer days specifier for this block
 	 */
 	public int addBlock(long startTime, long endTime, int ringer, int days, long repeatUntil){
-		startTime = timeSinceSunday(startTime);
-		endTime = timeSinceSunday(endTime);
+		startTime = timeSinceMidnight(startTime);
+		endTime = timeSinceMidnight(endTime);
 		int id = reader.addBlock(startTime, endTime, ringer, days,repeatUntil);
-		
-		RingerSettingBlock newBlock = new RingerSettingBlock(startTime, endTime, id, ringer, days, repeatUntil);
+		logcatPrint("step1: "+id);
+		RingerSettingBlock newBlock = new RingerSettingBlock(startTime, endTime,  ringer, id, days, repeatUntil);
+		logcatPrint("step2: "+newBlock.getId()+ " "+id);
 		blocks.add(newBlock);
+		logcatPrint("step3: "+newBlock.getId()+ " "+id);
 		return id;
 	}
 	

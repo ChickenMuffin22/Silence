@@ -9,6 +9,7 @@ import java.util.regex.*;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
+import android.media.AudioManager;
 import android.os.Bundle;
 //import android.view.*;
 //import android.view.Gravity;
@@ -52,15 +53,15 @@ public class SilentModeSchedulerActivity extends Activity {
         SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
         clearPrefsForTesting(settings);
         schedule = new Schedule(settings);
+        
+        
         initComponents();
-        int alarmCount = schedule.getAlarmCount();
-        String [] alarms = new String[alarmCount];
-        for (int i=0; i<alarmCount; i++){
-        	alarms[i] = "Event " + i;
-        }
         currentBlockId = 0;
         RingerSettingBlock first =schedule.getBlock(currentBlockId);
+        
+        createTestData();
         updateInterface(first);
+        printScheduleContents();
         
         //ringerSchedule = new LinkedList<RingerSettingBlock>();
     	//initRingerSched();
@@ -68,7 +69,31 @@ public class SilentModeSchedulerActivity extends Activity {
         
     }
     
-    /**
+    public void printScheduleContents(){
+    	LinkedList<RingerSettingBlock> list = schedule.getList();
+    	Iterator<RingerSettingBlock> i = list.iterator();
+    	while (i.hasNext()){
+    		RingerSettingBlock block = i.next();
+    		int id=block.getId();
+    		logcatPrint(id+": id  ="+id);
+    		//logcatPrint(id+": strt="+block.getStartTime());
+    		//logcatPrint(id+": end ="+block.getEndTime());
+    		//logcatPrint(id+": ring="+block.getRingVal());
+    		//logcatPrint(id+": days="+block.getDays());
+    		//logcatPrint(id+": ru  ="+block.getRepeatUntil());
+    		logcatPrint("-----");
+    	}
+    }
+    
+    private void createTestData() {
+    	 
+    	 schedule.addBlock(0, 1*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000000, 253402300799000L);
+    	 schedule.addBlock(1*60*60*1000, 5*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000000, 253402300799000L);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT, 1000000, 253402300799000L);
+		
+	}
+
+	/**
      * Formats the Name of the alarm for the spinner if the form SMTWTFS (start)-(end)
      * 
      * @param block - The block to format the time after
@@ -339,10 +364,10 @@ public class SilentModeSchedulerActivity extends Activity {
 	 * @return The number of hours, in 12 hour format, after midnight.
 	 */
     public int getHourOfTime(long time){
-    	time-=5999;
+    	//time-=59999;
     	int retHour=0;
     	long edittime=time;
-    	while (edittime>60*60*1000){
+    	while (edittime>=60*60*1000){
     		edittime=edittime-60*60*1000;
     		retHour++;
     	}
@@ -357,7 +382,7 @@ public class SilentModeSchedulerActivity extends Activity {
      * @return The number of minutes since midnight for the given time
      */
     public boolean isAM(long time){
-    	time-=5999;
+    	//time-=59999;
     	if (time < 12*60*60*1000){
     		return true;
     	}
@@ -372,13 +397,12 @@ public class SilentModeSchedulerActivity extends Activity {
      * @return the minutes since the last hour
      */
     public int getMinuteOfTime(long time){
-    	time-=5999;
+    	//time-=59999;
     	if (time==0) { return 0; }
     	int retMin=0;
     	long editMin = time % (60 * 60 * 1000) ;
     	int oneMin = 1000 * 60;
-    	while (editMin > 0){
-    		editMin -= oneMin;
+    	while ((retMin*oneMin) < (editMin - 59999)){
     		retMin++;
     	}
     	return retMin;
@@ -494,6 +518,7 @@ public class SilentModeSchedulerActivity extends Activity {
 
 			public void onClick(View v) {
 				// TODO Currently does not do anything
+				printScheduleContents();
 				toastMessage("Sorry this currently doesn't do anything");
 				
 			}
@@ -580,19 +605,24 @@ public class SilentModeSchedulerActivity extends Activity {
 					toastMessage("Cannot Delete: Default Ringer Setting Undeleteable.\n     Please edit instead");
 					return;
 				}
+				schedule.disableBlock(currentBlockId);
+				int spinnerPos = nameDictionaryReverse.get(currentBlockId);
+				int newSpinnerBlockId = nameDictionary.get(spinnerPos -1 );
+				updateInterface(schedule.getBlock(newSpinnerBlockId));
+				boolean deleted=true;
 				//pick the next lowest block
-				int decr=1;
-				boolean deleted=false;
-				while (schedule.hasBlock(currentBlockId-decr)){
-					if (schedule.getBlock(currentBlockId-decr).isEnabled()){
-						schedule.disableBlock(currentBlockId);
-						currentBlockId=currentBlockId-decr;
-						updateInterface(schedule.getBlock(currentBlockId));
-						deleted=true;
-						break;
-					}
-					decr++;
-				}
+//				int decr=1;
+//				boolean deleted=false;
+//				while (schedule.hasBlock(currentBlockId-decr)){
+//					if (schedule.getBlock(currentBlockId-decr).isEnabled()){
+//						schedule.disableBlock(currentBlockId);
+//						currentBlockId=currentBlockId-decr;
+//						updateInterface(schedule.getBlock(currentBlockId));
+//						deleted=true;
+//						break;
+//					}
+//					decr++;
+//				}
 				if (deleted){
 					toastMessage("Current Block deleted. Now showing previous block");
 				}
@@ -628,6 +658,7 @@ public class SilentModeSchedulerActivity extends Activity {
 					logcatPrint("position: "+position);
 					logcatPrint("id: "+id);
 					currentBlockId=nameDictionary.get(position);
+					logcatPrint("cbi: "+currentBlockId);
 					updateInterfaceWithoutSpinner(schedule.getBlock(currentBlockId));
 					alarmSpinner.setSelection(position);
 				

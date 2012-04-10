@@ -57,11 +57,17 @@ public class PrefReader{
 	public RingerSettingBlock getFirst(){
 		//if no blocks exist, return null
 		if (getAlarmCount() <= 0){
+			//this one is a dummy block and is just to prevent buffer errors
 			addBlock(0,(24*60*60*1000)-1,AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP);
-			addBlock(0,(24*60*60*1000)-60000+1,AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP);
+			//this is the 'default' block, and will last the entire day, every day
+			addBlock(0,(24*60*60*1000)-1,AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP);
 		}
 		//otherwise, return the first block
 		return getBlock(0);
+	}
+	
+	public void incrementPointer(){
+		iterPos++;
 	}
 	
 	/**
@@ -209,6 +215,7 @@ public class PrefReader{
 	 */
 	private void incrementAlarmCount(){
 		int alarms = settings.getInt("alarmCount",-1);
+		logcatPrint("alarms: "+alarms);
 		Editor edit = settings.edit();
 		edit.putInt("alarmCount", alarms+1);
 		edit.commit();
