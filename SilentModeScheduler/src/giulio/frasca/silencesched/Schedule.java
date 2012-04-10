@@ -87,11 +87,8 @@ public class Schedule {
 		startTime = timeSinceMidnight(startTime);
 		endTime = timeSinceMidnight(endTime);
 		int id = reader.addBlock(startTime, endTime, ringer, days,repeatUntil);
-		logcatPrint("step1: "+id);
 		RingerSettingBlock newBlock = new RingerSettingBlock(startTime, endTime,  ringer, id, days, repeatUntil);
-		logcatPrint("step2: "+newBlock.getId()+ " "+id);
 		blocks.add(newBlock);
-		logcatPrint("step3: "+newBlock.getId()+ " "+id);
 		return id;
 	}
 	

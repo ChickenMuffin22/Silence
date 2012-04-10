@@ -21,6 +21,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.content.SharedPreferences;
 import giulio.frasca.silencesched.exceptions.*;
+import giulio.frasca.lib.*;
 
 public class SilentModeSchedulerActivity extends Activity {
 	
@@ -93,95 +94,7 @@ public class SilentModeSchedulerActivity extends Activity {
 		
 	}
 
-	/**
-     * Formats the Name of the alarm for the spinner if the form SMTWTFS (start)-(end)
-     * 
-     * @param block - The block to format the time after
-     * @return the string representation of this block
-     */
-    public String formatName(RingerSettingBlock block){
-    	String retString = "";
-    	boolean sunday = block.isEnabledSunday();
-    	boolean monday = block.isEnabledMonday();
-    	boolean tuesday = block.isEnabledTuesday();
-    	boolean wednesday = block.isEnabledWednesday();
-    	boolean thursday = block.isEnabledThursday();
-    	boolean friday = block.isEnabledFriday();
-    	boolean saturday = block.isEnabledSaturday();
-    	String startTime = getHourOfTime(block.getStartTime())+":";
-    	String endTime = getHourOfTime(block.getEndTime())+":";
-    	if (getMinuteOfTime(block.getStartTime())>9){
-    		startTime+=getMinuteOfTime(block.getStartTime());
-    	}
-    	else{
-    		startTime+="0"+getMinuteOfTime(block.getStartTime());
-    	}
-    	if (getMinuteOfTime(block.getEndTime())>9){
-    		endTime+=getMinuteOfTime(block.getEndTime());
-    	}
-    	else{
-    		endTime+="0"+getMinuteOfTime(block.getEndTime());
-    	}
-    	if (isAM(block.getStartTime())){
-    		startTime+="a";
-    	}
-    	else{
-    		startTime+="p";
-    	}
-    	if (isAM(block.getEndTime())){
-    		endTime+="a";
-    	}
-    	else{
-    		endTime+="p";
-    	}
-    	if (sunday){
-    		retString+="S";
-    	}
-    	else{
-    		retString+="-";
-    	}
-    	if (monday){
-    		retString+="M";
-    	}
-    	else{
-    		retString+="-";
-    	}
-    	if (tuesday){
-    		retString+="T";
-    	}
-    	else{
-    		retString+="-";
-    	}
-    	if (wednesday){
-    		retString+="W";
-    	}
-    	else{
-    		retString+="-";
-    	}
-    	if (thursday){
-    		retString+="T";
-    	}
-    	else{
-    		retString+="-";
-    	}
-    	if (friday){
-    		retString+="F";
-    	}
-    	else{
-    		retString+="-";
-    	}
-    	if (saturday){
-    		retString+="S";
-    	}
-    	else{
-    		retString+="-";
-    	}
-    	retString+=" "+startTime+"-"+endTime;
-    	if (block.getId() == 0){
-    		retString+=" (Default)";
-    	}
-    	return retString;
-    }
+
     
     /**
      * Updates the name spinner on the user interface
@@ -200,7 +113,7 @@ public class SilentModeSchedulerActivity extends Activity {
     		if (skippedFirst && thisBlock.isEnabled() && thisBlock.getId()>=0){
     			nameDictionary.put(mapID, thisBlock.getId());
     			nameDictionaryReverse.put(thisBlock.getId(),mapID);
-    			adapter.add(formatName(thisBlock));
+    			adapter.add(Formatter.formatName(thisBlock));
     			mapID++;
     		}
     		skippedFirst=true;
@@ -212,10 +125,10 @@ public class SilentModeSchedulerActivity extends Activity {
     
     
     public void updateInterfaceWithoutSpinner(RingerSettingBlock block) {
-    	startHour.setText(""+getHourOfTime(block.getStartTime()));
-        endHour.setText(""+getHourOfTime(block.getEndTime()));
-        startMinute.setText(minFormat(getMinuteOfTime(block.getStartTime())));
-        endMinute.setText(minFormat(getMinuteOfTime(block.getEndTime())));
+    	startHour.setText(""+TimeFunctions.getHourOfTime(block.getStartTime()));
+        endHour.setText(""+TimeFunctions.getHourOfTime(block.getEndTime()));
+        startMinute.setText(Formatter.minFormat(TimeFunctions.getMinuteOfTime(block.getStartTime())));
+        endMinute.setText(Formatter.minFormat(TimeFunctions.getMinuteOfTime(block.getEndTime())));
         ringSpinner.setSelection(block.getRingVal());
         //repeatDate
         int day = getDayFromTimestamp(block.getRepeatUntil());
@@ -224,13 +137,13 @@ public class SilentModeSchedulerActivity extends Activity {
         dateText.setText(month+"/"+day+"/"+year);
         setDaysChecking(block);
         
-        if (isAM(block.getStartTime())){
+        if (TimeFunctions.isAM(block.getStartTime())){
         	startSpinner.setSelection(0);
         }
         else{
         	startSpinner.setSelection(1);
         }
-        if (isAM(block.getEndTime())){
+        if (TimeFunctions.isAM(block.getEndTime())){
         	endSpinner.setSelection(0);
         }
         else{
@@ -244,10 +157,10 @@ public class SilentModeSchedulerActivity extends Activity {
      * @param block - the block to update the GUI to
      */
     public void updateInterface(RingerSettingBlock block){
-        startHour.setText(""+getHourOfTime(block.getStartTime()));
-        endHour.setText(""+getHourOfTime(block.getEndTime()));
-        startMinute.setText(minFormat(getMinuteOfTime(block.getStartTime())));
-        endMinute.setText(minFormat(getMinuteOfTime(block.getEndTime())));
+        startHour.setText(""+TimeFunctions.getHourOfTime(block.getStartTime()));
+        endHour.setText(""+TimeFunctions.getHourOfTime(block.getEndTime()));
+        startMinute.setText(Formatter.minFormat(TimeFunctions.getMinuteOfTime(block.getStartTime())));
+        endMinute.setText(Formatter.minFormat(TimeFunctions.getMinuteOfTime(block.getEndTime())));
         ringSpinner.setSelection(block.getRingVal());
         //repeatDate
         int day = getDayFromTimestamp(block.getRepeatUntil());
@@ -257,13 +170,13 @@ public class SilentModeSchedulerActivity extends Activity {
         setDaysChecking(block);
         updateSpinner();
         
-        if (isAM(block.getStartTime())){
+        if (TimeFunctions.isAM(block.getStartTime())){
         	startSpinner.setSelection(0);
         }
         else{
         	startSpinner.setSelection(1);
         }
-        if (isAM(block.getEndTime())){
+        if (TimeFunctions.isAM(block.getEndTime())){
         	endSpinner.setSelection(0);
         }
         else{
@@ -345,68 +258,8 @@ public class SilentModeSchedulerActivity extends Activity {
 		
 	}
 
-	/**
-	 * Formats an int representin a minute to a string, such that there is a prepending '0' if the time is less than 10
-	 * For use with GUI output.
-	 * 
-	 * @param input - the int for the time to check
-	 * @return an outputable string representation of the minutes
-	 */
-	public String minFormat(int input){
-    	if (input > 9) { return ""+input; }
-    	else { return "0" + input ; }
-    }
+
     
-	/**
-	 * Gets the hour of the given unix timestamp.
-	 * 
-	 * @param time - a long for milliseconds after the epoch, or ms after any midnight for that matter.
-	 * @return The number of hours, in 12 hour format, after midnight.
-	 */
-    public int getHourOfTime(long time){
-    	//time-=59999;
-    	int retHour=0;
-    	long edittime=time;
-    	while (edittime>=60*60*1000){
-    		edittime=edittime-60*60*1000;
-    		retHour++;
-    	}
-    	retHour = retHour % 12;
-    	if (retHour==0){ retHour=12; }
-    	return retHour;
-    }
-    
-    /**
-     * 
-     * @param time - the number of milliseconds after the epoch to check.
-     * @return The number of minutes since midnight for the given time
-     */
-    public boolean isAM(long time){
-    	//time-=59999;
-    	if (time < 12*60*60*1000){
-    		return true;
-    	}
-    	return false;
-    		
-    }
-    
-    /**
-     * Gets the minute of the given unix-y timestamp (unix x 1000)
-     * 
-     * @param time - milliseconds since the epoch, or beginning of any hour (either works)
-     * @return the minutes since the last hour
-     */
-    public int getMinuteOfTime(long time){
-    	//time-=59999;
-    	if (time==0) { return 0; }
-    	int retMin=0;
-    	long editMin = time % (60 * 60 * 1000) ;
-    	int oneMin = 1000 * 60;
-    	while ((retMin*oneMin) < (editMin - 59999)){
-    		retMin++;
-    	}
-    	return retMin;
-    }
 
     /**
      * Initializes all of the GUI components
@@ -605,11 +458,16 @@ public class SilentModeSchedulerActivity extends Activity {
 					toastMessage("Cannot Delete: Default Ringer Setting Undeleteable.\n     Please edit instead");
 					return;
 				}
-				schedule.disableBlock(currentBlockId);
-				int spinnerPos = nameDictionaryReverse.get(currentBlockId);
-				int newSpinnerBlockId = nameDictionary.get(spinnerPos -1 );
-				updateInterface(schedule.getBlock(newSpinnerBlockId));
+				toastMessage("deleting block with id" + currentBlockId);
+//				schedule.disableBlock(currentBlockId);
+//				int spinnerPos = nameDictionaryReverse.get(currentBlockId);
+//				int newSpinnerBlockId = nameDictionary.get(spinnerPos -1 );
+//				currentBlockId=newSpinnerBlockId;
+//				updateInterface(schedule.getBlock(currentBlockId));
 				boolean deleted=true;
+				
+				
+				
 				//pick the next lowest block
 //				int decr=1;
 //				boolean deleted=false;
