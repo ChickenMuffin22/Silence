@@ -102,9 +102,8 @@ public class SilentModeSchedulerActivity extends Activity {
     	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  0000110, 253402300799000L);
     	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_NORMAL,  1000110, 253402300799000L);
     	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  0110110, 253402300799000L);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,   110110, 253402300799000L);
     	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L);
-    	 logcatPrint(schedule.getBlock(10).isEnabledWednesday()+" is enabled Wed");
 		
 	}
 
