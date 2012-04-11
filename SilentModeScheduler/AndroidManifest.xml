@@ -35,6 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="giulio.frasca.silencesched.weekview.WeekViewActivity" />
         <service
       android:name=".BackroundService"
       android:process=":remote">

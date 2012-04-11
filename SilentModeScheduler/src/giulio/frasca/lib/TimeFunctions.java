@@ -114,4 +114,61 @@ public class TimeFunctions {
     	return c.get(Calendar.DATE);
     }
 
+	public static int getDayofWeekFromTimestamp(long today) {
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(today);
+		return c.get(Calendar.DAY_OF_WEEK);
+		
+	}
+
+	public static boolean isSunday(long today) {
+		int day = getDayofWeekFromTimestamp(today);
+		if (day == Calendar.SUNDAY){
+			return true;
+		}
+		return false;
+	}
+	public static boolean isMonday(long today) {
+		int day = getDayofWeekFromTimestamp(today);
+		if (day == Calendar.MONDAY){
+			return true;
+		}
+		return false;
+	}
+	public static boolean isTuesday(long today) {
+		int day = getDayofWeekFromTimestamp(today);
+		if (day == Calendar.TUESDAY){
+			return true;
+		}
+		return false;
+	}
+	public static boolean isWednesday(long today) {
+		int day = getDayofWeekFromTimestamp(today);
+		if (day == Calendar.WEDNESDAY){
+			return true;
+		}
+		return false;
+	}
+	public static boolean isThursday(long today) {
+		int day = getDayofWeekFromTimestamp(today);
+		if (day == Calendar.THURSDAY){
+			return true;
+		}
+		return false;
+	}
+	public static boolean isFriday(long today) {
+		int day = getDayofWeekFromTimestamp(today);
+		if (day == Calendar.FRIDAY){
+			return true;
+		}
+		return false;
+	}
+	public static boolean isSaturday(long today) {
+		int day = getDayofWeekFromTimestamp(today);
+		if (day == Calendar.SATURDAY){
+			return true;
+		}
+		return false;
+	}
+
 }

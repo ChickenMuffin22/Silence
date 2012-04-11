@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -23,6 +24,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.content.SharedPreferences;
 import giulio.frasca.silencesched.exceptions.*;
+import giulio.frasca.silencesched.weekview.WeekViewActivity;
 import giulio.frasca.lib.*;
 
 public class SilentModeSchedulerActivity extends Activity {
@@ -748,6 +750,21 @@ public class SilentModeSchedulerActivity extends Activity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings_menu, menu);
         return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menuBar:
+                Intent i = new Intent(this, WeekViewActivity.class);
+                Bundle params = new Bundle();
+                i.putExtras(params);
+                this.startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     
 //    private void initRingerSched() {
