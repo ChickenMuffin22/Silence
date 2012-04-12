@@ -31,6 +31,7 @@ public class WeekViewActivity extends Activity{
         SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
         schedule = new Schedule(settings);
         initComponents();
+        logcatPrint("endtime " + schedule.getBlock(2).getEndTime());
         loadDaySched(schedule);
     }
     

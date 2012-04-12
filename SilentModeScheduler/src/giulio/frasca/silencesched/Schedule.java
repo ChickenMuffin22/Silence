@@ -41,6 +41,7 @@ public class Schedule {
 			}
 		}
 		
+		
 	}
 
 	
@@ -162,6 +163,7 @@ public class Schedule {
 	public void editBlockEnd(int id, long endTime) {
 		RingerSettingBlock editBlock = blocks.get(id);
 		editBlock.setEndTime(endTime);
+		logcatPrint("ending at "+ blocks.get(id).getEndTime());
 		reader.editEnd(id, endTime);
 	}
 	
@@ -358,7 +360,7 @@ public class Schedule {
 	public void editRepeatUntil(int id, long repeatUntil) {
 		RingerSettingBlock editBlock = blocks.get(id);
 		editBlock.setRepeatUntil(repeatUntil);
-		reader.editEnd(id, repeatUntil);
+		reader.editRepeatUntil(id, repeatUntil);
 		
 	}
 

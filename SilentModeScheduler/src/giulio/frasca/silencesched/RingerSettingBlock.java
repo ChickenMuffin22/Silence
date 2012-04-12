@@ -150,6 +150,7 @@ public class RingerSettingBlock {
 	 * @return the end time for this block
 	 */
 	public long getEndTime() {
+		if (id == 2) {logcatPrint("id" + getId()+" has endtime " +endTime);}
 		return endTime;
 	}
 

@@ -128,9 +128,13 @@ public class DayBar extends View{
     	block = i.next();
     	while (i.hasNext()){
     		block=i.next();
+    		
     		long start = block.getStartTime();
     		long end = block.getEndTime();
     		int ringVal = block.getRingVal();
+    		if (block.getId() == 2){
+    			logcatPrint("blockend" + block.getEndTime());
+    		}
     		//transpose the start time accordingly
     		long transStart =(long) (width*((double)(start/maxtime)));
     		long transEnd = (long) (width* ((double)(end/maxtime)));

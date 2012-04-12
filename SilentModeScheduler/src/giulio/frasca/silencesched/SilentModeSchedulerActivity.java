@@ -94,7 +94,7 @@ public class SilentModeSchedulerActivity extends Activity {
     private void createTestData() {
     	 
     	 schedule.addBlock(0            , 1*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1000000, 253402300799000L);
-    	 schedule.addBlock(1*60*60*1000 , 5*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1010000, 253402300799000L);
+    	 schedule.addBlock(1*60*60*1000 , 23*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1010000, 253402300799000L);
     	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L);
     	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1110110, 253402300799000L);
     	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1001000, 253402300799000L);
@@ -409,6 +409,7 @@ public class SilentModeSchedulerActivity extends Activity {
 					try{
 						long startTime = getStartFromForm();
 						long endTime= getEndFromForm();
+						
 						int ringer = getRinger();
 						long repeatUntil = getRepeatFromForm();
 						schedule.editBlockDays(currentBlockId, schedule.formatDays(sunOn, monOn, tueOn, wedOn, thuOn,  friOn, satOn));
@@ -681,8 +682,8 @@ public class SilentModeSchedulerActivity extends Activity {
     	String sMin = startMinute.getText().toString();
   
     	
-    	int sHourInt = Integer.parseInt(sHour);
-    	int sMinInt = Integer.parseInt(sMin);
+    	long sHourInt = Long.parseLong(sHour);
+    	long sMinInt = Long.parseLong(sMin);
     	
     	
     	return Formatter.formTimestamp(sHourInt, sMinInt, (startSpinner.getSelectedItemPosition()==0));
@@ -701,8 +702,8 @@ public class SilentModeSchedulerActivity extends Activity {
     	String eHour = endHour.getText().toString();
     	String eMin = endMinute.getText().toString();
     	
-    	int eHourInt = Integer.parseInt(eHour);
-    	int eMinInt = Integer.parseInt(eMin);
+    	long eHourInt = Long.parseLong(eHour);
+    	long eMinInt = Long.parseLong(eMin);
     
     	return Formatter.formTimestamp(eHourInt, eMinInt, (endSpinner.getSelectedItemPosition()==0));
     }

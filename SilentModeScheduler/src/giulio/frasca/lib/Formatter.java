@@ -114,7 +114,7 @@ public class Formatter {
      * @param AM
      * @return
      */
-    public static long formTimestamp(int hour, int minute, boolean AM){
+    public static long formTimestamp(long hour, long minute, boolean AM){
     	int retTime = 0;
     	if (hour == 12){ hour=0; }
     	if (!AM) { hour+=12; }

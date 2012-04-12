@@ -254,6 +254,8 @@ public class PrefReader{
 		Editor edit = settings.edit();
 		edit.putLong(id + ".end", time);
 		edit.commit();
+		long stored = settings.getLong(id+".end", -1);
+		logcatPrint("stored: "+stored+"id "+id);
 	}
 	
 	/**
