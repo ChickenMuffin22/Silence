@@ -391,7 +391,7 @@ public class SilentModeSchedulerActivity extends Activity {
 					serviceRunning=false;
 					stopService(new Intent(BackroundService.class.getName()));
 				}
-				toastMessage("Sorry this currently doesn't do anything");
+				//toastMessage("Sorry this currently doesn't do anything");
 				
 			}
         	

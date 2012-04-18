@@ -23,7 +23,7 @@ public final class R {
     }
     public static final class id {
         public static final int LinearLayout01=0x7f070013;
-        public static final int addMenuOption=0x7f07003e;
+        public static final int addMenuOption=0x7f07003d;
         public static final int addNewEventButton=0x7f070024;
         public static final int alarmSpinner=0x7f070000;
         public static final int cancelButton=0x7f070021;
@@ -43,7 +43,7 @@ public final class R {
         public static final int linearLayout3=0x7f070026;
         public static final int linearLayout4=0x7f07001e;
         public static final int linearLayout5=0x7f070001;
-        public static final int menuBar=0x7f07003d;
+        public static final int menuBar=0x7f07003e;
         public static final int monBar=0x7f07002d;
         public static final int monRadio=0x7f07002c;
         public static final int monRow=0x7f07002b;

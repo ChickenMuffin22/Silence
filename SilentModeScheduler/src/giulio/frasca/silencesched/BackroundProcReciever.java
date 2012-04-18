@@ -6,12 +6,21 @@ import android.content.Intent;
 import android.util.Log;
 
 public class BackroundProcReciever extends BroadcastReceiver {
-
+	private boolean serviceRunning = true;
     @Override
     public void onReceive(Context context, Intent intent) {
         if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
-            Intent serviceIntent = new Intent("giulio.frasca.silencesched.BackroundService");
-            context.startService(serviceIntent);
+        	logcatPrint("SILENCESCHED STARTED");
+        	if (!serviceRunning){
+				serviceRunning=true;
+				context.startService(new Intent(BackroundService.class.getName()));
+				
+			}
+			else{
+				serviceRunning=false;
+				context.stopService(new Intent(BackroundService.class.getName()));
+			}
+            
         }
     }
     
@@ -19,3 +28,4 @@ public class BackroundProcReciever extends BroadcastReceiver {
     	Log.v("customdebug",message + " | sent from " +this.getClass().getSimpleName());
     }
 }
+
