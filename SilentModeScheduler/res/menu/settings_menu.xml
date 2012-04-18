@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/addMenuOption"
+          android:icon="@drawable/addicon"
+          android:title="Add Block" />
+
     <item android:id="@+id/menuBar"
-          android:icon="@drawable/ic_launcher"
-          android:title="Visualizer"
-          />
+          android:icon="@drawable/visicon"
+          android:title="Visualizer" />
+    
+    <item android:id="@+id/remMenuOption"
+          android:icon="@drawable/removeicon"
+          android:title="Remove Block" />
+    
 </menu>

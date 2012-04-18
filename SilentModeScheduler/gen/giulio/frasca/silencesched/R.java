@@ -16,10 +16,14 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int addicon=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+        public static final int removeicon=0x7f020002;
+        public static final int visicon=0x7f020003;
     }
     public static final class id {
         public static final int LinearLayout01=0x7f070013;
+        public static final int addMenuOption=0x7f07003e;
         public static final int addNewEventButton=0x7f070024;
         public static final int alarmSpinner=0x7f070000;
         public static final int cancelButton=0x7f070021;
@@ -44,6 +48,7 @@ public final class R {
         public static final int monRadio=0x7f07002c;
         public static final int monRow=0x7f07002b;
         public static final int monToggle=0x7f070003;
+        public static final int remMenuOption=0x7f07003f;
         public static final int ringSpinner=0x7f070019;
         public static final int ringerLabel=0x7f070018;
         public static final int satBar=0x7f07003c;
