@@ -7,17 +7,17 @@
     <uses-sdk android:minSdkVersion="10" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     
-    <service android:name=".MyService" android:label="BackgroundService">
+    <service android:name=".MyService" android:label="BackroundService">
 	    <intent-filter>
-	        <action android:name="giulio.frasca.silencesched.BackgroundService" />
+	        <action android:name="giulio.frasca.silencesched.BackroundService" />
 	    </intent-filter>
 	</service>
 
 	<receiver
-	    android:name=".receiver.BackgroundProcReciever"
+	    android:name=".receiver.BackroundProcReciever"
 	    android:enabled="true"
 	    android:exported="true"
-	    android:label="BackgroundProcReciever">
+	    android:label="BackroundProcReciever">
 	    <intent-filter>
 	        <action android:name="android.intent.action.BOOT_COMPLETED" />
 	    </intent-filter>
@@ -44,7 +44,7 @@
           			android:name="giulio.frasca.silencesched.BackroundService" />
       		</intent-filter>
     	</service>
-    	<receiver android:name="giulio.frasca.silencesched.BackgroundProcReciever">  
+    	<receiver android:name="giulio.frasca.silencesched.BackroundProcReciever">  
     		<intent-filter>  
     		    <action android:name="android.intent.action.BOOT_COMPLETED" />  
    	    	</intent-filter>  
