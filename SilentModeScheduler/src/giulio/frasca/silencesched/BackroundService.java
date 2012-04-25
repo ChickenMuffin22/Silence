@@ -1,5 +1,10 @@
 package giulio.frasca.silencesched;
 
+import giulio.frasca.lib.TimeFunctions;
+
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -9,6 +14,8 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,6 +24,7 @@ public class BackroundService extends Service {
 
 	private final long UPDATE_TIME=15*1000L;
 	private static final int HELLO_ID = 1;
+	private final String PREF_FILE = "ncsusilencepreffile2";
 
 	
 	
@@ -25,9 +33,71 @@ public class BackroundService extends Service {
 	private TimerTask updateTask = new TimerTask() {
 	    @Override
 	    public void run() {
+	    	AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+	    	am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+	    	SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
+	    	Schedule s = new Schedule(settings);
+	    	
+	    	long currentTime = System.currentTimeMillis();
+	    	LinkedList<RingerSettingBlock> list = s.getList();
+	    	Iterator<RingerSettingBlock> i = list.iterator();
+	    	while (i.hasNext()){
+	    		RingerSettingBlock block = i.next();
+	    		if (block.isEnabled() && isEnabledToday(block) && isWithinTimeBlock(block)){
+	    			int newRingerLevel = block.getRingVal();
+	    			if (newRingerLevel != am.getRingerMode()){
+	    				am.setRingerMode(newRingerLevel);
+	    				logcatPrint("CHANGING LEVEL");
+	    			}
+	    			else{
+	    				logcatPrint("Ringer Level already the same!");
+	    			}
+	    		}
+	    	}
+	    	
+	    	
+	    	
 	      //TODO heres where the work needs to be done
-	    	logcatPrint("doin work");
+	    	logcatPrint(""+list.size());
 	    }
+
+		private boolean isWithinTimeBlock(RingerSettingBlock block) {
+			long todayTimestamp = System.currentTimeMillis();
+			long now = TimeFunctions.timeSinceMidnight(todayTimestamp);
+			long start = block.getStartTime();
+			long end = block.getEndTime();
+			if ((start<now) && (now<end)){
+				return true;
+			}
+			return false;
+		}
+
+		private boolean isEnabledToday(RingerSettingBlock block) {
+			long now = System.currentTimeMillis();
+			int dayOfWeek = TimeFunctions.getDayofWeekFromTimestamp(now);
+			if (dayOfWeek == Calendar.SUNDAY){
+				return block.isEnabledSunday();
+			}
+			if (dayOfWeek == Calendar.MONDAY){
+				return block.isEnabledMonday();
+			}
+			if (dayOfWeek == Calendar.TUESDAY){
+				return block.isEnabledTuesday();
+			}
+			if (dayOfWeek == Calendar.WEDNESDAY){
+				return block.isEnabledWednesday();
+			}
+			if (dayOfWeek == Calendar.THURSDAY){
+				return block.isEnabledThursday();
+			}
+			if (dayOfWeek == Calendar.FRIDAY){
+				return block.isEnabledFriday();
+			}
+			if (dayOfWeek == Calendar.SATURDAY){
+				return block.isEnabledSaturday();
+			}
+			return false;
+		}
 	  };
 	
 //	public BackroundService(){
@@ -56,7 +126,6 @@ public class BackroundService extends Service {
 	    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
 	    	notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-	    	
 	    	notification.flags |= Notification.FLAG_ONGOING_EVENT;
 	    	notification.flags |= Notification.FLAG_NO_CLEAR;
 	    	

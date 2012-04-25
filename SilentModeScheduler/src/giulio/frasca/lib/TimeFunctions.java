@@ -170,5 +170,9 @@ public class TimeFunctions {
 		}
 		return false;
 	}
+	public static long timeSinceMidnight(long time){
+		long day = 24*60*60*1000;
+		return (time % day);
+	}
 
 }
