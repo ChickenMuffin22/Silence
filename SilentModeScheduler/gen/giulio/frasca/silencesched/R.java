@@ -17,15 +17,18 @@ public final class R {
     }
     public static final class drawable {
         public static final int addicon=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int removeicon=0x7f020002;
-        public static final int visicon=0x7f020003;
+        public static final int back=0x7f020001;
+        public static final int exit=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int removeicon=0x7f020004;
+        public static final int visicon=0x7f020005;
     }
     public static final class id {
         public static final int LinearLayout01=0x7f070013;
         public static final int addMenuOption=0x7f07003d;
         public static final int addNewEventButton=0x7f070024;
         public static final int alarmSpinner=0x7f070000;
+        public static final int backButton=0x7f070041;
         public static final int cancelButton=0x7f070021;
         public static final int dateText=0x7f07001c;
         public static final int deleteEventButton=0x7f070025;
@@ -34,6 +37,7 @@ public final class R {
         public static final int endMinute=0x7f070015;
         public static final int endSpinner=0x7f070016;
         public static final int endTimeLabel=0x7f070011;
+        public static final int exitActivityOption=0x7f070040;
         public static final int friBar=0x7f070039;
         public static final int friRadio=0x7f070038;
         public static final int friRow=0x7f070037;
@@ -93,6 +97,7 @@ public final class R {
     }
     public static final class menu {
         public static final int settings_menu=0x7f060000;
+        public static final int visualizer_menu=0x7f060001;
     }
     public static final class string {
         public static final int app_name=0x7f050001;

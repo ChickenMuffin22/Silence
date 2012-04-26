@@ -8,9 +8,13 @@ import giulio.frasca.silencesched.RingerSettingBlock;
 import giulio.frasca.silencesched.Schedule;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.RadioButton;
 import android.widget.TableRow;
 import android.widget.Toast;
@@ -110,6 +114,24 @@ public class WeekViewActivity extends Activity{
 	 */
     public void logcatPrint(String message){
     	Log.v("customdebug",message + " | sent from " +this.getClass().getSimpleName());
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.visualizer_menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.backButton:
+            	this.finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     
 }

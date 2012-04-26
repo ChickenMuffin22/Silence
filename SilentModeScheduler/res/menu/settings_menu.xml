@@ -13,4 +13,8 @@
           android:icon="@drawable/removeicon"
           android:title="Remove Block" />
     
+    <item android:id="@+id/exitActivityOption"
+          android:icon="@drawable/exit"
+          android:title="Exit" />
+    
 </menu>

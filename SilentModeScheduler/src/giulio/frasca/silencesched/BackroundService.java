@@ -34,35 +34,39 @@ public class BackroundService extends Service {
 	    @Override
 	    public void run() {
 	    	AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-	    	am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 	    	SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
 	    	Schedule s = new Schedule(settings);
-	    	
-	    	long currentTime = System.currentTimeMillis();
 	    	LinkedList<RingerSettingBlock> list = s.getList();
 	    	Iterator<RingerSettingBlock> i = list.iterator();
+	    	int prevRingerLevel= am.getRingerMode();
+	    	int newRingerLevel= am.getRingerMode();
 	    	while (i.hasNext()){
 	    		RingerSettingBlock block = i.next();
 	    		if (block.isEnabled() && isEnabledToday(block) && isWithinTimeBlock(block)){
-	    			int newRingerLevel = block.getRingVal();
-	    			if (newRingerLevel != am.getRingerMode()){
-	    				am.setRingerMode(newRingerLevel);
-	    				logcatPrint("CHANGING LEVEL");
-	    			}
-	    			else{
-	    				logcatPrint("Ringer Level already the same!");
-	    			}
+	    			newRingerLevel = block.getRingVal();
 	    		}
 	    	}
+	    	if (newRingerLevel != prevRingerLevel){
+				am.setRingerMode(newRingerLevel);
+				if (newRingerLevel == AudioManager.RINGER_MODE_NORMAL){
+					changeNotification("Silence","Service Running: Normal Level","Normal Level Restored");
+				}
+				if (newRingerLevel == AudioManager.RINGER_MODE_VIBRATE){
+					changeNotification("Silence","Service Running: Vibrate","Vibrate Only Mode Enabled");
+				}
+				if (newRingerLevel == AudioManager.RINGER_MODE_SILENT){
+					changeNotification("Silence","Service Running: Silent","Silent / No Vibration Enabled");
+				}
+				logcatPrint("CHANGING LEVEL");
+			}
+			else{
+				logcatPrint("Ringer Level already the same!");
+			}
+		}
 	    	
-	    	
-	    	
-	      //TODO heres where the work needs to be done
-	    	logcatPrint(""+list.size());
-	    }
 
 		private boolean isWithinTimeBlock(RingerSettingBlock block) {
-			long todayTimestamp = System.currentTimeMillis();
+			long todayTimestamp = TimeFunctions.getLocalTime();
 			long now = TimeFunctions.timeSinceMidnight(todayTimestamp);
 			long start = block.getStartTime();
 			long end = block.getEndTime();
@@ -73,7 +77,7 @@ public class BackroundService extends Service {
 		}
 
 		private boolean isEnabledToday(RingerSettingBlock block) {
-			long now = System.currentTimeMillis();
+			long now = TimeFunctions.getLocalTime();
 			int dayOfWeek = TimeFunctions.getDayofWeekFromTimestamp(now);
 			if (dayOfWeek == Calendar.SUNDAY){
 				return block.isEnabledSunday();
@@ -136,6 +140,29 @@ public class BackroundService extends Service {
 		 timer.schedule(updateTask, 0L , UPDATE_TIME);
 	}
 	
+	public void changeNotification(String titleMessage, String subtitleMessage, String tickerText){
+		String ns = Context.NOTIFICATION_SERVICE;
+    	NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
+    	mNotificationManager.cancel(HELLO_ID);
+    	
+    	int icon = R.drawable.ic_launcher;
+    	long when = System.currentTimeMillis();
+    	
+    	Notification notification = new Notification(icon, tickerText, when);
+    	
+    	Context context = getApplicationContext();
+    	CharSequence contentTitle = titleMessage;
+    	CharSequence contentText = subtitleMessage;
+    	Intent notificationIntent = new Intent(this, BackroundService.class);
+    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+    	notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+    	notification.flags |= Notification.FLAG_ONGOING_EVENT;
+    	notification.flags |= Notification.FLAG_NO_CLEAR;
+    	
+    	mNotificationManager.notify(HELLO_ID, notification);
+	}
+	
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
@@ -151,7 +178,6 @@ public class BackroundService extends Service {
 
 	@Override
 	public IBinder onBind(Intent arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
