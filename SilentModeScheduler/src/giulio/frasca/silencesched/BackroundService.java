@@ -125,7 +125,18 @@ public class BackroundService extends Service {
 	    	
 	    	Context context = getApplicationContext();
 	    	CharSequence contentTitle = "Silence";
-	    	CharSequence contentText = "Service Running";
+	    	CharSequence contentText = "Service Running: ";
+	    	
+	    	AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+	    	if (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
+	    		contentText = contentText + "Normal Level";
+	    	}
+	    	if (am.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE){
+	    		contentText = contentText + "Vibrate";
+	    	}
+	    	if (am.getRingerMode() == AudioManager.RINGER_MODE_SILENT){
+	    		contentText = contentText + "Silent";
+	    	}
 	    	Intent notificationIntent = new Intent(this, BackroundService.class);
 	    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
