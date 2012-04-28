@@ -39,7 +39,7 @@ public class SilentModeSchedulerActivity extends Activity {
 	private int currentBlockId;
 	
 	//GUI components
-	Button settingsButton,confirmButton,cancelButton,addButton,deleteButton;
+	Button settingsButton,confirmButton,cancelButton,addButton,deleteButton,listView;
 	Spinner startSpinner,endSpinner,ringSpinner;
 	Spinner alarmSpinner;
 	EditText startHour,endHour,startMinute,endMinute;
@@ -61,6 +61,15 @@ public class SilentModeSchedulerActivity extends Activity {
         clearPrefsForTesting(settings);
         schedule = new Schedule(settings);
         
+        Button listView = (Button) findViewById(R.id.listView);
+        listView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), ItemListActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+
+        });
+
         
         initComponents();
         currentBlockId = 0;
