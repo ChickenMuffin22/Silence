@@ -42,7 +42,7 @@ public class SilentModeSchedulerActivity extends Activity {
 	Button settingsButton,confirmButton,cancelButton,addButton,deleteButton;
 	Spinner startSpinner,endSpinner,ringSpinner;
 	Spinner alarmSpinner;
-	EditText startHour,endHour,startMinute,endMinute,dateText;
+	EditText startHour,endHour,startMinute,endMinute;
 	ToggleButton sunToggle,monToggle,tueToggle,wedToggle,thuToggle,friToggle,satToggle;
 	
 	//status vars
@@ -144,10 +144,10 @@ public class SilentModeSchedulerActivity extends Activity {
         endMinute.setText(Formatter.minFormat(TimeFunctions.getMinuteOfTime(block.getEndTime())));
         ringSpinner.setSelection(block.getRingVal());
         //repeatDate
-        int day = TimeFunctions.getDayFromTimestamp(block.getRepeatUntil());
-        int month = TimeFunctions.getMonthFromTimestamp(block.getRepeatUntil());
-        int year = TimeFunctions.getYearFromTimestamp(block.getRepeatUntil());
-        dateText.setText(month+"/"+day+"/"+year);
+//        int day = TimeFunctions.getDayFromTimestamp(block.getRepeatUntil());
+//        int month = TimeFunctions.getMonthFromTimestamp(block.getRepeatUntil());
+//        int year = TimeFunctions.getYearFromTimestamp(block.getRepeatUntil());
+//        dateText.setText(month+"/"+day+"/"+year);
         setDaysChecking(block);
         
         if (TimeFunctions.isAM(block.getStartTime())){
@@ -177,10 +177,10 @@ public class SilentModeSchedulerActivity extends Activity {
         endMinute.setText(Formatter.minFormat(TimeFunctions.getMinuteOfTime(block.getEndTime())));
         ringSpinner.setSelection(block.getRingVal());
         //repeatDate
-        int day = TimeFunctions.getDayFromTimestamp(block.getRepeatUntil());
-        int month = TimeFunctions.getMonthFromTimestamp(block.getRepeatUntil());
-        int year = TimeFunctions.getYearFromTimestamp(block.getRepeatUntil());
-        dateText.setText(month+"/"+day+"/"+year);
+//        int day = TimeFunctions.getDayFromTimestamp(block.getRepeatUntil());
+//        int month = TimeFunctions.getMonthFromTimestamp(block.getRepeatUntil());
+//        int year = TimeFunctions.getYearFromTimestamp(block.getRepeatUntil());
+//        dateText.setText(month+"/"+day+"/"+year);
         setDaysChecking(block);
         updateSpinner();
         
@@ -280,9 +280,9 @@ public class SilentModeSchedulerActivity extends Activity {
     	nameDictionaryReverse= new HashMap<Integer,Integer>();
     	
     	//the repeat until date text box
-    	dateText = (EditText)findViewById(R.id.dateText);
+  //  	dateText = (EditText)findViewById(R.id.dateText);
     	//testing
-    	dateText.setText("11/11/1111");
+ //   	dateText.setText("11/11/1111");
     	
     	//The toggle button for sunday
     	sunToggle = (ToggleButton)findViewById(R.id.sunToggle);
@@ -600,7 +600,7 @@ public class SilentModeSchedulerActivity extends Activity {
     	String sMin = startMinute.getText().toString();
     	String eHour = endHour.getText().toString();
     	String eMin = endMinute.getText().toString();
-    	String repeatUntil = dateText.getText().toString();
+    	String repeatUntil = "01/01/2200";
     	
     	Pattern minPattern = Pattern.compile("^\\d{2}$");
     	Matcher ms = minPattern.matcher(sMin);
@@ -718,7 +718,7 @@ public class SilentModeSchedulerActivity extends Activity {
     	if (!inputValidates()){
     		throw new inputValidationError("Input is not in the correct date format");
     	}
-		String date = dateText.getText().toString();
+		String date = "01/01/2200";
 		String [] dateSplit = date.split("/");
 		int month = Integer.parseInt(dateSplit[0])-1;
 		int day   = Integer.parseInt(dateSplit[1]);
