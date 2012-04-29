@@ -39,7 +39,7 @@ public class ItemListActivity extends ListActivity {
 
     	for (int j = 0; j < size; j++){
     		RingerSettingBlock thisBlock = list.get(j);
-    		String name = Formatter.formatName(thisBlock);	
+    		String name = thisBlock.getName();	
     		events[j] = name;
     	}
 
@@ -49,7 +49,7 @@ public class ItemListActivity extends ListActivity {
 		 */
 
 		// Using ItemListAdapter for custom icons
-    	ItemListAdapter adapter = new ItemListAdapter(this, events);
+    	ItemListAdapter adapter = new ItemListAdapter(this, events, list);
 		setListAdapter(adapter);
 		
 	}

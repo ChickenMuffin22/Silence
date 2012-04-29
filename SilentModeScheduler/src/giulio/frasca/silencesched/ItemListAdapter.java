@@ -1,5 +1,7 @@
 package giulio.frasca.silencesched;
 
+import java.util.LinkedList;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +20,20 @@ public class ItemListAdapter extends ArrayAdapter<String> {
 
 	// will likely need to be changed away from a String
 	private final String[] values;
+	private LinkedList<RingerSettingBlock> list;
 
 	public ItemListAdapter(Context context, String[] values) {
 		super(context, R.layout.liststyle, values);
 		this.context = context;
 		this.values = values;
+	}
+
+	public ItemListAdapter(Context context, String[] values,
+			LinkedList<RingerSettingBlock> list) {
+		super(context, R.layout.liststyle, values);
+		this.context = context;
+		this.values = values;
+		this.list = list;
 	}
 
 	@Override
@@ -37,12 +48,31 @@ public class ItemListAdapter extends ArrayAdapter<String> {
 		// Determines if icon next to item is a check or an X
 		// temporarily only checking if the string starts with S
 		String s = values[position];
-		if (s.startsWith("S")) {
-			imageView.setImageResource(R.drawable.redxmed);
-		} else {
-			imageView.setImageResource(R.drawable.greencheckmed);
+		boolean enabled = true;
+		int size = list.size();
+		RingerSettingBlock current = null;
+		
+		for (int i = 0; i < size; i++){
+			current = list.get(i);
+			if (current.getName().equals(s)){
+				i = (size + 1);
+			}
+		}
+		
+		try {
+			if (current.isEnabled() == false) {
+				enabled = false;
+			}
+		} catch (NullPointerException e) {
+			// event not found
 		}
 
+		if (enabled){
+			imageView.setImageResource(R.drawable.greencheckmed);
+		} else {
+			imageView.setImageResource(R.drawable.redxmed);
+		}
+		
 		return rowView;
 	}
 }
