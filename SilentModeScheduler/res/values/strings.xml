@@ -2,7 +2,7 @@
 <resources>
 
     <string name="hello">Hello World, SilentModeSchedulerActivity!</string>
-    <string name="app_name">SilentModeScheduler</string>
+    <string name="app_name">Silence</string>
     <string name="day_prompt">Day To Edit</string>
     <string name="ring_prompt">Ring</string>
 	<string name="spacing20">                    </string>
