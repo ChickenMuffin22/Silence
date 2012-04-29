@@ -49,13 +49,13 @@ public class BackroundService extends Service {
 	    	if (newRingerLevel != prevRingerLevel){
 				am.setRingerMode(newRingerLevel);
 				if (newRingerLevel == AudioManager.RINGER_MODE_NORMAL){
-					changeNotification("Silence","Service Running: Normal Level","Normal Level Restored");
+					changeNotification("Silence","Service Running: Normal Level","Normal Level Restored", newRingerLevel);
 				}
 				if (newRingerLevel == AudioManager.RINGER_MODE_VIBRATE){
-					changeNotification("Silence","Service Running: Vibrate","Vibrate Only Mode Enabled");
+					changeNotification("Silence","Service Running: Vibrate","Vibrate Only Mode Enabled", newRingerLevel);
 				}
 				if (newRingerLevel == AudioManager.RINGER_MODE_SILENT){
-					changeNotification("Silence","Service Running: Silent","Silent / No Vibration Enabled");
+					changeNotification("Silence","Service Running: Silent","Silent / No Vibration Enabled", newRingerLevel);
 				}
 				logcatPrint("CHANGING LEVEL");
 			}
@@ -151,12 +151,13 @@ public class BackroundService extends Service {
 		 timer.schedule(updateTask, 0L , UPDATE_TIME);
 	}
 	
-	public void changeNotification(String titleMessage, String subtitleMessage, String tickerText){
+	public void changeNotification(String titleMessage, String subtitleMessage, String tickerText, int ringlevel){
 		String ns = Context.NOTIFICATION_SERVICE;
     	NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
     	mNotificationManager.cancel(HELLO_ID);
-    	
-    	int icon = R.drawable.ic_launcher;
+    	int icon = R.drawable.redicon;
+    	if (ringlevel == AudioManager.RINGER_MODE_VIBRATE){ icon = R.drawable.yellowicon; };
+    	if (ringlevel == AudioManager.RINGER_MODE_NORMAL){ icon = R.drawable.greenicon;}
     	long when = System.currentTimeMillis();
     	
     	Notification notification = new Notification(icon, tickerText, when);
