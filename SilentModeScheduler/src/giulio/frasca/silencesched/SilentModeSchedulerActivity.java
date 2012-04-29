@@ -102,19 +102,33 @@ public class SilentModeSchedulerActivity extends Activity {
     
     private void createTestData() {
     	 
-    	 schedule.addBlock(0            , 1*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1000000, 253402300799000L);
-    	 schedule.addBlock(1*60*60*1000 , 23*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1010000, 253402300799000L);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1110110, 253402300799000L);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1001000, 253402300799000L);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1000110, 253402300799000L);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  0000110, 253402300799000L);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_NORMAL,  1000110, 253402300799000L);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,   110110, 253402300799000L);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L);
-		
+    	 schedule.addBlock(0            , 1*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1000000, 253402300799000L, "apple", false, true);
+    	 schedule.addBlock(1*60*60*1000 , 23*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1010000, 253402300799000L, "burger", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L, "candy", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1110110, 253402300799000L, "donut", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1001000, 253402300799000L, "eclaire", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1000110, 253402300799000L, "fries", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  0000110, 253402300799000L, "gum", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_NORMAL,  1000110, 253402300799000L, "hotdog", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L, "icecream", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,   110110, 253402300799000L, "jackinthebox", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L, "krispekreme", false, true);
+		lcPrintBlock(0);
+    	 
 	}
+    
+    private void lcPrintBlock(int id){
+    	RingerSettingBlock block = schedule.getBlock(id);
+    	long start = block.getStartTime();
+    	long end = block.getEndTime();
+    	long ru = block.getRepeatUntil();
+    	int days = block.getDays();
+    	int ring = block.getRingVal();
+    	String name = block.getName();
+    	boolean enabled = block.isEnabled();
+    	boolean deleted = block.isDeleted();
+    	logcatPrint("ID:"+id+";start:"+start+";end:"+end+";ring:"+ring+";days:"+days+";ru:"+ru+"name:"+name+";ena:"+enabled+";del:"+deleted);
+    }
 
 
     
@@ -135,7 +149,8 @@ public class SilentModeSchedulerActivity extends Activity {
     		if (skippedFirst && thisBlock.isEnabled() && thisBlock.getId()>=0){
     			nameDictionary.put(mapID, thisBlock.getId());
     			nameDictionaryReverse.put(thisBlock.getId(),mapID);
-    			adapter.add(Formatter.formatName(thisBlock));
+    			//adapter.add(Formatter.formatName(thisBlock));
+    			adapter.add(thisBlock.getName());
     			mapID++;
     		}
     		skippedFirst=true;
@@ -447,7 +462,7 @@ public class SilentModeSchedulerActivity extends Activity {
 			public void onClick(View v) {
 				try {
 					
-					int id= schedule.addBlock(getStartFromForm(), getEndFromForm(), ringSpinner.getSelectedItemPosition(), 1111111, getRepeatFromForm());
+					int id= schedule.addBlock(getStartFromForm(), getEndFromForm(), ringSpinner.getSelectedItemPosition(), 1111111, getRepeatFromForm(),"Change this somehow", false, true);
 					currentBlockId = id;
 					updateInterface(schedule.getBlock(currentBlockId));
 					toastMessage("New Block Added.  Now edit it and click 'confirm'");

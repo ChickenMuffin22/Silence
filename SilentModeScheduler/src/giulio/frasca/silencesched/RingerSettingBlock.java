@@ -26,6 +26,10 @@ public class RingerSettingBlock {
 	//reapeat until timestamp
 	private long repeatUntil;
 	
+	private boolean deleted;
+	
+	private String name;
+	
 	private final long MAX_TIMESTAMP = 253402300799000L;
 
 
@@ -39,8 +43,10 @@ public class RingerSettingBlock {
 	 * @param days - the date specifier of the block
 	 * @param repeatUntil - the timestamp that this block is effective for
 	 */
-	public RingerSettingBlock(long minTime, long maxTime, int ringerValue, int id, int days, long repeatUntil) {
-		this.enabled=true;
+	public RingerSettingBlock(long minTime, long maxTime, int ringerValue, int id, int days, long repeatUntil, String name, boolean deleted, boolean enabled) {
+		this.name=name;
+		this.deleted=deleted;
+		this.enabled=enabled;
 		this.startTime=timeSinceMidnight(minTime);
 		this.endTime=timeSinceMidnight(maxTime);
 		this.ringVal=ringerValue;
@@ -67,8 +73,10 @@ public class RingerSettingBlock {
 	 * @param id - the id number of the block
 	 * @param days - the date specifier of the block
 	 */
-	public RingerSettingBlock(long minTime, long maxTime, int ringerValue, int id, int days) {
-		this.enabled=true;
+	public RingerSettingBlock(long minTime, long maxTime, int ringerValue, int id, int days, String name, boolean deleted, boolean enabled) {
+		this.name=name;
+		this.deleted=deleted;
+		this.enabled=enabled;
 		this.startTime=timeSinceMidnight(minTime);
 		this.endTime=timeSinceMidnight(maxTime);
 		this.ringVal=ringerValue;
@@ -96,7 +104,7 @@ public class RingerSettingBlock {
 	 * @param days - the date specifier of the block
 	 */
 	public RingerSettingBlock(int ringerValue, int id, int days){
-		new RingerSettingBlock(0,24*60*60*1000,ringerValue,id,days);
+		new RingerSettingBlock(0,24*60*60*1000,ringerValue,id,days,"Autogen block", false, true);
 	}
 	
 	/**
@@ -105,7 +113,7 @@ public class RingerSettingBlock {
 	 * @param days - the date specifier of the block
 	 */
 	public RingerSettingBlock(int id, int days){
-		new RingerSettingBlock(0,24*60*60*1000,AudioManager.RINGER_MODE_VIBRATE, id, days);
+		new RingerSettingBlock(0,24*60*60*1000,AudioManager.RINGER_MODE_VIBRATE, id, days,"Autogen block", false, true);
 	}
 	
 	/**
@@ -115,7 +123,7 @@ public class RingerSettingBlock {
 	 * @param unusedString - unusedString that exists just to differentiate between another constructor method
 	 */
 	public RingerSettingBlock(int ringerValue, int id, String unusedString){
-		new RingerSettingBlock(0,24*60*60*1000,ringerValue, id, 1111111);
+		new RingerSettingBlock(0,24*60*60*1000,ringerValue, id, 1111111,"Autogen block", false, true);
 	}
 	
 	/**
@@ -123,7 +131,7 @@ public class RingerSettingBlock {
 	 * @param id - the id number of the block
 	 */
 	public RingerSettingBlock(int id){
-		new RingerSettingBlock(0,24*60*60*1000,AudioManager.RINGER_MODE_VIBRATE, id, 1111111);
+		new RingerSettingBlock(0,24*60*60*1000,AudioManager.RINGER_MODE_VIBRATE, id, 1111111,"Autogen block", false, true);
 	}
 
 	/**
@@ -222,6 +230,9 @@ public class RingerSettingBlock {
 	 * @return true if this block is enabled, false if not
 	 */
 	public boolean isEnabled() {
+		if (isDeleted()){
+			return false;
+		}
 		return enabled;
 	}
 
@@ -371,6 +382,37 @@ public class RingerSettingBlock {
 	 */
 	public void setRepeatUntil(long repeatUntil) {
 		this.repeatUntil = repeatUntil;
+	}
+	
+	/**
+	 * Sets the name field of this block
+	 * @param name - the user-defined name for this block
+	 */
+	public void setName(String name){
+		this.name=name;
+	}
+	
+	/**
+	 * Gets the name for this block
+	 * @return a string name defined by the user for this block
+	 */
+	public String getName(){
+		return name;
+	}
+	
+	/**
+	 * Checks if this block is deleted
+	 * @return true if delted, false if not
+	 */
+	public boolean isDeleted(){
+		return deleted;
+	}
+	
+	/**
+	 * "Deletes" this block (makes it unrecoverable to user
+	 */
+	public void delete(){
+		this.deleted=true;
 	}
 	
 	/**

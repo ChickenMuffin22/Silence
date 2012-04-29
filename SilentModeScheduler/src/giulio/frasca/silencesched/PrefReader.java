@@ -58,9 +58,9 @@ public class PrefReader{
 		//if no blocks exist, return null
 		if (getAlarmCount() <= 0){
 			//this one is a dummy block and is just to prevent buffer errors
-			addBlock(0,(24*60*60*1000)-1,AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP);
+			addBlock(0,(24*60*60*1000)-1,AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP,"Dummy Block", false, true);
 			//this is the 'default' block, and will last the entire day, every day
-			addBlock(0,(24*60*60*1000)-1,AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP);
+			addBlock(0,(24*60*60*1000)-1,AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP,"Default1 Block", false, true);
 		}
 		//otherwise, return the first block
 		return getBlock(0);
@@ -131,7 +131,7 @@ public class PrefReader{
 	 * @param days - the days for the alarm
 	 * @return the ID number given to the block
 	 */
-	public int addBlock(long start, long end, int ringer, int days, long repeatUntil){
+	public int addBlock(long start, long end, int ringer, int days, long repeatUntil, String name, boolean deleted, boolean enabled){
 		int id = getAlarmCount();
 		incrementAlarmCount();
 		editId(id,id);
@@ -141,6 +141,9 @@ public class PrefReader{
 		editEnabled(id,true);
 		editDays(id,days);
 		editRepeatUntil(id,repeatUntil);
+		editName(id,name);
+		if (deleted){removeBlock(id);}
+		editEnabled(id,enabled);
 		return id;
 	}
 	
@@ -159,7 +162,7 @@ public class PrefReader{
 		//logcatPrint("end: " + getEnd(id));
 		//logcatPrint("ringer: "+ getRinger(id));
 		//logcatPrint("days: " + getDays(id));
-		return new RingerSettingBlock(getStart(id),getEnd(id),getRinger(id),id,getDays(id),getRepeatUntil(id));
+		return new RingerSettingBlock(getStart(id),getEnd(id),getRinger(id),id,getDays(id),getRepeatUntil(id),getName(id),getDeleted(id),getEnabled(id));
 	}
 	
 	/**
@@ -191,7 +194,26 @@ public class PrefReader{
 	 */
 	public void removeBlock(int id){
 		Editor edit = settings.edit();
+		edit.putBoolean(id+".deleted", true);
+		edit.commit();
+	}
+	
+	public void disableBlock(int id){
+		Editor edit = settings.edit();
 		edit.putBoolean(id+".enabled", false);
+		edit.commit();
+	}
+	
+	public void enabledBlock(int id){
+		Editor edit = settings.edit();
+		edit.putBoolean(id+".enabled", true);
+		edit.commit();
+	}
+	
+	public void editName(int id, String name){
+		Editor edit = settings.edit();
+		edit.putString(id+".name", name);
+		edit.commit();
 	}
 	
 	/**
@@ -254,8 +276,6 @@ public class PrefReader{
 		Editor edit = settings.edit();
 		edit.putLong(id + ".end", time);
 		edit.commit();
-		long stored = settings.getLong(id+".end", -1);
-		logcatPrint("stored: "+stored+"id "+id);
 	}
 	
 	/**
@@ -366,6 +386,15 @@ public class PrefReader{
 	public int getDays(int id){
 		return settings.getInt(id+".days", 0);
 	}
+	
+	public boolean getDeleted(int id){
+		return settings.getBoolean(id+".deleted", false);
+	}
+	
+	public String getName(int id){
+		return settings.getString(id+".name","Unnamed Block");
+	}
+	
 	
 	/**
 	 * Prints a logcat message with a customdebug tag

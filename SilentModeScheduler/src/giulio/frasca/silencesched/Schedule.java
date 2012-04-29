@@ -32,7 +32,7 @@ public class Schedule {
 			loadBlocks();
 		}
 		catch (NoAlarmsError e){
-			addBlock(0,(24*59*60*1000),AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP);
+			addBlock(0,(24*59*60*1000),AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP,"Default Setting", false, true);
 			try{
 				loadBlocks();
 			}
@@ -61,7 +61,7 @@ public class Schedule {
 		RingerSettingBlock first = reader.getFirst();
 		try{ 
 			if (first.getId() == -1){
-				reader.addBlock(0,24*59*60*1000, AudioManager.RINGER_MODE_NORMAL, 1111111, MAX_TIMESTAMP);
+				reader.addBlock(0,24*59*60*1000, AudioManager.RINGER_MODE_NORMAL, 1111111, MAX_TIMESTAMP,"Default Block", false, true);
 				first = reader.getFirst();
 			}
 			//ignore the first block
@@ -86,11 +86,11 @@ public class Schedule {
 	 * @param ringer - the ring level (ring, vibrate, silent) that the block entails
 	 * @param days - the integer days specifier for this block
 	 */
-	public int addBlock(long startTime, long endTime, int ringer, int days, long repeatUntil){
+	public int addBlock(long startTime, long endTime, int ringer, int days, long repeatUntil, String name, boolean deleted, boolean enabled){
 		startTime = timeSinceMidnight(startTime);
 		endTime = timeSinceMidnight(endTime);
-		int id = reader.addBlock(startTime, endTime, ringer, days,repeatUntil);
-		RingerSettingBlock newBlock = new RingerSettingBlock(startTime, endTime,  ringer, id, days, repeatUntil);
+		int id = reader.addBlock(startTime, endTime, ringer, days,repeatUntil, name, deleted, enabled);
+		RingerSettingBlock newBlock = new RingerSettingBlock(startTime, endTime,  ringer, id, days, repeatUntil, name, deleted, enabled);
 		blocks.add(newBlock);
 		return id;
 	}
@@ -140,7 +140,7 @@ public class Schedule {
 	 */
 	public void removeBlock(int id){
 		RingerSettingBlock editBlock = blocks.get(id);
-		editBlock.setEnabled(false);
+		editBlock.delete();
 		reader.removeBlock(id);
 	}
 	
@@ -176,6 +176,12 @@ public class Schedule {
 		RingerSettingBlock editBlock = blocks.get(id);
 		editBlock.setDays(days);
 		reader.editDays(id, days);
+	}
+	
+	public void editBlockName(int id, String name){
+		RingerSettingBlock editBlock = blocks.get(id);
+		editBlock.setName(name);
+		reader.editName(id, name);
 	}
 	
 	/**
