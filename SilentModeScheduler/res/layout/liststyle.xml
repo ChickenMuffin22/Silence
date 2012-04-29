@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="30px"
-        android:layout_height="30px"
+        android:layout_width="40px"
+        android:layout_height="40px"
         android:layout_marginLeft="4px"
         android:layout_marginRight="10px"
         android:layout_marginTop="4px"
@@ -18,6 +18,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@+id/label"
-        android:textSize="20px" >
+        android:textSize="40px" >
     </TextView>
 </LinearLayout>

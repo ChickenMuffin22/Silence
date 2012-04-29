@@ -25,9 +25,9 @@ public class ItemListActivity extends ListActivity {
 		
 		
 		String[] values = new String[] { "Apple", "Banana", "Carrot", "Dog", "Eagle", "Fish", "Gorilla", "Hockey", "Indigo", "Java", "Kahn", "Anyway", "Star", "Trek", "Is", "Pretty", "Cool", "But", "I Suppose", "That's A Bit", "Of a Stereotype", "Coming from a Comp Sci student."};
-		// Use your own layout
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				R.layout.liststyle, R.id.label, values);
+
+		// Using ItemListAdapter for custom icons
+		ItemListAdapter adapter = new ItemListAdapter(this, values);
 		setListAdapter(adapter);
 	}
 
