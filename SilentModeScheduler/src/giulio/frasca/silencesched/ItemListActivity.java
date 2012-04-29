@@ -11,29 +11,47 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.Button;
 
 
-
 public class ItemListActivity extends ListActivity {
+	
+	private Schedule schedule;
+	private final String PREF_FILE = "ncsusilencepreffile2";
+	private LinkedList<RingerSettingBlock> list;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		
-		String[] values = new String[] { "Apple", "Banana", "Carrot", "Dog", "Eagle", "Fish", "Gorilla", "Hockey", "Indigo", "Java", "Kahn", "Anyway", "Star", "Trek", "Is", "Pretty", "Cool", "But", "I Suppose", "That's A Bit", "Of a Stereotype", "Coming from a Comp Sci student."};
+
+		SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
+        schedule = new Schedule(settings);
+
+        list = schedule.getList();
+       	int size = list.size();
+    	
+       	// events stores the Strings of the items in the list
+		String[] events = new String[size];
+
+    	for (int j = 0; j < size; j++){
+    		RingerSettingBlock thisBlock = list.get(j);
+    		String name = Formatter.formatName(thisBlock);	
+    		events[j] = name;
+    	}
 
 		/**
 		 * Use this line instead of the ItemListAdapter to not use the ItemListAdapter:
-		   ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.liststyle, R.id.label, values);
+		   ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.liststyle, R.id.label, events);
 		 */
-		
+
 		// Using ItemListAdapter for custom icons
-		ItemListAdapter adapter = new ItemListAdapter(this, values);
+    	ItemListAdapter adapter = new ItemListAdapter(this, events);
 		setListAdapter(adapter);
+		
 	}
 
 	
@@ -69,7 +87,8 @@ public class ItemListActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		String item = (String) getListAdapter().getItem(position);
-		Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
+		String description = "is sunday?" + list.get(position).isEnabledSunday();
+		Toast.makeText(this, description +  item + " selected", Toast.LENGTH_LONG).show();
 	}
 
 }
