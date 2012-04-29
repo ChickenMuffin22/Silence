@@ -116,8 +116,11 @@ public class BackroundService extends Service {
 		 logcatPrint("Service creating");
 		 String ns = Context.NOTIFICATION_SERVICE;
 	    	NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
+	    	AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 	    	
-	    	int icon = R.drawable.ic_launcher;
+	    	int icon = R.drawable.redicon;
+	    	if (am.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE){ icon = R.drawable.yellowicon; };
+	    	if (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){ icon = R.drawable.greenicon;}
 	    	CharSequence tickerText = "Service Started";
 	    	long when = System.currentTimeMillis();
 	    	
@@ -127,7 +130,7 @@ public class BackroundService extends Service {
 	    	CharSequence contentTitle = "Silence";
 	    	CharSequence contentText = "Service Running: ";
 	    	
-	    	AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+
 	    	if (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
 	    		contentText = contentText + "Normal Level";
 	    	}
