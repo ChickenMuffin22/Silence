@@ -3,6 +3,7 @@ package giulio.frasca.silencesched.weekview;
 import java.util.LinkedList;
 
 import giulio.frasca.lib.TimeFunctions;
+import giulio.frasca.silencesched.ItemListActivity;
 import giulio.frasca.silencesched.R;
 import giulio.frasca.silencesched.RingerSettingBlock;
 import giulio.frasca.silencesched.Schedule;
@@ -15,6 +16,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TableRow;
 import android.widget.Toast;
@@ -25,6 +28,7 @@ public class WeekViewActivity extends Activity{
 	private RadioButton sunRadio,monRadio,tueRadio,wedRadio,thuRadio,friRadio,satRadio;
 	private DayBar sunBar,monBar,tueBar,wedBar,thuBar,friBar,satBar;
 	private Schedule schedule;
+	private Button listView;
 	private final String PREF_FILE = "ncsusilencepreffile2";
 	
 	/** Called when the activity is first created. */
@@ -34,6 +38,17 @@ public class WeekViewActivity extends Activity{
         setContentView(R.layout.weekview);
         SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
         schedule = new Schedule(settings);
+        
+        Button listView = (Button) findViewById(R.id.listView);
+        listView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), ItemListActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        
+        
         initComponents();
         logcatPrint("endtime " + schedule.getBlock(2).getEndTime());
         loadDaySched(schedule);
