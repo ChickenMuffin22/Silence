@@ -55,6 +55,13 @@ public class SilentModeSchedulerActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        int refreshToPosition;
+        try{
+        	refreshToPosition = getIntent().getExtras().getInt("selected");
+        }
+        catch (NullPointerException npe){
+        	refreshToPosition=0;
+        }
         updating=false;
         serviceRunning=false;
         SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
@@ -73,10 +80,13 @@ public class SilentModeSchedulerActivity extends Activity {
         
         initComponents();
         currentBlockId = 0;
-        RingerSettingBlock first =schedule.getBlock(currentBlockId);
         
         createTestData();
-        updateInterface(first);
+        RingerSettingBlock first =schedule.getBlock(currentBlockId);
+        logcatPrint("smsblock: "+refreshToPosition);
+        RingerSettingBlock selectedBlock = schedule.getBlock(refreshToPosition);
+        //updateInterface(first);
+        updateInterfaceWithoutSpinner(selectedBlock);
         
         //ringerSchedule = new LinkedList<RingerSettingBlock>();
     	//initRingerSched();
@@ -104,11 +114,11 @@ public class SilentModeSchedulerActivity extends Activity {
     	 
     	 schedule.addBlock(0            , 1*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1000000, 253402300799000L, "apple", false, true);
     	 schedule.addBlock(1*60*60*1000 , 23*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1010000, 253402300799000L, "burger", false, true);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L, "candy", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L, "candy", true, true);
     	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1110110, 253402300799000L, "donut", false, true);
     	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1001000, 253402300799000L, "eclaire", false, true);
     	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1000110, 253402300799000L, "fries", false, true);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  0000110, 253402300799000L, "gum", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  0000110, 253402300799000L, "gum", false, false);
     	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_NORMAL,  1000110, 253402300799000L, "hotdog", false, true);
     	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L, "icecream", false, true);
     	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,   110110, 253402300799000L, "jackinthebox", false, true);

@@ -2,6 +2,7 @@ package giulio.frasca.silencesched;
 
 import giulio.frasca.lib.Formatter;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -22,12 +23,13 @@ public class ItemListActivity extends ListActivity {
 	private Schedule schedule;
 	private final String PREF_FILE = "ncsusilencepreffile2";
 	private LinkedList<RingerSettingBlock> list;
+	private HashMap<Integer,Integer> nameDictionary;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		nameDictionary=new HashMap<Integer,Integer>();
 		SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
         schedule = new Schedule(settings);
 
@@ -36,11 +38,15 @@ public class ItemListActivity extends ListActivity {
     	
        	// events stores the Strings of the items in the list
 		String[] events = new String[size];
-
+		int listPosition=0;
     	for (int j = 0; j < size; j++){
     		RingerSettingBlock thisBlock = list.get(j);
-    		String name = thisBlock.getName();	
-    		events[j] = name;
+    		if (!thisBlock.isDeleted()){
+    			String name = thisBlock.getName();	
+    			events[j] = name;
+    			nameDictionary.put(listPosition,j);
+    			listPosition++;
+    		}
     	}
 
 		/**
@@ -87,8 +93,16 @@ public class ItemListActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		String item = (String) getListAdapter().getItem(position);
-		String description = "is sunday?" + list.get(position).isEnabledSunday();
-		Toast.makeText(this, description +  item + " selected", Toast.LENGTH_LONG).show();
+		RingerSettingBlock selectedBlock = list.get(nameDictionary.get(position));
+		//String description = "is sunday?" + list.get(nameDictionary.get(position)).isEnabledSunday();
+		 Intent i = new Intent(this, SilentModeSchedulerActivity.class);
+         Bundle params = new Bundle();
+         params.putInt("selected", selectedBlock.getId());
+         i.putExtras(params);
+         this.startActivity(i);
+		
+		
+		//Toast.makeText(this, description +  item + " selected", Toast.LENGTH_LONG).show();
 	}
 
 }
