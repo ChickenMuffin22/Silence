@@ -23,6 +23,7 @@ public class ItemListActivity extends ListActivity {
 	private Schedule schedule;
 	private final String PREF_FILE = "ncsusilencepreffile2";
 	private LinkedList<RingerSettingBlock> list;
+	private LinkedList<RingerSettingBlock> undeletedList;
 	private HashMap<Integer,Integer> nameDictionary;
 
 	/** Called when the activity is first created. */
@@ -33,7 +34,14 @@ public class ItemListActivity extends ListActivity {
 		SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
         schedule = new Schedule(settings);
 
-        list = schedule.getList();
+        undeletedList = schedule.getList();
+        list =new LinkedList<RingerSettingBlock>();
+        for (int i=0; i<undeletedList.size();i++){
+        	if (!undeletedList.get(i).isDeleted()){
+        		list.add(undeletedList.get(i));
+        	}
+        }
+        
        	int size = list.size();
     	
        	// events stores the Strings of the items in the list
