@@ -3,6 +3,7 @@ package giulio.frasca.silencesched.weekview;
 import java.util.LinkedList;
 
 import giulio.frasca.lib.TimeFunctions;
+import giulio.frasca.silencesched.EditEventActivity;
 import giulio.frasca.silencesched.ItemListActivity;
 import giulio.frasca.silencesched.R;
 import giulio.frasca.silencesched.RingerSettingBlock;
@@ -28,7 +29,7 @@ public class WeekViewActivity extends Activity{
 	private RadioButton sunRadio,monRadio,tueRadio,wedRadio,thuRadio,friRadio,satRadio;
 	private DayBar sunBar,monBar,tueBar,wedBar,thuBar,friBar,satBar;
 	private Schedule schedule;
-	private Button listView;
+	private Button editView;
 	private final String PREF_FILE = "ncsusilencepreffile2";
 	
 	/** Called when the activity is first created. */
@@ -39,10 +40,10 @@ public class WeekViewActivity extends Activity{
         SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
         schedule = new Schedule(settings);
         
-        Button listView = (Button) findViewById(R.id.listView);
-        listView.setOnClickListener(new View.OnClickListener() {
+        Button editView = (Button) findViewById(R.id.editView);
+        editView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), ItemListActivity.class);
+                Intent myIntent = new Intent(view.getContext(), EditEventActivity.class);
                 startActivityForResult(myIntent, 0);
             }
         });

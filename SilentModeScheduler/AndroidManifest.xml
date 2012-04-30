@@ -50,6 +50,7 @@
    	    	</intent-filter>  
 		</receiver>
     	<activity android:name="ItemListActivity"></activity>
+    	<activity android:name="EditEventActivity"></activity>
     </application>
 
 </manifest>
