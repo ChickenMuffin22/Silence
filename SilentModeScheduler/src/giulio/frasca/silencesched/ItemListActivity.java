@@ -103,7 +103,7 @@ public class ItemListActivity extends ListActivity {
 		String item = (String) getListAdapter().getItem(position);
 		RingerSettingBlock selectedBlock = list.get(nameDictionary.get(position));
 		//String description = "is sunday?" + list.get(nameDictionary.get(position)).isEnabledSunday();
-		 Intent i = new Intent(this, SilentModeSchedulerActivity.class);
+		 Intent i = new Intent(this, EditEventActivity.class);
          Bundle params = new Bundle();
          params.putInt("selected", selectedBlock.getId());
          i.putExtras(params);

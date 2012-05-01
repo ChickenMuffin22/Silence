@@ -73,6 +73,15 @@ public class EditEventActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editevent);
+        
+        int refreshToPosition;
+        try{
+        	refreshToPosition = getIntent().getExtras().getInt("selected");
+        }
+        catch (NullPointerException npe){
+        	refreshToPosition=0;
+        }
+        
         updating=false;
         serviceRunning=false;
         SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
@@ -82,11 +91,14 @@ public class EditEventActivity extends Activity {
         
         initComponents();
         currentBlockId = 0;
-        RingerSettingBlock first =schedule.getBlock(currentBlockId);
         
         createTestData();
-        updateInterface(first);
-        
+        RingerSettingBlock first =schedule.getBlock(currentBlockId);
+        logcatPrint("smsblock: "+refreshToPosition);
+        RingerSettingBlock selectedBlock = schedule.getBlock(refreshToPosition);
+        //updateInterface(first);
+        updateInterfaceWithoutSpinner(selectedBlock);
+
         //ringerSchedule = new LinkedList<RingerSettingBlock>();
     	//initRingerSched();
         //checkCurrentSetting();
@@ -455,7 +467,7 @@ public class EditEventActivity extends Activity {
 						schedule.editBlockName(currentBlockId, eventName.getText().toString());
 						schedule.editRepeatUntil(currentBlockId, repeatUntil);
 						updateInterface(schedule.getBlock(currentBlockId));
-						toastMessage("Current Event Edited");
+						toastMessage("Current Event Enabled");
 						
 						//Switches back to list view
 		                Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
@@ -520,11 +532,19 @@ public class EditEventActivity extends Activity {
 				int spinnerPos = nameDictionaryReverse.get(currentBlockId);
 				int newSpinnerBlockId = nameDictionary.get(spinnerPos -1 );
 				currentBlockId=newSpinnerBlockId;
-				updateInterface(schedule.getBlock(currentBlockId));
+				//updateInterface(schedule.getBlock(currentBlockId));
 				boolean deleted=true;
 				
 				if (deleted){
-					toastMessage("Current Block deleted. Now showing previous block");
+					//toastMessage("Current Block deleted. Now showing previous block");
+					
+					toastMessage("Current Event Disabled");
+					
+					//Switches back to list view
+	                Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
+	                startActivityForResult(myIntent, 0);
+
+					
 				}
 				else{
 					toastMessage("Could not delete current block: Default setting is undeletable!");
@@ -550,12 +570,17 @@ public class EditEventActivity extends Activity {
 				int spinnerPos = nameDictionaryReverse.get(currentBlockId);
 				int newSpinnerBlockId = nameDictionary.get(spinnerPos -1 );
 				currentBlockId=newSpinnerBlockId;
-				updateInterface(schedule.getBlock(currentBlockId));
+			//	updateInterface(schedule.getBlock(currentBlockId));
 				boolean deleted=true;
 				
 				if (deleted){
-					toastMessage("Current Block deleted. Now showing previous block");
-				}
+					//toastMessage("Current Block deleted. Now showing previous block");
+					
+					toastMessage("Current Event Disabled");
+					
+					//Switches back to list view
+	                Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
+	                startActivityForResult(myIntent, 0);				}
 				else{
 					toastMessage("Could not delete current block: Default setting is undeletable!");
 				}
