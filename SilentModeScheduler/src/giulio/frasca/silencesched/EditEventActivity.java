@@ -39,6 +39,14 @@ public class EditEventActivity extends Activity {
 	}*/
 	
 	
+	/**
+	 * removed cancel
+	 * removed add
+	 * event name EditText is only partially functional, isn't saving the name
+	 * confirm is labeled "Enable" button on xml file
+	 * delete and disable buttons are the same currently
+	 */
+	
 	
 	//SpinnerMap
 	HashMap<Integer,Integer> nameDictionary ;
@@ -50,10 +58,9 @@ public class EditEventActivity extends Activity {
 	private int currentBlockId;
 	
 	//GUI components
-	Button settingsButton,confirmButton,cancelButton,addButton,deleteButton,listView;
+	Button confirmButton,deleteButton,disableButton;
 	Spinner startSpinner,endSpinner,ringSpinner;
-	Spinner alarmSpinner;
-	EditText startHour,endHour,startMinute,endMinute;
+	EditText startHour,endHour,startMinute,endMinute,eventName;
 	ToggleButton sunToggle,monToggle,tueToggle,wedToggle,thuToggle,friToggle,satToggle;
 	
 	//status vars
@@ -65,22 +72,13 @@ public class EditEventActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.editevent);
         updating=false;
         serviceRunning=false;
         SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
         clearPrefsForTesting(settings);
         schedule = new Schedule(settings);
         
-        Button listView = (Button) findViewById(R.id.listView);
-        listView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), ItemListActivity.class);
-                startActivityForResult(myIntent, 0);
-            }
-
-        });
-
         
         initComponents();
         currentBlockId = 0;
@@ -167,7 +165,7 @@ public class EditEventActivity extends Activity {
     		skippedFirst=true;
     	}
     	adapter.notifyDataSetChanged();
-    	alarmSpinner.setAdapter(adapter);
+    	//alarmSpinner.setAdapter(adapter);
     	adapter.notifyDataSetChanged();
     }
     
@@ -177,6 +175,7 @@ public class EditEventActivity extends Activity {
         endHour.setText(""+TimeFunctions.getHourOfTime(block.getEndTime()));
         startMinute.setText(Formatter.minFormat(TimeFunctions.getMinuteOfTime(block.getStartTime())));
         endMinute.setText(Formatter.minFormat(TimeFunctions.getMinuteOfTime(block.getEndTime())));
+        eventName.setText(block.getName());
         ringSpinner.setSelection(block.getRingVal());
         //repeatDate
 //        int day = TimeFunctions.getDayFromTimestamp(block.getRepeatUntil());
@@ -210,6 +209,7 @@ public class EditEventActivity extends Activity {
         endHour.setText(""+TimeFunctions.getHourOfTime(block.getEndTime()));
         startMinute.setText(Formatter.minFormat(TimeFunctions.getMinuteOfTime(block.getStartTime())));
         endMinute.setText(Formatter.minFormat(TimeFunctions.getMinuteOfTime(block.getEndTime())));
+        eventName.setText(block.getName());
         ringSpinner.setSelection(block.getRingVal());
         //repeatDate
 //        int day = TimeFunctions.getDayFromTimestamp(block.getRepeatUntil());
@@ -412,6 +412,7 @@ public class EditEventActivity extends Activity {
     	});
     	
     	//The settings button
+    	/**
         settingsButton = (Button)findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new OnClickListener(){
 
@@ -430,7 +431,7 @@ public class EditEventActivity extends Activity {
 				
 			}
         	
-        });
+        }); */
         
         //The confirm edit button
         confirmButton = (Button)findViewById(R.id.editEventButton);
@@ -463,13 +464,11 @@ public class EditEventActivity extends Activity {
 			}
         });
 
-        //The add block button
+        //The add block button, adds new block if cleared
+        /**
         addButton = (Button)findViewById(R.id.addNewEventButton);
         addButton.setOnClickListener(new OnClickListener(){
 
-        	/**
-        	 * Adds a new block to the list if clicked
-        	 */
 			public void onClick(View v) {
 				try {
 					
@@ -482,15 +481,13 @@ public class EditEventActivity extends Activity {
 				}
 				
 			}
-        });
+        }); */
         
-        //The cancel edit button
+        
+        //The cancel edit button, Discards any changes made to the UI and refreshes back to a stored state
+        /**
         cancelButton = (Button)findViewById(R.id.cancelButton);
         cancelButton.setOnClickListener(new OnClickListener(){
-
-        	/**
-        	 * Discards any changes made to the UI and refreshes back to a stored state
-        	 */
 			public void onClick(View v) {
 				
 				RingerSettingBlock block =schedule.getBlock(currentBlockId);
@@ -498,7 +495,7 @@ public class EditEventActivity extends Activity {
 				toastMessage("Current Changes Cancelled. Returning to Stored Block");
 				
 			}
-        });
+        }); */
 
         //The delete alarm button
         deleteButton = (Button)findViewById(R.id.deleteEventButton);
@@ -520,21 +517,36 @@ public class EditEventActivity extends Activity {
 				updateInterface(schedule.getBlock(currentBlockId));
 				boolean deleted=true;
 				
+				if (deleted){
+					toastMessage("Current Block deleted. Now showing previous block");
+				}
+				else{
+					toastMessage("Could not delete current block: Default setting is undeletable!");
+				}
 				
+			}
+        });
+        
+        //The disable alarm button, same as above
+        disableButton = (Button)findViewById(R.id.disableButton);
+        disableButton.setOnClickListener(new OnClickListener(){
+        	
+        	/**
+        	 * Deletes the current block, unless it is the default block, which cant be deleted
+        	 */
+			public void onClick(View v) {
+				if (currentBlockId == 0){
+					toastMessage("Cannot Delete: Default Ringer Setting Undeleteable.\n     Please edit instead");
+					return;
+				}
 				
-				//pick the next lowest block
-//				int decr=1;
-//				boolean deleted=false;
-//				while (schedule.hasBlock(currentBlockId-decr)){
-//					if (schedule.getBlock(currentBlockId-decr).isEnabled()){
-//						schedule.disableBlock(currentBlockId);
-//						currentBlockId=currentBlockId-decr;
-//						updateInterface(schedule.getBlock(currentBlockId));
-//						deleted=true;
-//						break;
-//					}
-//					decr++;
-//				}
+				schedule.disableBlock(currentBlockId);
+				int spinnerPos = nameDictionaryReverse.get(currentBlockId);
+				int newSpinnerBlockId = nameDictionary.get(spinnerPos -1 );
+				currentBlockId=newSpinnerBlockId;
+				updateInterface(schedule.getBlock(currentBlockId));
+				boolean deleted=true;
+				
 				if (deleted){
 					toastMessage("Current Block deleted. Now showing previous block");
 				}
@@ -553,15 +565,18 @@ public class EditEventActivity extends Activity {
         endHour = (EditText)findViewById(R.id.endHour);
         //The minute of the end block text field
         endMinute = (EditText)findViewById(R.id.endMinute);
-        
+        //The name
+        eventName = (EditText)findViewById(R.id.eventName);
         //The am/pm spinner for the start of the current block
         startSpinner = (Spinner)findViewById(R.id.startSpinner);
         //The am/pm spinner for the end of the current block
         endSpinner = (Spinner)findViewById(R.id.endSpinner);
         //The ringer level for the current block
         ringSpinner = (Spinner)findViewById(R.id.ringSpinner);
+        
+       
         //The name spinner for the current block
-        alarmSpinner = (Spinner)findViewById(R.id.alarmSpinner);
+        /**alarmSpinner = (Spinner)findViewById(R.id.alarmSpinner);
         
         alarmSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
 
@@ -580,7 +595,7 @@ public class EditEventActivity extends Activity {
 				
 			}
         	
-        });
+        }); */
         
     }
 
