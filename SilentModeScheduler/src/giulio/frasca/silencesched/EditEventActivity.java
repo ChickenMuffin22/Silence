@@ -111,17 +111,17 @@ public class EditEventActivity extends Activity {
     
     private void createTestData() {
     	 
-    	 schedule.addBlock(0            , 1*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1000000, 253402300799000L, "apple", false, true);
-    	 schedule.addBlock(1*60*60*1000 , 23*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1010000, 253402300799000L, "burger", false, true);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L, "candy", false, true);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1110110, 253402300799000L, "donut", false, true);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1001000, 253402300799000L, "eclaire", false, true);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1000110, 253402300799000L, "fries", false, true);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  0000110, 253402300799000L, "gum", false, true);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_NORMAL,  1000110, 253402300799000L, "hotdog", false, true);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L, "icecream", false, true);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,   110110, 253402300799000L, "jackinthebox", false, true);
-    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L, "krispekreme", false, true);
+    	 schedule.addBlock(0            , 1*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1000000, 253402300799000L, "CSC 326", false, true);
+    	 schedule.addBlock(1*60*60*1000 , 23*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1010000, 253402300799000L, "CSC 495", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L, "Dinner", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1110110, 253402300799000L, "Staff Meeting", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1001000, 253402300799000L, "MA 305", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_VIBRATE, 1000110, 253402300799000L, "Homework", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  0000110, 253402300799000L, "Driving to Work", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_NORMAL,  1000110, 253402300799000L, "Driving Home", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L, "Upcoming Mental Breakdown", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,   110110, 253402300799000L, "Meditation", false, true);
+    	 schedule.addBlock(10*60*60*1000, 15*60*60*1000, AudioManager.RINGER_MODE_SILENT,  1000110, 253402300799000L, "Therapy", false, true);
 		lcPrintBlock(0);
     	 
 	}
