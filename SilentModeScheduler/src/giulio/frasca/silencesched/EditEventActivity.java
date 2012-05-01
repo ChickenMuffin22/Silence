@@ -455,7 +455,12 @@ public class EditEventActivity extends Activity {
 						schedule.editBlockName(currentBlockId, eventName.getText().toString());
 						schedule.editRepeatUntil(currentBlockId, repeatUntil);
 						updateInterface(schedule.getBlock(currentBlockId));
-						toastMessage("Current Block Editted");
+						toastMessage("Current Event Edited");
+						
+						//Switches back to list view
+		                Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
+		                startActivityForResult(myIntent, 0);
+
 					}
 					catch (inputValidationError ive){
 						toastMessage("Incorrect input formatting");
