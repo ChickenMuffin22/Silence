@@ -20,7 +20,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="                   Day                    "
+                android:text="                                       "
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
         </TableRow>
@@ -171,12 +171,5 @@
                 android:layout_height="match_parent" />
 
         </TableRow>
-
-        <Button
-            android:id="@+id/editView"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="EditEventActivity" />
 
     </TableLayout>

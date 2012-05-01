@@ -29,7 +29,6 @@ public class WeekViewActivity extends Activity{
 	private RadioButton sunRadio,monRadio,tueRadio,wedRadio,thuRadio,friRadio,satRadio;
 	private DayBar sunBar,monBar,tueBar,wedBar,thuBar,friBar,satBar;
 	private Schedule schedule;
-	private Button editView;
 	private final String PREF_FILE = "ncsusilencepreffile2";
 	
 	/** Called when the activity is first created. */
@@ -40,13 +39,14 @@ public class WeekViewActivity extends Activity{
         SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
         schedule = new Schedule(settings);
         
+        /**
         Button editView = (Button) findViewById(R.id.editView);
         editView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), EditEventActivity.class);
                 startActivityForResult(myIntent, 0);
             }
-        });
+        });*/
 
         
         
