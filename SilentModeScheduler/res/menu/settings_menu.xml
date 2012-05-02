@@ -10,7 +10,7 @@
           android:title="Visualizer" />
     
     <item android:id="@+id/serviceToggleOption"
-          android:icon="@drawable/removeicon"
+          android:icon="@drawable/iconblackwhite"
           android:title="Toggle Service" />
     
     <item android:id="@+id/exitActivityOption"
