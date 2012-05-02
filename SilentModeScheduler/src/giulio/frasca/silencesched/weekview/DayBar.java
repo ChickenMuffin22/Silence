@@ -1,19 +1,23 @@
 package giulio.frasca.silencesched.weekview;
 
+import giulio.frasca.silencesched.EditEventActivity;
 import giulio.frasca.silencesched.RingerSettingBlock;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.AudioManager;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -24,6 +28,7 @@ public class DayBar extends View{
     private String dayName;
     private int defaultRingLevel;
     private LinkedList<RingerSettingBlock> relatedBlocks;
+    private LinkedList<VisualBlock> drawList;
 	
 	
 	public DayBar(Context context, AttributeSet attrs) {
@@ -126,19 +131,21 @@ public class DayBar extends View{
     	RingerSettingBlock block;
     	//this is the default block which we already printed;
     	block = i.next();
+    	drawList = new LinkedList<VisualBlock>();
     	while (i.hasNext()){
     		block=i.next();
     		
     		long start = block.getStartTime();
     		long end = block.getEndTime();
     		int ringVal = block.getRingVal();
-    		if (block.getId() == 2){
-    			logcatPrint("blockend" + block.getEndTime());
-    		}
     		//transpose the start time accordingly
     		long transStart =(long) (width*((double)(start/maxtime)));
     		long transEnd = (long) (width* ((double)(end/maxtime)));
-    		c.drawRect(transStart,0,transEnd,height-5,getPaintColorForLevel(ringVal));
+    		VisualBlock drawBlock= new VisualBlock(this.getContext());
+    		drawList.add(drawBlock);
+    		drawBlock.setAttributes(block.getId(), transStart, transEnd, height, ringVal);
+    		drawBlock.draw(c);
+    		//c.drawRect(transStart,0,transEnd,height-5,getPaintColorForLevel(ringVal));
     	}
     }
     
@@ -189,6 +196,36 @@ public class DayBar extends View{
 	 */
     public void logcatPrint(String message){
     	Log.v("customdebug",message + " | sent from " +this.getClass().getSimpleName());
+    }
+    
+    @Override 
+    public boolean onTouchEvent(MotionEvent event){
+    	int topMostId=-2;
+    	switch(event.getAction())
+        {
+            case MotionEvent.ACTION_DOWN:
+            {
+                float x = event.getX();
+                float y = event.getY();
+                
+                Iterator<VisualBlock> i = drawList.iterator();
+                while (i.hasNext()){
+                	VisualBlock vb = i.next();
+                	if (vb.contains(x,y)){
+                		topMostId = vb.getId();
+                		
+                	}
+                }
+            }
+        }
+    	if (topMostId>=0){
+    		Intent i = new Intent(this.getContext(), EditEventActivity.class);
+    		Bundle params = new Bundle();
+    		params.putInt("selected", topMostId);
+    		i.putExtras(params);
+    		this.getContext().startActivity(i);
+    	}
+    	return super.onTouchEvent(event);
     }
 	
 }
