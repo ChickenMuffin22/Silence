@@ -60,7 +60,7 @@ public class PrefReader{
 			//this one is a dummy block and is just to prevent buffer errors
 			addBlock(0,(24*60*60*1000)-1,AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP,"Dummy Block", false, true);
 			//this is the 'default' block, and will last the entire day, every day
-			addBlock(0,(24*60*60*1000)-1,AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP,"Default1 Block", false, true);
+			addBlock(0,(24*60*60*1000)-1,AudioManager.RINGER_MODE_NORMAL,1111111, MAX_TIMESTAMP,"Default Setting", false, true);
 		}
 		//otherwise, return the first block
 		return getBlock(0);

@@ -62,13 +62,13 @@ public final class R {
         public static final int monRadio=0x7f070033;
         public static final int monRow=0x7f070032;
         public static final int monToggle=0x7f070006;
-        public static final int remMenuOption=0x7f070046;
         public static final int ringSpinner=0x7f07001d;
         public static final int ringerLabel=0x7f07001c;
         public static final int satBar=0x7f070043;
         public static final int satRadio=0x7f070042;
         public static final int satRow=0x7f070041;
         public static final int satToggle=0x7f07000b;
+        public static final int serviceToggleOption=0x7f070046;
         public static final int settingsButton=0x7f07002d;
         public static final int startHour=0x7f070011;
         public static final int startMinute=0x7f070012;

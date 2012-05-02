@@ -9,9 +9,9 @@
           android:icon="@drawable/visicon"
           android:title="Visualizer" />
     
-    <item android:id="@+id/remMenuOption"
+    <item android:id="@+id/serviceToggleOption"
           android:icon="@drawable/removeicon"
-          android:title="Remove Block" />
+          android:title="Toggle Service" />
     
     <item android:id="@+id/exitActivityOption"
           android:icon="@drawable/exit"

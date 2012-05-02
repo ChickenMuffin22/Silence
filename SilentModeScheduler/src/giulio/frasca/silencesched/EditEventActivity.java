@@ -105,6 +105,18 @@ public class EditEventActivity extends Activity {
         
     }
     
+    public void printBlockContents(int id){
+    	RingerSettingBlock block = schedule.getBlock(id);
+		logcatPrint(id+": id  ="+id);
+		logcatPrint(id+": strt="+block.getStartTime());
+		logcatPrint(id+": end ="+block.getEndTime());
+		logcatPrint(id+": ring="+block.getRingVal());
+		logcatPrint(id+": days="+block.getDays());
+		logcatPrint(id+": ru  ="+block.getRepeatUntil());
+		logcatPrint(id+": enab="+block.isEnabled());
+		logcatPrint("-----");
+    }
+    
     public void printScheduleContents(){
     	LinkedList<RingerSettingBlock> list = schedule.getList();
     	Iterator<RingerSettingBlock> i = list.iterator();
@@ -460,15 +472,22 @@ public class EditEventActivity extends Activity {
 						
 						int ringer = getRinger();
 						long repeatUntil = getRepeatFromForm();
-						schedule.editBlockDays(currentBlockId, schedule.formatDays(sunOn, monOn, tueOn, wedOn, thuOn,  friOn, satOn));
-						schedule.editBlockStart(currentBlockId, startTime);
-						schedule.editBlockEnd(currentBlockId, endTime);
-						schedule.editBlockRinger(currentBlockId, ringer);
-						schedule.editBlockName(currentBlockId, eventName.getText().toString());
-						schedule.editRepeatUntil(currentBlockId, repeatUntil);
-						schedule.enableBlock(currentBlockId);
-						updateInterface(schedule.getBlock(currentBlockId));
-						toastMessage("Event Edited");
+						if (currentBlockId == 0){
+							schedule.editBlockRinger(currentBlockId, ringer);
+							toastMessage("Ringer Level for Default Setting Edited");
+							updateInterface(schedule.getBlock(currentBlockId));
+						}
+						else{
+							schedule.editBlockDays(currentBlockId, schedule.formatDays(sunOn, monOn, tueOn, wedOn, thuOn,  friOn, satOn));
+							schedule.editBlockStart(currentBlockId, startTime);
+							schedule.editBlockEnd(currentBlockId, endTime);
+							schedule.editBlockRinger(currentBlockId, ringer);
+							schedule.editBlockName(currentBlockId, eventName.getText().toString());
+							schedule.editRepeatUntil(currentBlockId, repeatUntil);
+							//schedule.enableBlock(currentBlockId);
+							updateInterface(schedule.getBlock(currentBlockId));
+							toastMessage("Event Edited");
+						}
 						
 						//Switches back to list view
 		                Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
@@ -557,6 +576,14 @@ public class EditEventActivity extends Activity {
         
         //The disable alarm button, same as above
         disableButton = (Button)findViewById(R.id.disableButton);
+        printBlockContents(currentBlockId);
+//        if (schedule.getBlock(currentBlockId).isEnabled()){
+//        	disableButton.setText("Disable");
+//        }
+//        else{
+//        	disableButton.setText("Enable");
+//        }
+        
         disableButton.setOnClickListener(new OnClickListener(){
         	
         	/**
@@ -567,8 +594,16 @@ public class EditEventActivity extends Activity {
 					toastMessage("Cannot Delete: Default Ringer Setting Undeleteable.\n     Please edit instead");
 					return;
 				}
+				String returnText="Event Disabled";
+				if (schedule.getBlock(currentBlockId).isEnabled()){
+					schedule.disableBlock(currentBlockId);
+					returnText="Event Disabled";
+		        }
+		        else{
+		        	schedule.enableBlock(currentBlockId);
+		        	returnText="Event Enabled";
+		        }
 				
-				schedule.disableBlock(currentBlockId);
 				//int spinnerPos = nameDictionaryReverse.get(currentBlockId);
 				//int newSpinnerBlockId = nameDictionary.get(spinnerPos -1 );
 				//currentBlockId=newSpinnerBlockId;
@@ -578,7 +613,7 @@ public class EditEventActivity extends Activity {
 				if (disabled){
 					//toastMessage("Current Block deleted. Now showing previous block");
 					
-					toastMessage("Event Disabled");
+					toastMessage(returnText);
 					
 					//Switches back to list view
 	                Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
@@ -828,27 +863,27 @@ public class EditEventActivity extends Activity {
     	Log.v("customdebug",message + " | sent from " +this.getClass().getSimpleName());
     }
     
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.settings_menu, menu);
-        return true;
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.menuBar:
-                Intent i = new Intent(this, WeekViewActivity.class);
-                Bundle params = new Bundle();
-                i.putExtras(params);
-                this.startActivity(i);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.settings_menu, menu);
+//        return true;
+//    }
+//    
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle item selection
+//        switch (item.getItemId()) {
+//            case R.id.menuBar:
+//                Intent i = new Intent(this, WeekViewActivity.class);
+//                Bundle params = new Bundle();
+//                i.putExtras(params);
+//                this.startActivity(i);
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
     
 //    private void initRingerSched() {
 //		//SharedPreferences settings = getSharedPreferences(PREFS_FILE,0);

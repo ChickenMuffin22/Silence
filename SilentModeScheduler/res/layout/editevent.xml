@@ -266,7 +266,7 @@
                     android:id="@+id/disableButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Disable" />
+                    android:text="Enable / Disable" />
 
             </LinearLayout>
 
@@ -275,7 +275,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="15.92"
-                android:text="Enable / Edit" />
+                android:text="Edit" />
         </TableRow>
 
         <TableRow

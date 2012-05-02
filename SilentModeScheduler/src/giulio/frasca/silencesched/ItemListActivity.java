@@ -1,17 +1,26 @@
 package giulio.frasca.silencesched;
 
 import giulio.frasca.lib.Formatter;
+import giulio.frasca.silencesched.weekview.WeekViewActivity;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.app.ListActivity;
+import android.media.AudioManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -112,5 +121,77 @@ public class ItemListActivity extends ListActivity {
 		
 		//Toast.makeText(this, description +  item + " selected", Toast.LENGTH_LONG).show();
 	}
+	
+	 public boolean onCreateOptionsMenu(Menu menu) {
+	        MenuInflater inflater = getMenuInflater();
+	        inflater.inflate(R.menu.settings_menu, menu);
+	        return true;
+	    }
+	    
+	    @Override
+	    public boolean onOptionsItemSelected(MenuItem item) {
+	        // Handle item selection
+	        switch (item.getItemId()) {
+	            case R.id.menuBar:
+	                Intent i = new Intent(this, WeekViewActivity.class);
+	                Bundle params = new Bundle();
+	                i.putExtras(params);
+	                this.startActivity(i);
+	                return true;
+	            case R.id.exitActivityOption:
+	            	finish();
+	            	return true;
+	            case R.id.addMenuOption:
+	            	addBlock();
+	            	//add events stuff
+	            	return true;
+	            case R.id.serviceToggleOption:
+	            	//service toggle stuff
+	            	toggleSerivce();
+	            	return true;
+	            default:
+	                return super.onOptionsItemSelected(item);
+	        }
+	    }
+
+
+		private void addBlock() {
+			int id = schedule.addBlock(1*60*60*1000, 2*60*60*1000, AudioManager.RINGER_MODE_NORMAL, 1111111, 253402300799000L , "Untitled Setting", false, true);
+			Intent i = new Intent(this, EditEventActivity.class);
+	         Bundle params = new Bundle();
+	         params.putInt("selected", id);
+	         i.putExtras(params);
+	         this.startActivity(i);
+			
+		}
+
+
+		private void toggleSerivce() {
+			boolean serviceRunning=false;
+			ActivityManager am = (ActivityManager)this.getSystemService(ACTIVITY_SERVICE);
+			List<ActivityManager.RunningServiceInfo> serviceList = am.getRunningServices(Integer.MAX_VALUE);
+			if (!(serviceList.size()>0)){
+				serviceRunning=false;
+			}
+			for ( int i=0;i<serviceList.size();i++){
+				RunningServiceInfo serviceInfo = serviceList.get(i);
+				ComponentName serviceName = serviceInfo.service;
+				if (serviceName.getClassName().equals("giulio.frasca.silencesched.BackroundService")){
+					serviceRunning = true;
+				}
+			}
+			
+			
+			// TODO Auto-generated method stub
+			if (!serviceRunning){
+				serviceRunning=true;
+				startService(new Intent(BackroundService.class.getName()));
+				
+			}
+			else{
+				serviceRunning=false;
+				stopService(new Intent(BackroundService.class.getName()));
+			}
+		}
 
 }

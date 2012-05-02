@@ -57,18 +57,18 @@ public class SilentModeSchedulerActivity extends Activity {
         setContentView(R.layout.main);SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
         clearPrefsForTesting(settings);
         schedule = new Schedule(settings);
-        clearPrefsForTesting(settings);
-        schedule = new Schedule(settings);
+        //clearPrefsForTesting(settings);
+        //schedule = new Schedule(settings);
         createTestData();
-        if (!serviceRunning){
-			serviceRunning=true;
-			startService(new Intent(BackroundService.class.getName()));
-			
-		}
-		else{
-			serviceRunning=false;
-			stopService(new Intent(BackroundService.class.getName()));
-		}
+//        if (!serviceRunning){
+//			serviceRunning=true;
+//			startService(new Intent(BackroundService.class.getName()));
+//			
+//		}
+//		else{
+//			serviceRunning=false;
+//			stopService(new Intent(BackroundService.class.getName()));
+//		}
         Intent myIntent = new Intent(this, ItemListActivity.class);
         startActivityForResult(myIntent, 0);
         finish();
