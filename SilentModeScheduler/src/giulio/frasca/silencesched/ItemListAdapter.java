@@ -3,6 +3,7 @@ package giulio.frasca.silencesched;
 import java.util.LinkedList;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,7 @@ public class ItemListAdapter extends ArrayAdapter<String> {
 		boolean enabled = true;
 		int size = list.size();
 		RingerSettingBlock current = null;
+		int ringVal = -1;
 		
 		for (int i = 0; i < size; i++){
 			current = list.get(i);
@@ -62,15 +64,25 @@ public class ItemListAdapter extends ArrayAdapter<String> {
 		try {
 			if (current.isEnabled() == false) {
 				enabled = false;
+			} else {
+				ringVal = current.getRingVal();
 			}
 		} catch (NullPointerException e) {
 			// event not found
 		}
 
 		if (enabled){
-			imageView.setImageResource(R.drawable.greencheckmed);
+			if (ringVal == AudioManager.RINGER_MODE_SILENT) {
+				imageView.setImageResource(R.drawable.checkred);
+			} else if (ringVal == AudioManager.RINGER_MODE_VIBRATE) {
+				imageView.setImageResource(R.drawable.checkyellow);
+			} else {
+				// Event is set to ring
+				imageView.setImageResource(R.drawable.greencheckmed);
+			}
 		} else {
-			imageView.setImageResource(R.drawable.redxmed);
+			// Event is disabled
+			imageView.setImageResource(R.drawable.grayxmark);
 		}
 		
 		return rowView;
