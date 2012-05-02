@@ -255,27 +255,28 @@
                 android:id="@+id/linearLayout4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
-
+
                 <Button
                     android:id="@+id/deleteEventButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Delete" />
-
-                <Button
-                    android:id="@+id/disableButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Enable / Disable" />
+                    android:text="Delete" />
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/editEventButton"
+                android:id="@+id/disableButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="15.92"
-                android:text="Edit" />
+                android:text="Enable / Disable" />
+
+            <Button
+                android:id="@+id/editEventButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Update" />
+
         </TableRow>
 
         <TableRow

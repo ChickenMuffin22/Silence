@@ -486,7 +486,7 @@ public class EditEventActivity extends Activity {
 							schedule.editRepeatUntil(currentBlockId, repeatUntil);
 							//schedule.enableBlock(currentBlockId);
 							updateInterface(schedule.getBlock(currentBlockId));
-							toastMessage("Event Edited");
+							toastMessage("Event Updated");
 						}
 						
 						//Switches back to list view
@@ -619,7 +619,7 @@ public class EditEventActivity extends Activity {
 	                Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
 	                startActivityForResult(myIntent, 0);				}
 				else{
-					toastMessage("Could not delete current block: Default setting is undeletable!");
+					toastMessage("Could not delete event: Default event is undeletable!");
 				}
 				
 			}
