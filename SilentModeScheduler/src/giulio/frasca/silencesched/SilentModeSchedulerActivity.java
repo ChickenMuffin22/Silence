@@ -54,40 +54,57 @@ public class SilentModeSchedulerActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        int refreshToPosition;
-        try{
-        	refreshToPosition = getIntent().getExtras().getInt("selected");
-        }
-        catch (NullPointerException npe){
-        	refreshToPosition=0;
-        }
-        updating=false;
-        serviceRunning=false;
-        SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
+        setContentView(R.layout.main);SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
         clearPrefsForTesting(settings);
         schedule = new Schedule(settings);
-        
-        Button listView = (Button) findViewById(R.id.listView);
-        listView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent myIntent = new Intent(view.getContext(), ItemListActivity.class);
-                startActivityForResult(myIntent, 0);
-            }
-
-        });
-
-        
-        initComponents();
-        currentBlockId = 0;
-        
+        clearPrefsForTesting(settings);
+        schedule = new Schedule(settings);
         createTestData();
-        RingerSettingBlock first =schedule.getBlock(currentBlockId);
-        logcatPrint("smsblock: "+refreshToPosition);
-        RingerSettingBlock selectedBlock = schedule.getBlock(refreshToPosition);
-        //updateInterface(first);
-        updateInterfaceWithoutSpinner(selectedBlock);
-        
+        if (!serviceRunning){
+			serviceRunning=true;
+			startService(new Intent(BackroundService.class.getName()));
+			
+		}
+		else{
+			serviceRunning=false;
+			stopService(new Intent(BackroundService.class.getName()));
+		}
+        Intent myIntent = new Intent(this, ItemListActivity.class);
+        startActivityForResult(myIntent, 0);
+        finish();
+//        int refreshToPosition;
+//        try{
+//        	refreshToPosition = getIntent().getExtras().getInt("selected");
+//        }
+//        catch (NullPointerException npe){
+//        	refreshToPosition=0;
+//        }
+//        updating=false;
+//        serviceRunning=false;
+//        SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
+//        clearPrefsForTesting(settings);
+//        schedule = new Schedule(settings);
+//        
+//        Button listView = (Button) findViewById(R.id.listView);
+//        listView.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//                Intent myIntent = new Intent(view.getContext(), ItemListActivity.class);
+//                startActivityForResult(myIntent, 0);
+//            }
+//
+//        });
+//
+//        
+//        initComponents();
+//        currentBlockId = 0;
+//        
+//        createTestData();
+//        RingerSettingBlock first =schedule.getBlock(currentBlockId);
+//        logcatPrint("smsblock: "+refreshToPosition);
+//        RingerSettingBlock selectedBlock = schedule.getBlock(refreshToPosition);
+//        //updateInterface(first);
+//        updateInterfaceWithoutSpinner(selectedBlock);
+//        
         //ringerSchedule = new LinkedList<RingerSettingBlock>();
     	//initRingerSched();
         //checkCurrentSetting();
