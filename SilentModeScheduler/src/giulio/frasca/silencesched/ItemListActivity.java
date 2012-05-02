@@ -116,7 +116,9 @@ public class ItemListActivity extends ListActivity {
          Bundle params = new Bundle();
          params.putInt("selected", selectedBlock.getId());
          i.putExtras(params);
-         this.startActivity(i);
+         this.startActivityForResult(i,22);
+         toastMessage("returned");
+         this.onCreate(new Bundle());
 		
 		
 		//Toast.makeText(this, description +  item + " selected", Toast.LENGTH_LONG).show();
@@ -161,7 +163,7 @@ public class ItemListActivity extends ListActivity {
 	         Bundle params = new Bundle();
 	         params.putInt("selected", id);
 	         i.putExtras(params);
-	         this.startActivity(i);
+	         this.startActivityForResult(i,22);
 			
 		}
 
@@ -193,5 +195,16 @@ public class ItemListActivity extends ListActivity {
 				stopService(new Intent(BackroundService.class.getName()));
 			}
 		}
-
+	    /**
+	     * Prints a temporary 'tooltip' style reminder on the GUI
+	     * 
+	     * @param msg - a short message to print
+	     */
+	    public void toastMessage(String msg){
+	    	Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+	    }
+	    
+	    public void onActivityResult (int requestCode, int resultCode, Intent data){
+	    	this.onCreate(new Bundle());
+	    }
 }

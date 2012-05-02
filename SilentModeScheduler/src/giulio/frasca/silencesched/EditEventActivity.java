@@ -105,6 +105,41 @@ public class EditEventActivity extends Activity {
         
     }
     
+    public void onResume(Bundle savedInstanceState){
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.editevent);
+    
+    int refreshToPosition;
+    try{
+    	refreshToPosition = getIntent().getExtras().getInt("selected");
+    }
+    catch (NullPointerException npe){
+    	refreshToPosition=0;
+    }
+    
+    updating=false;
+    serviceRunning=false;
+    SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
+    //clearPrefsForTesting(settings);
+    schedule = new Schedule(settings);
+    
+    
+    initComponents();
+    currentBlockId = refreshToPosition;
+    
+    //createTestData();
+    RingerSettingBlock first =schedule.getBlock(currentBlockId);
+    logcatPrint("smsblock: "+refreshToPosition);
+    RingerSettingBlock selectedBlock = schedule.getBlock(refreshToPosition);
+    //updateInterface(first);
+    updateInterfaceWithoutSpinner(selectedBlock);
+
+    //ringerSchedule = new LinkedList<RingerSettingBlock>();
+	//initRingerSched();
+    //checkCurrentSetting();
+    
+}
+    
     public void printBlockContents(int id){
     	RingerSettingBlock block = schedule.getBlock(id);
 		logcatPrint(id+": id  ="+id);
@@ -490,8 +525,9 @@ public class EditEventActivity extends Activity {
 						}
 						
 						//Switches back to list view
-		                Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
-		                startActivityForResult(myIntent, 0);
+		                //Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
+		                //startActivityForResult(myIntent, 0);
+						finish();
 
 					}
 					catch (inputValidationError ive){
@@ -562,8 +598,9 @@ public class EditEventActivity extends Activity {
 					toastMessage("Event Deleted");
 					
 					//Switches back to list view
-	                Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
-	                startActivityForResult(myIntent, 0);
+	                //Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
+	                //startActivityForResult(myIntent, 0);
+					finish();
 
 					
 				}
@@ -616,8 +653,10 @@ public class EditEventActivity extends Activity {
 					toastMessage(returnText);
 					
 					//Switches back to list view
-	                Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
-	                startActivityForResult(myIntent, 0);				}
+	                //Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
+	                //startActivityForResult(myIntent, 0);
+					finish();
+				}
 				else{
 					toastMessage("Could not delete event: Default event is undeletable!");
 				}
