@@ -486,7 +486,7 @@ public class EditEventActivity extends Activity {
 							schedule.editRepeatUntil(currentBlockId, repeatUntil);
 							//schedule.enableBlock(currentBlockId);
 							updateInterface(schedule.getBlock(currentBlockId));
-							toastMessage("Event Updated");
+							toastMessage("Event Saved");
 						}
 						
 						//Switches back to list view
