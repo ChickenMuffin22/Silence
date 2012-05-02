@@ -544,7 +544,7 @@ public class EditEventActivity extends Activity {
         	 */
 			public void onClick(View v) {
 				if (currentBlockId == 0){
-					toastMessage("Cannot Delete: Default Ringer Setting Undeleteable.\n     Please edit instead");
+					toastMessage("Cannot Delete: Default Ringer Setting Undeleteable.  Please edit instead");
 					return;
 				}
 				
@@ -591,7 +591,7 @@ public class EditEventActivity extends Activity {
         	 */
 			public void onClick(View v) {
 				if (currentBlockId == 0){
-					toastMessage("Cannot Delete: Default Ringer Setting Undeleteable.\n     Please edit instead");
+					toastMessage("Cannot Delete: Default Ringer Setting Undeleteable.  Please edit instead");
 					return;
 				}
 				String returnText="Event Disabled";
