@@ -466,6 +466,7 @@ public class EditEventActivity extends Activity {
 						schedule.editBlockRinger(currentBlockId, ringer);
 						schedule.editBlockName(currentBlockId, eventName.getText().toString());
 						schedule.editRepeatUntil(currentBlockId, repeatUntil);
+						schedule.enableBlock(currentBlockId);
 						updateInterface(schedule.getBlock(currentBlockId));
 						toastMessage("Event Edited");
 						
