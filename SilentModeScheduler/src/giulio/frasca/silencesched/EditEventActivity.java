@@ -85,14 +85,14 @@ public class EditEventActivity extends Activity {
         updating=false;
         serviceRunning=false;
         SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
-        clearPrefsForTesting(settings);
+        //clearPrefsForTesting(settings);
         schedule = new Schedule(settings);
         
         
         initComponents();
-        currentBlockId = 0;
+        currentBlockId = refreshToPosition;
         
-        createTestData();
+        //createTestData();
         RingerSettingBlock first =schedule.getBlock(currentBlockId);
         logcatPrint("smsblock: "+refreshToPosition);
         RingerSettingBlock selectedBlock = schedule.getBlock(refreshToPosition);
@@ -467,7 +467,7 @@ public class EditEventActivity extends Activity {
 						schedule.editBlockName(currentBlockId, eventName.getText().toString());
 						schedule.editRepeatUntil(currentBlockId, repeatUntil);
 						updateInterface(schedule.getBlock(currentBlockId));
-						toastMessage("Current Event Enabled");
+						toastMessage("Event Edited");
 						
 						//Switches back to list view
 		                Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
@@ -528,17 +528,18 @@ public class EditEventActivity extends Activity {
 					return;
 				}
 				
-				schedule.disableBlock(currentBlockId);
-				int spinnerPos = nameDictionaryReverse.get(currentBlockId);
-				int newSpinnerBlockId = nameDictionary.get(spinnerPos -1 );
-				currentBlockId=newSpinnerBlockId;
+				schedule.removeBlock(currentBlockId);
+				//schedule.disableBlock(currentBlockId);
+				//int spinnerPos = nameDictionaryReverse.get(currentBlockId);
+				//int newSpinnerBlockId = nameDictionary.get(spinnerPos -1 );
+				//currentBlockId=newSpinnerBlockId;
 				//updateInterface(schedule.getBlock(currentBlockId));
 				boolean deleted=true;
 				
 				if (deleted){
 					//toastMessage("Current Block deleted. Now showing previous block");
 					
-					toastMessage("Current Event Disabled");
+					toastMessage("Event Deleted");
 					
 					//Switches back to list view
 	                Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
@@ -567,16 +568,16 @@ public class EditEventActivity extends Activity {
 				}
 				
 				schedule.disableBlock(currentBlockId);
-				int spinnerPos = nameDictionaryReverse.get(currentBlockId);
-				int newSpinnerBlockId = nameDictionary.get(spinnerPos -1 );
-				currentBlockId=newSpinnerBlockId;
+				//int spinnerPos = nameDictionaryReverse.get(currentBlockId);
+				//int newSpinnerBlockId = nameDictionary.get(spinnerPos -1 );
+				//currentBlockId=newSpinnerBlockId;
 			//	updateInterface(schedule.getBlock(currentBlockId));
-				boolean deleted=true;
+				boolean disabled=true;
 				
-				if (deleted){
+				if (disabled){
 					//toastMessage("Current Block deleted. Now showing previous block");
 					
-					toastMessage("Current Event Disabled");
+					toastMessage("Event Disabled");
 					
 					//Switches back to list view
 	                Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
