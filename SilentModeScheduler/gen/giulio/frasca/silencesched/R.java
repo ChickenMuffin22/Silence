@@ -31,10 +31,10 @@ public final class R {
     }
     public static final class id {
         public static final int LinearLayout01=0x7f070017;
-        public static final int addMenuOption=0x7f070044;
+        public static final int addMenuOption=0x7f070047;
         public static final int addNewEventButton=0x7f07002c;
         public static final int alarmSpinner=0x7f070029;
-        public static final int backButton=0x7f070048;
+        public static final int backButton=0x7f07004b;
         public static final int cancelButton=0x7f07002a;
         public static final int deleteEventButton=0x7f070022;
         public static final int disableButton=0x7f070023;
@@ -44,7 +44,7 @@ public final class R {
         public static final int endSpinner=0x7f07001a;
         public static final int endTimeLabel=0x7f070015;
         public static final int eventName=0x7f070002;
-        public static final int exitActivityOption=0x7f070047;
+        public static final int exitActivityOption=0x7f07004a;
         public static final int friBar=0x7f070040;
         public static final int friRadio=0x7f07003f;
         public static final int friRow=0x7f07003e;
@@ -57,19 +57,21 @@ public final class R {
         public static final int linearLayout4=0x7f070021;
         public static final int linearLayout5=0x7f070004;
         public static final int listView=0x7f07002e;
-        public static final int menuBar=0x7f070045;
+        public static final int menuBar=0x7f070048;
         public static final int monBar=0x7f070034;
         public static final int monRadio=0x7f070033;
         public static final int monRow=0x7f070032;
         public static final int monToggle=0x7f070006;
+        public static final int normKeyItem=0x7f070046;
         public static final int ringSpinner=0x7f07001d;
         public static final int ringerLabel=0x7f07001c;
         public static final int satBar=0x7f070043;
         public static final int satRadio=0x7f070042;
         public static final int satRow=0x7f070041;
         public static final int satToggle=0x7f07000b;
-        public static final int serviceToggleOption=0x7f070046;
+        public static final int serviceToggleOption=0x7f070049;
         public static final int settingsButton=0x7f07002d;
+        public static final int silentKeyItem=0x7f070044;
         public static final int startHour=0x7f070011;
         public static final int startMinute=0x7f070012;
         public static final int startSpinner=0x7f070013;
@@ -99,6 +101,7 @@ public final class R {
         public static final int tueRadio=0x7f070036;
         public static final int tueRow=0x7f070035;
         public static final int tueToggle=0x7f070007;
+        public static final int vibKeyItem=0x7f070045;
         public static final int wedBar=0x7f07003a;
         public static final int wedRadio=0x7f070039;
         public static final int wedRow=0x7f070038;

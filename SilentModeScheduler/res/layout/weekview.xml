@@ -172,4 +172,39 @@
 
         </TableRow>
 
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Key: "
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/silentKeyItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="      Silent      "
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/vibKeyItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="      Vibrate      "
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/normKeyItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="      Normal      "
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </LinearLayout>
+
     </TableLayout>

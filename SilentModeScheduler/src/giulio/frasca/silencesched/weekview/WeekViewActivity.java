@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class WeekViewActivity extends Activity{
@@ -67,6 +69,10 @@ public class WeekViewActivity extends Activity{
     }
     
     public void initComponents(){
+    	TextView silentKeyItem = (TextView)findViewById(R.id.silentKeyItem);
+    	TextView vibKeyItem = (TextView)findViewById(R.id.vibKeyItem);
+    	TextView normKeyItem = (TextView)findViewById(R.id.normKeyItem);
+    	
     	sunRow = (TableRow)findViewById(R.id.sunRow);
     	monRow = (TableRow)findViewById(R.id.monRow);
     	tueRow = (TableRow)findViewById(R.id.tueRow);
@@ -100,6 +106,9 @@ public class WeekViewActivity extends Activity{
     	satBar.setDayName("Saturday");
     	
     	updateRadios();
+    	silentKeyItem.setTextColor(Color.rgb(178,34,34));
+    	vibKeyItem.setTextColor(Color.rgb(255,185,0));
+    	normKeyItem.setTextColor(Color.rgb(0, 100 ,0));
     }
     
     
