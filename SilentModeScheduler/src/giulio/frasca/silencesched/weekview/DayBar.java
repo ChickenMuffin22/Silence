@@ -21,12 +21,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
+
 
 public class DayBar extends View{
 	
 	private Canvas canvas;
-	private Canvas storedC;
+
     private Bitmap bitmap;
     private String dayName;
     private int defaultRingLevel;
@@ -116,7 +116,6 @@ public class DayBar extends View{
     public void onDraw(Canvas c) {
     	super.onDraw(c);
       //draw default on bottom
-    	storedC=c;
       c.drawRect(0,0,this.getWidth(),this.getHeight()-5, getPaintColorForLevel(defaultRingLevel));
       drawBlocks(c);
       Paint blue = new Paint();
@@ -242,7 +241,7 @@ public class DayBar extends View{
     		params.putInt("selected", topMostId);
     		i.putExtras(params);
     		((Activity)this.getContext()).startActivityForResult(i,23);
-    		Activity act = (Activity)this.getContext();
+    		
     		
     		
     	}

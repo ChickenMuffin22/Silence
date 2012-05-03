@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/tableLayout1"
         android:layout_width="fill_parent"
@@ -20,7 +20,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="                                       "
+                android:text="@string/weekViewSpace"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
         </TableRow>
@@ -181,28 +181,28 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Key: "
+                android:text="@string/keyTextView"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/silentKeyItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="      Silent      "
+                android:text="@string/silentTextView"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                 android:id="@+id/vibKeyItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="      Vibrate      "
+                android:text="@string/vibrateTextView2"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
                 android:id="@+id/normKeyItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="      Normal      "
+                android:text="@string/normalTextView"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
         </LinearLayout>

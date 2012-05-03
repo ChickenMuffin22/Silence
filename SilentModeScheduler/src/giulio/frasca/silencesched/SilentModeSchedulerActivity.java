@@ -432,7 +432,7 @@ public class SilentModeSchedulerActivity extends Activity {
         settingsButton.setOnClickListener(new OnClickListener(){
 
 			public void onClick(View v) {
-				// TODO Currently does not do anything
+			
 				if (!serviceRunning){
 					serviceRunning=true;
 					startService(new Intent(BackroundService.class.getName()));
@@ -592,7 +592,7 @@ public class SilentModeSchedulerActivity extends Activity {
 			
 
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
+			
 				
 			}
         	

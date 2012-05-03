@@ -14,20 +14,20 @@
         android:layout_height="wrap_content"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-
+
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Event Name:"
+        android:text="@string/eventNameTextView"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
     <EditText
         android:id="@+id/eventName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" />
+        android:ems="10"
+        android:hint="@string/nameDefaultTextBox" />
 
     <TextView
         android:id="@+id/textView5"
@@ -114,12 +114,12 @@
             android:id="@+id/tableRow1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-
+
             <TextView
                 android:id="@+id/startTimeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Start Time: "
+                android:text="@string/startTimeTextView"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <LinearLayout
@@ -135,6 +135,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:numeric="integer"
+                    android:inputType="number"
                     android:text="@string/defaultstart" />
 
                 <EditText
@@ -144,6 +145,7 @@
                     android:layout_gravity="bottom"
                     android:gravity="center"
                     android:numeric="integer"
+                    android:inputType="number"
                     android:text="@string/defaultmins" >
 
                     <requestFocus />
@@ -163,12 +165,12 @@
             android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-
+
             <TextView
                 android:id="@+id/endTimeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="End Time:"
+                android:text="@string/endTimeTextView"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <LinearLayout
@@ -176,10 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
 
-                <LinearLayout
-                    android:id="@+id/LinearLayout01"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
+                
 
                     <EditText
                         android:id="@+id/endHour"
@@ -189,6 +188,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:numeric="integer"
+                        android:inputType="number"
                         android:text="@string/defaultend" />
 
                     <EditText
@@ -199,6 +199,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:numeric="integer"
+                        android:inputType="number"
                         android:text="@string/defaultmins" />
 
                     <Spinner
@@ -209,19 +210,19 @@
                         android:layout_weight="1"
                         android:entries="@array/ampm" />
                 </LinearLayout>
-            </LinearLayout>
+            
         </TableRow>
 
         <TableRow
             android:id="@+id/tableRow3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-
+
             <TextView
                 android:id="@+id/ringerLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sound: "
+                android:text="@string/soundTextView"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <Spinner
@@ -255,27 +256,27 @@
                 android:id="@+id/linearLayout4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
-
+
                 <Button
                     android:id="@+id/deleteEventButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Delete" />
+                    android:text="@string/deleteButtonText" />
 
             </LinearLayout>
-
+
             <Button
                 android:id="@+id/disableButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="15.92"
-                android:text="Enable / Disable" />
-
+                android:text="@string/enableDisableButtonText" />
+
             <Button
                 android:id="@+id/editEventButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="    Save    " />
+                android:text="@string/saveButtonText" />
 
         </TableRow>
 
@@ -289,7 +290,7 @@
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dip"
         android:layout_weight="0.41"
         android:orientation="vertical" >
     </LinearLayout>

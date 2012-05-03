@@ -1,10 +1,10 @@
 package giulio.frasca.silencesched;
 
-import giulio.frasca.lib.Formatter;
+
 import giulio.frasca.silencesched.weekview.WeekViewActivity;
 
 import java.util.HashMap;
-import java.util.Iterator;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,14 +17,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.widget.Button;
+
 
 
 public class ItemListActivity extends ListActivity {
@@ -109,7 +108,7 @@ public class ItemListActivity extends ListActivity {
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		String item = (String) getListAdapter().getItem(position);
+		//String item = (String) getListAdapter().getItem(position);
 		RingerSettingBlock selectedBlock = list.get(nameDictionary.get(position));
 		//String description = "is sunday?" + list.get(nameDictionary.get(position)).isEnabledSunday();
 		 Intent i = new Intent(this, EditEventActivity.class);
@@ -182,8 +181,7 @@ public class ItemListActivity extends ListActivity {
 				}
 			}
 			
-			
-			// TODO Auto-generated method stub
+
 			if (!serviceRunning){
 				serviceRunning=true;
 				startService(new Intent(BackroundService.class.getName()));

@@ -33,18 +33,18 @@ public final class R {
         public static final int yellowicon=0x7f02000e;
     }
     public static final class id {
-        public static final int LinearLayout01=0x7f070017;
+        public static final int LinearLayout01=0x7f070029;
         public static final int addMenuOption=0x7f070047;
         public static final int addNewEventButton=0x7f07002c;
-        public static final int alarmSpinner=0x7f070029;
+        public static final int alarmSpinner=0x7f070028;
         public static final int backButton=0x7f07004b;
         public static final int cancelButton=0x7f07002a;
-        public static final int deleteEventButton=0x7f070022;
-        public static final int disableButton=0x7f070023;
-        public static final int editEventButton=0x7f070024;
-        public static final int endHour=0x7f070018;
-        public static final int endMinute=0x7f070019;
-        public static final int endSpinner=0x7f07001a;
+        public static final int deleteEventButton=0x7f070021;
+        public static final int disableButton=0x7f070022;
+        public static final int editEventButton=0x7f070023;
+        public static final int endHour=0x7f070017;
+        public static final int endMinute=0x7f070018;
+        public static final int endSpinner=0x7f070019;
         public static final int endTimeLabel=0x7f070015;
         public static final int eventName=0x7f070002;
         public static final int exitActivityOption=0x7f07004a;
@@ -52,12 +52,12 @@ public final class R {
         public static final int friRadio=0x7f07003f;
         public static final int friRow=0x7f07003e;
         public static final int friToggle=0x7f07000a;
-        public static final int icon=0x7f070027;
-        public static final int label=0x7f070028;
+        public static final int icon=0x7f070026;
+        public static final int label=0x7f070027;
         public static final int linearLayout1=0x7f070010;
         public static final int linearLayout2=0x7f070016;
-        public static final int linearLayout3=0x7f070026;
-        public static final int linearLayout4=0x7f070021;
+        public static final int linearLayout3=0x7f070025;
+        public static final int linearLayout4=0x7f070020;
         public static final int linearLayout5=0x7f070004;
         public static final int listView=0x7f07002e;
         public static final int menuBar=0x7f070048;
@@ -66,8 +66,8 @@ public final class R {
         public static final int monRow=0x7f070032;
         public static final int monToggle=0x7f070006;
         public static final int normKeyItem=0x7f070046;
-        public static final int ringSpinner=0x7f07001d;
-        public static final int ringerLabel=0x7f07001c;
+        public static final int ringSpinner=0x7f07001c;
+        public static final int ringerLabel=0x7f07001b;
         public static final int satBar=0x7f070043;
         public static final int satRadio=0x7f070042;
         public static final int satRow=0x7f070041;
@@ -86,11 +86,11 @@ public final class R {
         public static final int tableLayout1=0x7f07000d;
         public static final int tableRow1=0x7f07000e;
         public static final int tableRow2=0x7f070014;
-        public static final int tableRow3=0x7f07001b;
-        public static final int tableRow4=0x7f070020;
-        public static final int tableRow5=0x7f07001e;
-        public static final int tableRow6=0x7f070025;
-        public static final int textView1=0x7f07001f;
+        public static final int tableRow3=0x7f07001a;
+        public static final int tableRow4=0x7f07001f;
+        public static final int tableRow5=0x7f07001d;
+        public static final int tableRow6=0x7f070024;
+        public static final int textView1=0x7f07001e;
         public static final int textView2=0x7f070000;
         public static final int textView3=0x7f07002b;
         public static final int textView4=0x7f070001;
@@ -126,10 +126,23 @@ public final class R {
         public static final int defaultend=0x7f050006;
         public static final int defaultmins=0x7f050007;
         public static final int defaultstart=0x7f050005;
+        public static final int deleteButtonText=0x7f050014;
+        public static final int enableDisableButtonText=0x7f050015;
+        public static final int endTimeTextView=0x7f050012;
+        public static final int eventNameTextView=0x7f050010;
         public static final int hello=0x7f050000;
+        public static final int keyTextView=0x7f05000b;
+        public static final int nameDefaultTextBox=0x7f050011;
+        public static final int normalTextView=0x7f05000e;
         public static final int nullstring=0x7f050009;
         public static final int ring_prompt=0x7f050003;
+        public static final int saveButtonText=0x7f050016;
+        public static final int silentTextView=0x7f05000c;
+        public static final int soundTextView=0x7f050013;
         public static final int spacing20=0x7f050004;
+        public static final int startTimeTextView=0x7f05000f;
         public static final int sundayAbr=0x7f050008;
+        public static final int vibrateTextView2=0x7f05000d;
+        public static final int weekViewSpace=0x7f05000a;
     }
 }

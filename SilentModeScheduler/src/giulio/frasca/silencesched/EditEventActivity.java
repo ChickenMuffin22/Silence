@@ -7,24 +7,21 @@ import java.util.regex.*;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+
 import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
 import android.os.Bundle;
 //import android.view.*;
 //import android.view.Gravity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
-import android.widget.AdapterView.OnItemSelectedListener;
+
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.content.SharedPreferences;
 import giulio.frasca.silencesched.exceptions.*;
-import giulio.frasca.silencesched.weekview.WeekViewActivity;
 import giulio.frasca.lib.*;
 
 public class EditEventActivity extends Activity {
@@ -35,7 +32,6 @@ public class EditEventActivity extends Activity {
 	    super.onCreate(savedInstanceState);
         setContentView(R.layout.editevent);
 
-	    // TODO Auto-generated method stub
 	}*/
 	
 	
@@ -93,7 +89,7 @@ public class EditEventActivity extends Activity {
         currentBlockId = refreshToPosition;
         
         //createTestData();
-        RingerSettingBlock first =schedule.getBlock(currentBlockId);
+        //RingerSettingBlock first =schedule.getBlock(currentBlockId);
         logcatPrint("smsblock: "+refreshToPosition);
         RingerSettingBlock selectedBlock = schedule.getBlock(refreshToPosition);
         //updateInterface(first);
@@ -128,7 +124,7 @@ public class EditEventActivity extends Activity {
     currentBlockId = refreshToPosition;
     
     //createTestData();
-    RingerSettingBlock first =schedule.getBlock(currentBlockId);
+    //RingerSettingBlock first =schedule.getBlock(currentBlockId);
     logcatPrint("smsblock: "+refreshToPosition);
     RingerSettingBlock selectedBlock = schedule.getBlock(refreshToPosition);
     //updateInterface(first);
@@ -168,7 +164,9 @@ public class EditEventActivity extends Activity {
     	}
     }
     
-    private void createTestData() {
+    
+    @SuppressWarnings("unused")
+	private void createTestData() {
     	 
     	 schedule.addBlock(0            , 1*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1000000, 253402300799000L, "CSC 326", false, true);
     	 schedule.addBlock(1*60*60*1000 , 23*60*60*1000 , AudioManager.RINGER_MODE_SILENT,  1010000, 253402300799000L, "CSC 495", false, true);
@@ -184,6 +182,7 @@ public class EditEventActivity extends Activity {
 		lcPrintBlock(0);
     	 
 	}
+  
     
     private void lcPrintBlock(int id){
     	RingerSettingBlock block = schedule.getBlock(id);
@@ -351,6 +350,7 @@ public class EditEventActivity extends Activity {
      * 
      * @param settings - The SharedPreferences object that contains the user data
      */
+	@SuppressWarnings("unused")
 	private void clearPrefsForTesting(SharedPreferences settings) {
     	Editor e = settings.edit().clear();
         for (int i=0; i<100; i++){
@@ -476,7 +476,7 @@ public class EditEventActivity extends Activity {
         settingsButton.setOnClickListener(new OnClickListener(){
 
 			public void onClick(View v) {
-				// TODO Currently does not do anything
+				
 				if (!serviceRunning){
 					serviceRunning=true;
 					startService(new Intent(BackroundService.class.getName()));
@@ -701,7 +701,7 @@ public class EditEventActivity extends Activity {
 			
 
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
+			
 				
 			}
         	

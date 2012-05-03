@@ -1,16 +1,11 @@
 package giulio.frasca.silencesched.weekview;
 
-import java.util.LinkedList;
 
 import giulio.frasca.lib.TimeFunctions;
-import giulio.frasca.silencesched.EditEventActivity;
-import giulio.frasca.silencesched.ItemListActivity;
 import giulio.frasca.silencesched.R;
-import giulio.frasca.silencesched.RingerSettingBlock;
 import giulio.frasca.silencesched.Schedule;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,16 +13,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class WeekViewActivity extends Activity{
 
-	private TableRow sunRow,monRow,tueRow,wedRow,thuRow,friRow,satRow;
+	//private TableRow sunRow,monRow,tueRow,wedRow,thuRow,friRow,satRow;
 	private RadioButton sunRadio,monRadio,tueRadio,wedRadio,thuRadio,friRadio,satRadio;
 	private DayBar sunBar,monBar,tueBar,wedBar,thuBar,friBar,satBar;
 	private Schedule schedule;
@@ -58,7 +50,7 @@ public class WeekViewActivity extends Activity{
     }
     
     public void loadDaySched(Schedule schedule){
-    	LinkedList<RingerSettingBlock> allBlocks = schedule.getList();
+//    	LinkedList<RingerSettingBlock> allBlocks = schedule.getList();
 //    	sunBar.loadApplicableBlocks(allBlocks);
 //    	monBar.loadApplicableBlocks(allBlocks);
 //    	tueBar.loadApplicableBlocks(allBlocks);
@@ -80,13 +72,13 @@ public class WeekViewActivity extends Activity{
     	TextView vibKeyItem = (TextView)findViewById(R.id.vibKeyItem);
     	TextView normKeyItem = (TextView)findViewById(R.id.normKeyItem);
     	
-    	sunRow = (TableRow)findViewById(R.id.sunRow);
-    	monRow = (TableRow)findViewById(R.id.monRow);
-    	tueRow = (TableRow)findViewById(R.id.tueRow);
-    	wedRow = (TableRow)findViewById(R.id.wedRow);
-    	thuRow = (TableRow)findViewById(R.id.thuRow);
-    	friRow = (TableRow)findViewById(R.id.friRow);
-    	satRow = (TableRow)findViewById(R.id.satRow);
+//    	sunRow = (TableRow)findViewById(R.id.sunRow);
+//    	monRow = (TableRow)findViewById(R.id.monRow);
+//    	tueRow = (TableRow)findViewById(R.id.tueRow);
+//    	wedRow = (TableRow)findViewById(R.id.wedRow);
+//    	thuRow = (TableRow)findViewById(R.id.thuRow);
+//    	friRow = (TableRow)findViewById(R.id.friRow);
+//    	satRow = (TableRow)findViewById(R.id.satRow);
     	
     	sunRadio = (RadioButton)findViewById(R.id.sunRadio);
     	monRadio = (RadioButton)findViewById(R.id.monRadio);

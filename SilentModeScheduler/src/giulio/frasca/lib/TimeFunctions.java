@@ -1,7 +1,7 @@
 package giulio.frasca.lib;
 
 import java.util.Calendar;
-import java.util.Locale;
+
 import java.util.TimeZone;
 
 public class TimeFunctions {
@@ -179,7 +179,7 @@ public class TimeFunctions {
 
 	public static long getLocalTime() {
 		long utcTime = System.currentTimeMillis();
-		Locale l = Locale.getDefault();
+		//Locale l = Locale.getDefault();
 		TimeZone tz = TimeZone.getDefault();
 		long offset = tz.getOffset(utcTime);
 		long returnTime = utcTime + offset;

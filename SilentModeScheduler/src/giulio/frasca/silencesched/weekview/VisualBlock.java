@@ -16,11 +16,9 @@ public class VisualBlock extends View implements View.OnClickListener{
 	private int ringLevel;
 	private long height;
 	private int id;
-	private Context context;
 	
 	   public VisualBlock(Context context){
 		   super(context);
-		   this.context=context;
 		   setOnClickListener(new OnClickListener(){
 
 			public void onClick(View v) {
