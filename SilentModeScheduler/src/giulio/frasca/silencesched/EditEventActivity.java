@@ -527,6 +527,7 @@ public class EditEventActivity extends Activity {
 						//Switches back to list view
 		                //Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
 		                //startActivityForResult(myIntent, 0);
+						setResult(0);
 						finish();
 
 					}
@@ -600,6 +601,7 @@ public class EditEventActivity extends Activity {
 					//Switches back to list view
 	                //Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
 	                //startActivityForResult(myIntent, 0);
+					setResult(0);
 					finish();
 
 					
@@ -613,7 +615,7 @@ public class EditEventActivity extends Activity {
         
         //The disable alarm button, same as above
         disableButton = (Button)findViewById(R.id.disableButton);
-        printBlockContents(currentBlockId);
+        //printBlockContents(currentBlockId);
 //        if (schedule.getBlock(currentBlockId).isEnabled()){
 //        	disableButton.setText("Disable");
 //        }
@@ -655,6 +657,7 @@ public class EditEventActivity extends Activity {
 					//Switches back to list view
 	                //Intent myIntent = new Intent(v.getContext(), ItemListActivity.class);
 	                //startActivityForResult(myIntent, 0);
+					setResult(0);
 					finish();
 				}
 				else{

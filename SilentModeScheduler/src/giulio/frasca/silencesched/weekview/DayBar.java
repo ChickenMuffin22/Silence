@@ -2,10 +2,12 @@ package giulio.frasca.silencesched.weekview;
 
 import giulio.frasca.silencesched.EditEventActivity;
 import giulio.frasca.silencesched.RingerSettingBlock;
+import giulio.frasca.silencesched.Schedule;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,11 +26,13 @@ import android.widget.Toast;
 public class DayBar extends View{
 	
 	private Canvas canvas;
+	private Canvas storedC;
     private Bitmap bitmap;
     private String dayName;
     private int defaultRingLevel;
     private LinkedList<RingerSettingBlock> relatedBlocks;
     private LinkedList<VisualBlock> drawList;
+    private Schedule schedule;
 	
 	
 	public DayBar(Context context, AttributeSet attrs) {
@@ -39,6 +43,19 @@ public class DayBar extends View{
 	}
 	
 	public void loadApplicableBlocks(LinkedList<RingerSettingBlock> allBlocks){
+		clearEntireList();
+		Iterator<RingerSettingBlock> i = allBlocks.iterator();
+		while (i.hasNext()){
+			RingerSettingBlock block = i.next();
+			if (blockIsApplicable(block)){
+				addBlock(block);
+			}
+		}
+		defaultRingLevel=getDefaultRingLevel();
+	}
+	public void loadApplicableBlocks(Schedule schedule){
+		this.schedule=schedule;
+		LinkedList<RingerSettingBlock> allBlocks=schedule.getList();
 		clearEntireList();
 		Iterator<RingerSettingBlock> i = allBlocks.iterator();
 		while (i.hasNext()){
@@ -85,7 +102,7 @@ public class DayBar extends View{
     
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         if (bitmap != null) {
-            bitmap .recycle();
+            bitmap.recycle();
         }
         canvas= new Canvas();
         bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -99,6 +116,7 @@ public class DayBar extends View{
     public void onDraw(Canvas c) {
     	super.onDraw(c);
       //draw default on bottom
+    	storedC=c;
       c.drawRect(0,0,this.getWidth(),this.getHeight()-5, getPaintColorForLevel(defaultRingLevel));
       drawBlocks(c);
       Paint blue = new Paint();
@@ -223,9 +241,20 @@ public class DayBar extends View{
     		Bundle params = new Bundle();
     		params.putInt("selected", topMostId);
     		i.putExtras(params);
-    		this.getContext().startActivity(i);
+    		((Activity)this.getContext()).startActivityForResult(i,23);
+    		Activity act = (Activity)this.getContext();
+    		
+    		
     	}
+    	logcatPrint("returned");
     	return super.onTouchEvent(event);
+    }
+
+    public void onActivityResult (int requestCode, int resultCode, Intent data){
+    	logcatPrint("finished2");
+    	this.loadApplicableBlocks(schedule);
+    	this.draw(canvas);
+    	logcatPrint("finished");
     }
 	
 }

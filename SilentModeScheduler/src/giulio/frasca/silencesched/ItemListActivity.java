@@ -117,7 +117,6 @@ public class ItemListActivity extends ListActivity {
          params.putInt("selected", selectedBlock.getId());
          i.putExtras(params);
          this.startActivityForResult(i,22);
-         toastMessage("returned");
          this.onCreate(new Bundle());
 		
 		
@@ -138,7 +137,7 @@ public class ItemListActivity extends ListActivity {
 	                Intent i = new Intent(this, WeekViewActivity.class);
 	                Bundle params = new Bundle();
 	                i.putExtras(params);
-	                this.startActivity(i);
+	                this.startActivityForResult(i,22);
 	                return true;
 	            case R.id.exitActivityOption:
 	            	finish();

@@ -59,13 +59,20 @@ public class WeekViewActivity extends Activity{
     
     public void loadDaySched(Schedule schedule){
     	LinkedList<RingerSettingBlock> allBlocks = schedule.getList();
-    	sunBar.loadApplicableBlocks(allBlocks);
-    	monBar.loadApplicableBlocks(allBlocks);
-    	tueBar.loadApplicableBlocks(allBlocks);
-    	wedBar.loadApplicableBlocks(allBlocks);
-    	thuBar.loadApplicableBlocks(allBlocks);
-    	friBar.loadApplicableBlocks(allBlocks);
-    	satBar.loadApplicableBlocks(allBlocks);
+//    	sunBar.loadApplicableBlocks(allBlocks);
+//    	monBar.loadApplicableBlocks(allBlocks);
+//    	tueBar.loadApplicableBlocks(allBlocks);
+//    	wedBar.loadApplicableBlocks(allBlocks);
+//    	thuBar.loadApplicableBlocks(allBlocks);
+//    	friBar.loadApplicableBlocks(allBlocks);
+//    	satBar.loadApplicableBlocks(allBlocks);
+    	sunBar.loadApplicableBlocks(schedule);
+    	monBar.loadApplicableBlocks(schedule);
+    	tueBar.loadApplicableBlocks(schedule);
+    	wedBar.loadApplicableBlocks(schedule);
+    	thuBar.loadApplicableBlocks(schedule);
+    	friBar.loadApplicableBlocks(schedule);
+    	satBar.loadApplicableBlocks(schedule);
     }
     
     public void initComponents(){
@@ -157,6 +164,20 @@ public class WeekViewActivity extends Activity{
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    
+    @Override
+    public void onPause(){
+    	super.onPause();
+    	logcatPrint("pausing");
+    }
+    
+    public void onResume(){
+    	super.onResume();
+    	logcatPrint("resuming");
+    	//loadDaySched(schedule);
+    	this.onCreate(new Bundle());
+    	
     }
     
 }
