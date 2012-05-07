@@ -51,6 +51,7 @@
 		</receiver>
     	<activity android:name="ItemListActivity"></activity>
     	<activity android:name="EditEventActivity"></activity>
+    	<activity android:name="ToggleServiceActivity"></activity>
     </application>
 
 </manifest>

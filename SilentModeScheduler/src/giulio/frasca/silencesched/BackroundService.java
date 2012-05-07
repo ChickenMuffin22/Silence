@@ -127,21 +127,22 @@ public class BackroundService extends Service {
 	    	Notification notification = new Notification(icon, tickerText, when);
 	    	
 	    	Context context = getApplicationContext();
-	    	CharSequence contentTitle = "Silence";
-	    	CharSequence contentText = "Service Running: ";
+	    	CharSequence contentTitle = "Silence Running: ";
+	    	CharSequence contentText = "Click to Pause Service";
+	    	
 	    	
 
 	    	if (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
-	    		contentText = contentText + "Normal Level";
+	    		contentTitle = contentTitle + "Normal Level";
 	    	}
 	    	if (am.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE){
-	    		contentText = contentText + "Vibrate";
+	    		contentTitle = contentTitle + "Vibrate";
 	    	}
 	    	if (am.getRingerMode() == AudioManager.RINGER_MODE_SILENT){
-	    		contentText = contentText + "Silent";
+	    		contentTitle = contentTitle + "Silent";
 	    	}
-	    	Intent notificationIntent = new Intent(this, BackroundService.class);
-	    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+	    	Intent notificationIntent = new Intent(this.getApplicationContext(), giulio.frasca.silencesched.ToggleServiceActivity.class);
+	    	PendingIntent contentIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, notificationIntent, 0);
 
 	    	notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 	    	notification.flags |= Notification.FLAG_ONGOING_EVENT;
@@ -166,10 +167,11 @@ public class BackroundService extends Service {
     	Notification notification = new Notification(icon, tickerText, when);
     	
     	Context context = getApplicationContext();
-    	CharSequence contentTitle = titleMessage;
-    	CharSequence contentText = subtitleMessage;
-    	Intent notificationIntent = new Intent(this, BackroundService.class);
-    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+    	CharSequence contentTitle = subtitleMessage;
+    	//CharSequence contentText = subtitleMessage;
+    	CharSequence contentText = "Click to Pause Service";
+    	Intent notificationIntent = new Intent(this.getApplicationContext(), giulio.frasca.silencesched.ToggleServiceActivity.class);
+    	PendingIntent contentIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, notificationIntent, 0);
 
     	notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
     	notification.flags |= Notification.FLAG_ONGOING_EVENT;
