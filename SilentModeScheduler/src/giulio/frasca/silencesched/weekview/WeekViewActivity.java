@@ -45,7 +45,6 @@ public class WeekViewActivity extends Activity{
         
         
         initComponents();
-        logcatPrint("endtime " + schedule.getBlock(2).getEndTime());
         loadDaySched(schedule);
     }
     

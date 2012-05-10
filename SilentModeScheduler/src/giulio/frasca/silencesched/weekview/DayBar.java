@@ -147,7 +147,7 @@ public class DayBar extends View{
     	}
     	RingerSettingBlock block;
     	//this is the default block which we already printed;
-    	block = i.next();
+    	//block = i.next();
     	drawList = new LinkedList<VisualBlock>();
     	while (i.hasNext()){
     		block=i.next();

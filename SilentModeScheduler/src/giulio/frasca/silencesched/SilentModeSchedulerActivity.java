@@ -55,11 +55,11 @@ public class SilentModeSchedulerActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);SharedPreferences settings = getSharedPreferences(PREF_FILE,Context.MODE_PRIVATE);
-        clearPrefsForTesting(settings);
+        //clearPrefsForTesting(settings);
         schedule = new Schedule(settings);
         //clearPrefsForTesting(settings);
         //schedule = new Schedule(settings);
-        createTestData();
+        //createTestData();
 //        if (!serviceRunning){
 //			serviceRunning=true;
 //			startService(new Intent(BackroundService.class.getName()));
